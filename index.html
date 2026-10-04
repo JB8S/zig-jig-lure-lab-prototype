@@ -113,6 +113,7 @@
       border: 1.5px solid var(--border);
       background: #f8fafc;
       cursor: pointer;
+      user-select: none;
     }
     .weather-toggle.active {
       border-color: #0f172a;
@@ -211,6 +212,7 @@
       cursor: pointer;
       margin-right: 6px;
       margin-bottom: 8px;
+      user-select: none;
     }
     .dam-tab-pill.active {
       background: #0f172a;
@@ -241,6 +243,7 @@
       color: var(--text-muted);
       cursor: pointer;
       white-space: nowrap;
+      user-select: none;
     }
     .retailer-filter-pill.active {
       background: #0f172a;
@@ -282,11 +285,12 @@
     </div>
   </header>
 
+  <!-- CLEAN TABS (NO INLINE ONCLICK) -->
   <nav class="nav-tabs">
-    <div class="nav-tab active" onclick="switchTab('selector', this)">🎯 Jig Picker</div>
-    <div class="nav-tab" onclick="switchTab('chart', this)">📊 Flow Charts</div>
-    <div class="nav-tab" onclick="switchTab('locator', this)">📍 Where to Buy</div>
-    <div class="nav-tab" onclick="switchTab('builder', this)">🔨 Custom Jig</div>
+    <div class="nav-tab active" data-tab="selector">🎯 Jig Picker</div>
+    <div class="nav-tab" data-tab="chart">📊 Flow Charts</div>
+    <div class="nav-tab" data-tab="locator">📍 Where to Buy</div>
+    <div class="nav-tab" data-tab="builder">🔨 Custom Jig</div>
   </nav>
 
   <div class="container">
@@ -299,35 +303,35 @@
 
         <label>1. Select Tailwater Dam</label>
         <div class="dam-chip-grid">
-          <div class="dam-chip active" onclick="selectDam('bull_shoals', this)">
+          <div class="dam-chip active" data-dam="bull_shoals">
             <div>
               <div class="dam-chip-name">Bull Shoals Dam</div>
               <div style="font-size:0.75rem; color:#64748b;">White River Mainstem • Lakeview, AR</div>
             </div>
             <div class="dam-chip-flow">2 Units • ~3,200 CFS</div>
           </div>
-          <div class="dam-chip" onclick="selectDam('norfork', this)">
+          <div class="dam-chip" data-dam="norfork">
             <div>
               <div class="dam-chip-name">Norfork Dam</div>
               <div style="font-size:0.75rem; color:#64748b;">North Fork River • Norfork, AR</div>
             </div>
             <div class="dam-chip-flow">0 Units • 450 CFS (Wade)</div>
           </div>
-          <div class="dam-chip" onclick="selectDam('taneycomo', this)">
+          <div class="dam-chip" data-dam="taneycomo">
             <div>
               <div class="dam-chip-name">Lake Taneycomo</div>
               <div style="font-size:0.75rem; color:#64748b;">Table Rock Tailwater • Branson, MO</div>
             </div>
             <div class="dam-chip-flow">1 Unit • 1,400 CFS</div>
           </div>
-          <div class="dam-chip" onclick="selectDam('beaver', this)">
+          <div class="dam-chip" data-dam="beaver">
             <div>
               <div class="dam-chip-name">Beaver Dam Tailwater</div>
               <div style="font-size:0.75rem; color:#64748b;">Upper White River • Carroll Co., AR</div>
             </div>
             <div class="dam-chip-flow">0 Units • 40 CFS (Wade)</div>
           </div>
-          <div class="dam-chip" onclick="selectDam('little_red', this)">
+          <div class="dam-chip" data-dam="little_red">
             <div>
               <div class="dam-chip-name">Little Red River</div>
               <div style="font-size:0.75rem; color:#64748b;">Greers Ferry Dam • Heber Springs, AR</div>
@@ -338,9 +342,9 @@
 
         <label>2. Current Weather & Sky</label>
         <div class="weather-toggle-bar">
-          <div class="weather-toggle active" onclick="setWeather('clear', this)">☀️ Clear / Sunny</div>
-          <div class="weather-toggle" onclick="setWeather('cloudy', this)">☁️ Overcast / Low Light</div>
-          <div class="weather-toggle" onclick="setWeather('stained', this)">🌧️ Stained / High Water</div>
+          <div class="weather-toggle active" data-weather="clear">☀️ Clear / Sunny</div>
+          <div class="weather-toggle" data-weather="cloudy">☁️ Overcast</div>
+          <div class="weather-toggle" data-weather="stained">🌧️ Stained Water</div>
         </div>
 
         <div class="conditions-banner" id="live-condition-label"></div>
@@ -391,12 +395,12 @@
         <div class="card-title">How to Choose Jig Weight by Flow</div>
         <div class="card-desc">Exact flow weight references calibrated for each dam's turbine capacity and CFS volume.</div>
 
-        <div style="margin-bottom:12px;">
-          <span class="dam-tab-pill active" onclick="switchChart('bull_shoals', this)">Bull Shoals Dam</span>
-          <span class="dam-tab-pill" onclick="switchChart('table_rock', this)">Table Rock / Taneycomo</span>
-          <span class="dam-tab-pill" onclick="switchChart('norfork', this)">Norfork Dam</span>
-          <span class="dam-tab-pill" onclick="switchChart('beaver', this)">Beaver Dam</span>
-          <span class="dam-tab-pill" onclick="switchChart('greers', this)">Greers Ferry</span>
+        <div style="margin-bottom:12px;" id="dam-chart-pills">
+          <span class="dam-tab-pill active" data-chart="bull_shoals">Bull Shoals Dam</span>
+          <span class="dam-tab-pill" data-chart="table_rock">Table Rock / Taneycomo</span>
+          <span class="dam-tab-pill" data-chart="norfork">Norfork Dam</span>
+          <span class="dam-tab-pill" data-chart="beaver">Beaver Dam</span>
+          <span class="dam-tab-pill" data-chart="greers">Greers Ferry</span>
         </div>
 
         <div class="infographic-card" id="flow-chart-container"></div>
@@ -410,11 +414,11 @@
         <div class="card-title">Official Zig Jig Retail Partners</div>
         <div class="card-desc">Need jigs on the water today? Get directions to our 15 verified local stores.</div>
 
-        <div class="retailer-filter-bar">
-          <span class="retailer-filter-pill active" onclick="filterRetailers('all', this)">All Partners (15)</span>
-          <span class="retailer-filter-pill" onclick="filterRetailers('mtn_home', this)">Mountain Home Area (10)</span>
-          <span class="retailer-filter-pill" onclick="filterRetailers('nwa', this)">Northwest Arkansas (2)</span>
-          <span class="retailer-filter-pill" onclick="filterRetailers('utah', this)">Utah (3)</span>
+        <div class="retailer-filter-bar" id="retailer-pills">
+          <span class="retailer-filter-pill active" data-region="all">All Partners (15)</span>
+          <span class="retailer-filter-pill" data-region="mtn_home">Mountain Home Area (10)</span>
+          <span class="retailer-filter-pill" data-region="nwa">Northwest Arkansas (2)</span>
+          <span class="retailer-filter-pill" data-region="utah">Utah (3)</span>
         </div>
 
         <div id="retailer-list-container"></div>
@@ -436,7 +440,6 @@
   </div>
 
   <script>
-    // 15 AUTHORIZED RETAIL PARTNERS
     const RETAILERS = [
       { 
         name: "Aspire Outdoors", 
@@ -580,4 +583,185 @@
           { weight: "1/16 oz.", label: "Minimum Flow", cfs: "Up to 1,000 CFS", sub: "Wadeable Shoals (40-500 CFS)", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
           { weight: "3/32 oz.", label: "1 Unit (Low)", cfs: "1,000 – 2,200 CFS", sub: "Single Unit Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
           { weight: "1/8 oz.", label: "1 Unit (Full)", cfs: "2,200 – 4,400 CFS", sub: "Full Turbine Capacity", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
-          { weight: "3/16 oz.", label: "2 Units /
+          { weight: "3/16 oz.", label: "2 Units / Spill", cfs: "Above 4,400+ CFS", sub: "Maximum Dam Discharge", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" }
+        ]
+      },
+      greers: {
+        title: "Greers Ferry / Little Red Flow Chart",
+        rows: [
+          { weight: "1/16 oz.", label: "Minimum Flow", cfs: "Up to 1,000 CFS", sub: "Wadeable River Shoals", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
+          { weight: "3/32 oz.", label: "1 Unit (Low)", cfs: "1,000 – 2,000 CFS", sub: "Moderate Current", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
+          { weight: "1/8 oz.", label: "1 Unit (Full)", cfs: "2,000 – 3,950 CFS", sub: "Full Generation Current", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
+          { weight: "3/16 oz.", label: "2 Units (Full)", cfs: "Above 3,950+ CFS", sub: "Heavy Generation Flow", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" }
+        ]
+      }
+    };
+
+    let currentDam = 'bull_shoals';
+    let currentWeather = 'clear';
+
+    function calculatePick() {
+      let weight = "3/32 oz";
+      let pColor = "Tri Olive";
+      let pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538";
+      let pLink = "https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620470698061";
+      let pReason = "2 units generation flow — 3/32 oz keeps you in the strike zone along riverbed gravel.";
+
+      let a1Color = "Olive / Ginger";
+      let a1Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DD5CDFD-A9F4-4926-9C22-67D4E499A3E1.png?v=1768275554";
+      let a1Link = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703467085";
+
+      let a2Color = "White / Chartreuse";
+      let a2Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/DE62566C-BFAE-45C9-80D2-4E7D1A6BB340.png?v=1768275907";
+      let a2Link = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703794765";
+
+      let condBanner = "🌊 <strong>Bull Shoals Dam:</strong> 2 Units (~3,200 CFS) • Drift seam presentation.";
+
+      if (currentDam === 'norfork') {
+        weight = "1/16 oz";
+        condBanner = "🌊 <strong>Norfork Dam:</strong> 0 Units (450 CFS) • Finesse wade conditions.";
+        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4F01D6B3-F7DD-45BB-A337-BF40EE55EA05.png?v=1768275507";
+        pLink = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703401549";
+        pReason = "Low flow wading — light 1/16 oz twitch along weedlines.";
+      } else if (currentDam === 'taneycomo') {
+        weight = "3/32 oz";
+        condBanner = "🌊 <strong>Lake Taneycomo:</strong> 1 Unit (1,400 CFS) • Steady current drift.";
+      } else if (currentDam === 'beaver') {
+        weight = "1/16 oz";
+        condBanner = "🌊 <strong>Beaver Dam:</strong> Minimum Flow • Shallow shoal presentation.";
+        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4F01D6B3-F7DD-45BB-A337-BF40EE55EA05.png?v=1768275507";
+        pLink = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703401549";
+      } else if (currentDam === 'little_red') {
+        weight = "1/16 oz";
+        condBanner = "🌊 <strong>Little Red River:</strong> Minimum Flow • Clear cold water.";
+        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4F01D6B3-F7DD-45BB-A337-BF40EE55EA05.png?v=1768275507";
+        pLink = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703401549";
+      }
+
+      if (currentWeather === 'cloudy') {
+        pColor = "Sculpin / Olive";
+        a1Color = "Black / Chartreuse";
+        a2Color = "Tri Olive";
+        pReason += " Overcast skies trigger aggressive brown trout strikes on silhouette colors.";
+      } else if (currentWeather === 'stained') {
+        pColor = "Black";
+        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353";
+        a1Color = "Black / Red";
+        a2Color = "Black / Chartreuse";
+        pReason += " Stained water requires maximum silhouette and contrast.";
+      }
+
+      document.getElementById('live-condition-label').innerHTML = condBanner;
+      document.getElementById('primary-title').innerText = pColor + " (" + weight + ")";
+      document.getElementById('primary-img').src = pImg;
+      document.getElementById('primary-link').href = pLink;
+      document.getElementById('primary-reason').innerHTML = "<strong>Presentation:</strong> " + pReason;
+
+      document.getElementById('alt1-title').innerText = a1Color + " (" + weight + ")";
+      document.getElementById('alt1-img').src = a1Img;
+      document.getElementById('alt1-link').href = a1Link;
+
+      document.getElementById('alt2-title').innerText = a2Color + " (" + weight + ")";
+      document.getElementById('alt2-img').src = a2Img;
+      document.getElementById('alt2-link').href = a2Link;
+    }
+
+    function renderFlowChart(damKey) {
+      const chart = FLOW_CHARTS[damKey];
+      const container = document.getElementById('flow-chart-container');
+      if (!chart || !container) return;
+      
+      container.innerHTML = '<div style="font-weight:800; font-size:1.05rem; margin-bottom:12px; color:var(--text-main);">' + chart.title + '</div>' +
+        chart.rows.map(function(r) {
+          return '<div class="flow-row">' +
+            '<div class="flow-weight">' + r.weight + '</div>' +
+            '<img src="' + r.img + '" class="flow-icon">' +
+            '<div class="flow-desc-box">' +
+              '<div class="flow-label">' + r.label + '</div>' +
+              '<div class="flow-cfs">' + r.cfs + '</div>' +
+              '<div class="flow-sub">' + r.sub + '</div>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+    }
+
+    function renderRetailers(regionKey) {
+      const container = document.getElementById('retailer-list-container');
+      if (!container) return;
+
+      const filtered = (regionKey === 'all') ? RETAILERS : RETAILERS.filter(function(r) { return r.region === regionKey; });
+
+      container.innerHTML = filtered.map(function(r) {
+        return '<div class="retailer-card">' +
+          '<span class="retailer-tag">' + r.tag + '</span>' +
+          '<div class="retailer-name">' + r.name + '</div>' +
+          '<div class="retailer-address">' + r.address + '</div>' +
+          '<a href="' + r.mapsUrl + '" target="_blank" class="btn btn-secondary" style="font-size:0.85rem; padding:10px;">📍 Directions in Google Maps</a>' +
+        '</div>';
+      }).join('');
+    }
+
+    // NATIVE EVENT LISTENERS
+    document.addEventListener('DOMContentLoaded', function() {
+      // 1. Tab Bar
+      document.querySelectorAll('.nav-tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
+          document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+          
+          tab.classList.add('active');
+          const tabId = tab.getAttribute('data-tab');
+          const content = document.getElementById('tab-' + tabId);
+          if (content) content.classList.add('active');
+
+          if (tabId === 'chart') renderFlowChart('bull_shoals');
+          if (tabId === 'locator') renderRetailers('all');
+        });
+      });
+
+      // 2. Dam Selection Chips
+      document.querySelectorAll('.dam-chip').forEach(function(chip) {
+        chip.addEventListener('click', function() {
+          document.querySelectorAll('.dam-chip').forEach(function(c) { c.classList.remove('active'); });
+          chip.classList.add('active');
+          currentDam = chip.getAttribute('data-dam');
+          calculatePick();
+        });
+      });
+
+      // 3. Weather Toggles
+      document.querySelectorAll('.weather-toggle').forEach(function(toggle) {
+        toggle.addEventListener('click', function() {
+          document.querySelectorAll('.weather-toggle').forEach(function(w) { w.classList.remove('active'); });
+          toggle.classList.add('active');
+          currentWeather = toggle.getAttribute('data-weather');
+          calculatePick();
+        });
+      });
+
+      // 4. Flow Chart Pills
+      document.querySelectorAll('.dam-tab-pill').forEach(function(pill) {
+        pill.addEventListener('click', function() {
+          document.querySelectorAll('.dam-tab-pill').forEach(function(p) { p.classList.remove('active'); });
+          pill.classList.add('active');
+          renderFlowChart(pill.getAttribute('data-chart'));
+        });
+      });
+
+      // 5. Retailer Filter Pills
+      document.querySelectorAll('.retailer-filter-pill').forEach(function(pill) {
+        pill.addEventListener('click', function() {
+          document.querySelectorAll('.retailer-filter-pill').forEach(function(p) { p.classList.remove('active'); });
+          pill.classList.add('active');
+          renderRetailers(pill.getAttribute('data-region'));
+        });
+      });
+
+      // Initialize defaults
+      calculatePick();
+      renderFlowChart('bull_shoals');
+      renderRetailers('all');
+    });
+  </script>
+</body>
+</html>
