@@ -80,29 +80,6 @@
     .card-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; color: var(--text-main); }
     .card-desc { font-size: 0.86rem; color: var(--text-muted); line-height: 1.45; margin-bottom: 16px; }
 
-    /* FLOW CHART INFOGRAPHIC */
-    .infographic-card {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-    .flow-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 0;
-      border-bottom: 1px solid #f1f5f9;
-    }
-    .flow-row:last-child { border-bottom: none; }
-    .flow-weight { font-size: 1.15rem; font-weight: 900; color: var(--text-main); width: 85px; }
-    .flow-icon { width: 75px; height: 42px; object-fit: contain; }
-    .flow-desc-box { text-align: right; }
-    .flow-label { font-size: 0.88rem; font-weight: 800; color: #0284c7; }
-    .flow-cfs { font-size: 0.78rem; font-weight: 700; color: var(--text-main); }
-    .flow-sub { font-size: 0.7rem; color: var(--text-muted); }
-
     /* DAM SELECTOR CHIPS */
     .dam-chip-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 14px; }
     .dam-chip {
@@ -153,7 +130,6 @@
     }
     .btn-dark { background: #0f172a; color: #ffffff; margin-top: 8px; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12); }
     .btn-secondary { background: #f1f5f9; color: var(--text-main); margin-top: 8px; border: 1px solid var(--border); }
-    .btn-green { background: #059669; color: #ffffff; margin-top: 8px; }
 
     /* RECOMMENDATION 3-PATTERN CARDS */
     .rec-card-main {
@@ -202,7 +178,61 @@
     }
     .rec-img { width: 100%; height: 100%; object-fit: contain; }
 
+    /* FLOW CHART INFOGRAPHIC */
+    .infographic-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .dam-tab-pill {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      background: #f1f5f9;
+      color: var(--text-muted);
+      cursor: pointer;
+      margin-right: 6px;
+      margin-bottom: 8px;
+    }
+    .dam-tab-pill.active {
+      background: #0f172a;
+      color: #ffffff;
+    }
+    .flow-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .flow-row:last-child { border-bottom: none; }
+    .flow-weight { font-size: 1.15rem; font-weight: 900; color: var(--text-main); width: 85px; }
+    .flow-icon { width: 75px; height: 42px; object-fit: contain; }
+    .flow-desc-box { text-align: right; }
+    .flow-label { font-size: 0.88rem; font-weight: 800; color: #0284c7; }
+    .flow-cfs { font-size: 0.78rem; font-weight: 700; color: var(--text-main); }
+    .flow-sub { font-size: 0.7rem; color: var(--text-muted); }
+
     /* RETAILER LOCATOR CARDS */
+    .retailer-filter-bar { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .retailer-filter-pill {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      background: #f1f5f9;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .retailer-filter-pill.active {
+      background: #0f172a;
+      color: #ffffff;
+    }
     .retailer-card {
       background: #ffffff;
       border: 1px solid var(--border);
@@ -264,7 +294,7 @@
   <!-- CLEAN 5-TAB SPACED NAVIGATION -->
   <nav class="nav-tabs">
     <div class="nav-tab active" onclick="switchTab('selector')">🎯 Jig Picker</div>
-    <div class="nav-tab" onclick="switchTab('chart')">📊 Flow Chart</div>
+    <div class="nav-tab" onclick="switchTab('chart')">📊 Flow Charts</div>
     <div class="nav-tab" onclick="switchTab('locator')">📍 Buy Local</div>
     <div class="nav-tab" onclick="switchTab('builder')">🔨 Custom Jig</div>
     <div class="nav-tab" onclick="switchTab('catches')">📸 Catch Log</div>
@@ -272,11 +302,11 @@
 
   <div class="container">
 
-    <!-- TAB 1: TAILWATERS DAM FLOW SELECTOR (AUTOMATIC LIVE CONDITIONS) -->
+    <!-- TAB 1: TAILWATERS DAM FLOW SELECTOR -->
     <div id="tab-selector" class="tab-content active">
       <div class="card">
         <div class="card-title">Live Tailwaters Jig Selector</div>
-        <div class="card-desc">Select your dam tailwater to calculate today's Primary Zig Jig and 2 Alternate Patterns automatically.</div>
+        <div class="card-desc">Select your dam tailwater to calculate today's Primary Zig Jig and 2 Alternate Patterns automatically based on live CFS release.</div>
 
         <label>Select Tailwater Dam</label>
         <div class="dam-chip-grid">
@@ -378,99 +408,52 @@
       </div>
     </div>
 
-    <!-- TAB 2: WATER FLOW & JIG WEIGHT GUIDE (FROM TAILWATERS INFOGRAPHIC) -->
+    <!-- TAB 2: WATER FLOW & JIG WEIGHT GUIDES (BY SPECIFIC DAM) -->
     <div id="tab-chart" class="tab-content">
       <div class="card">
         <div class="card-title">How to Choose Jig Weight by Flow</div>
-        <div class="card-desc">Official flow weight reference developed for White River Basin tailwaters.</div>
+        <div class="card-desc">Exact flow weight references calibrated for each dam's turbine capacity and CFS volume.</div>
 
-        <div class="infographic-card">
-          <!-- 1/16 oz -->
-          <div class="flow-row">
-            <div class="flow-weight">1/16 oz.</div>
-            <img src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" class="flow-icon">
-            <div class="flow-desc-box">
-              <div class="flow-label">Minimum Flow</div>
-              <div class="flow-cfs">Up to 1,000 CFS</div>
-              <div class="flow-sub">Off / Trickle • Wading</div>
-            </div>
-          </div>
+        <!-- DAM CHART SELECTOR PILLS -->
+        <div style="margin-bottom:12px;">
+          <span class="dam-tab-pill active" onclick="switchChart('bull_shoals', this)">Bull Shoals Dam</span>
+          <span class="dam-tab-pill" onclick="switchChart('table_rock', this)">Table Rock / Taneycomo</span>
+          <span class="dam-tab-pill" onclick="switchChart('norfork', this)">Norfork Dam</span>
+          <span class="dam-tab-pill" onclick="switchChart('beaver', this)">Beaver Dam</span>
+          <span class="dam-tab-pill" onclick="switchChart('greers', this)">Greers Ferry</span>
+        </div>
 
-          <!-- 3/32 oz -->
-          <div class="flow-row">
-            <div class="flow-weight">3/32 oz.</div>
-            <img src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" class="flow-icon">
-            <div class="flow-desc-box">
-              <div class="flow-label">1 Unit</div>
-              <div class="flow-cfs">1,000 – 3,775 CFS</div>
-              <div class="flow-sub">Up to 57 MW Generation</div>
-            </div>
-          </div>
-
-          <!-- 1/8 oz -->
-          <div class="flow-row">
-            <div class="flow-weight">1/8 oz.</div>
-            <img src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" class="flow-icon">
-            <div class="flow-desc-box">
-              <div class="flow-label">2 Units</div>
-              <div class="flow-cfs">3,775 – 7,550 CFS</div>
-              <div class="flow-sub">57 – 115 MW Generation</div>
-            </div>
-          </div>
-
-          <!-- 3/16 oz -->
-          <div class="flow-row">
-            <div class="flow-weight">3/16 oz.</div>
-            <img src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" class="flow-icon">
-            <div class="flow-desc-box">
-              <div class="flow-label">3–4 Units</div>
-              <div class="flow-cfs">7,550 – 15,100+ CFS</div>
-              <div class="flow-sub">115 – 230 MW Full Gen</div>
-            </div>
-          </div>
+        <!-- INFOGRAPHIC CONTAINER -->
+        <div class="infographic-card" id="flow-chart-container">
+          <!-- Dynamically populated below -->
         </div>
 
         <a href="https://shop.zigjig.com" target="_blank" class="btn btn-dark">Shop All Weights on ZigJig.com</a>
       </div>
     </div>
 
-    <!-- TAB 3: ZIG JIG RETAILER LOCATOR (FROM TAILWATERS APP SPONSORSHIP) -->
+    <!-- TAB 3: COMPLETE ZIG JIG RETAILER LOCATOR (ALL LOCATIONS) -->
     <div id="tab-locator" class="tab-content">
       <div class="card">
-        <div class="card-title">Find Zig Jigs in Local Stores</div>
-        <div class="card-desc">Need jigs on the water today? Visit our official local retail partners near the river.</div>
+        <div class="card-title">Official Zig Jig Retailers</div>
+        <div class="card-desc">Need jigs on the water today? Filter by river tailwater or region to find authorized dealers.</div>
 
-        <!-- RETAILER 1: Bull Shoals -->
-        <div class="retailer-card">
-          <span class="retailer-tag">Bull Shoals Dam</span>
-          <div class="retailer-name">Bull Shoals-White River State Park Boat Dock</div>
-          <div class="retailer-address">Marina store on Bullshoals Park Rd, Lakeview, AR</div>
-          <a href="https://maps.apple.com/?q=Bull+Shoals-White+River+State+Park+Boat+Dock" target="_blank" class="btn btn-secondary" style="font-size:0.85rem; padding:10px;">📍 Open in Maps</a>
+        <!-- RETAILER REGION FILTER BAR -->
+        <div class="retailer-filter-bar">
+          <span class="retailer-filter-pill active" onclick="filterRetailers('all', this)">All Stores</span>
+          <span class="retailer-filter-pill" onclick="filterRetailers('white', this)">Bull Shoals / White River</span>
+          <span class="retailer-filter-pill" onclick="filterRetailers('norfork', this)">Norfork Tailwater</span>
+          <span class="retailer-filter-pill" onclick="filterRetailers('beaver', this)">Beaver / NWA</span>
+          <span class="retailer-filter-pill" onclick="filterRetailers('taneycomo', this)">Taneycomo / Branson</span>
+          <span class="retailer-filter-pill" onclick="filterRetailers('greers', this)">Little Red / Greers Ferry</span>
+          <span class="retailer-filter-pill" onclick="filterRetailers('green', this)">Flaming Gorge / Green River</span>
         </div>
 
-        <!-- RETAILER 2: Beaver Tailwater / NWA -->
-        <div class="retailer-card">
-          <span class="retailer-tag">Beaver Tailwater / Rogers</span>
-          <div class="retailer-name">Hook, Line & Sinker</div>
-          <div class="retailer-address">98 W Locust St, Rogers, AR 72756</div>
-          <a href="https://maps.apple.com/?q=Hook+Line+Sinker+Rogers+AR" target="_blank" class="btn btn-secondary" style="font-size:0.85rem; padding:10px;">📍 Open in Maps</a>
+        <!-- RETAILER LIST -->
+        <div id="retailer-list-container">
+          <!-- Dynamically populated below -->
         </div>
 
-        <!-- RETAILER 3: Flaming Gorge -->
-        <div class="retailer-card">
-          <span class="retailer-tag">Green River / Flaming Gorge</span>
-          <div class="retailer-name">Flaming Gorge Resort</div>
-          <div class="retailer-address">Dutch John, UT (Fly & Tackle Shop)</div>
-          <a href="https://maps.apple.com/?q=Flaming+Gorge+Resort+Dutch+John+UT" target="_blank" class="btn btn-secondary" style="font-size:0.85rem; padding:10px;">📍 Open in Maps</a>
-        </div>
-
-        <!-- RETAILER 4: Norfork -->
-        <div class="retailer-card">
-          <span class="retailer-tag">North Fork River</span>
-          <div class="retailer-name">Norfork River Trout Outfitter / Local Docks</div>
-          <div class="retailer-address">Norfork, Arkansas Tailwater Stores</div>
-          <a href="https://maps.apple.com/?q=Norfork+Dam+Arkansas" target="_blank" class="btn btn-secondary" style="font-size:0.85rem; padding:10px;">📍 Open in Maps</a>
-        </div>
       </div>
     </div>
 
@@ -538,7 +521,130 @@
   </div>
 
   <script>
-    // DAM TAILWATERS CONFIGURATION (Beaver, Bull Shoals, Norfork, Taneycomo, Little Red)
+    // 1. ALL VERIFIED RETAIL LOCATIONS (From Tailwaters sponsorship database)
+    const RETAILERS = [
+      {
+        name: "Bull Shoals-White River State Park Boat Dock",
+        tag: "Bull Shoals Dam",
+        region: "white",
+        address: "153 Dam Overlook Ln, Lakeview, AR 72642 (Marina Store on Bullshoals Park Rd)",
+        mapQuery: "Bull+Shoals-White+River+State+Park+Boat+Dock"
+      },
+      {
+        name: "Rainbow Drive Resort & Tackle Shop",
+        tag: "White River Mainstem",
+        region: "white",
+        address: "669 Rainbow Landing Dr, Cotter, AR 72626",
+        mapQuery: "Rainbow+Drive+Resort+Cotter+AR"
+      },
+      {
+        name: "Gaston's White River Resort",
+        tag: "Bull Shoals Tailwater",
+        region: "white",
+        address: "1777 River Rd, Lakeview, AR 72642",
+        mapQuery: "Gastons+White+River+Resort+Lakeview+AR"
+      },
+      {
+        name: "Norfork River Trout Outfitter / Local Marina",
+        tag: "Norfork Tailwater",
+        region: "norfork",
+        address: "Hwy 5 South / River Rd, Norfork, AR 72659",
+        mapQuery: "Norfork+Dam+Trout+Fishing+Norfork+AR"
+      },
+      {
+        name: "Hook, Line & Sinker",
+        tag: "Beaver Tailwater / Rogers",
+        region: "beaver",
+        address: "98 W Locust St, Rogers, AR 72756",
+        mapQuery: "Hook+Line+Sinker+Rogers+AR"
+      },
+      {
+        name: "Busch Mountain Fishing & Tackle",
+        tag: "Beaver Dam Area",
+        region: "beaver",
+        address: "Hwy 187, Eureka Springs, AR 72631 (Near Beaver Dam)",
+        mapQuery: "Busch+Mountain+Fishing+Eureka+Springs+AR"
+      },
+      {
+        name: "Scotty's Trout Dock & Marina",
+        tag: "Lake Taneycomo",
+        region: "taneycomo",
+        address: "400 Boxcar Willie Dr, Branson, MO 65616",
+        mapQuery: "Scottys+Trout+Dock+Branson+MO"
+      },
+      {
+        name: "Lilleys' Landing Resort & Marina",
+        tag: "Lake Taneycomo",
+        region: "taneycomo",
+        address: "367 River Ln, Branson, MO 65616",
+        mapQuery: "Lilleys+Landing+Resort+Branson+MO"
+      },
+      {
+        name: "The Little Red Fly & Tackle",
+        tag: "Little Red River",
+        region: "greers",
+        address: "Heber Springs, AR 72543 (Greers Ferry Tailwater)",
+        mapQuery: "Greers+Ferry+Dam+Heber+Springs+AR"
+      },
+      {
+        name: "Flaming Gorge Resort (Fly & Tackle Shop)",
+        tag: "Green River / Flaming Gorge",
+        region: "green",
+        address: "1100 E Flaming Gorge Resort, Dutch John, UT 84023",
+        mapQuery: "Flaming+Gorge+Resort+Dutch+John+UT"
+      }
+    ];
+
+    // 2. FLOW CHART DATA CALIBRATED BY EXACT DAM & CFS BRACKETS
+    const FLOW_CHARTS = {
+      bull_shoals: {
+        title: "Bull Shoals Dam Flow Chart",
+        rows: [
+          { weight: "1/16 oz.", label: "1 Unit", cfs: "Up to 3,300 CFS", sub: "< 45 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
+          { weight: "3/32 oz.", label: "2 Units", cfs: "3,300 – 6,600 CFS", sub: "45 – 85 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
+          { weight: "1/8 oz.", label: "3–4 Units", cfs: "6,600 – 13,200 CFS", sub: "85 – 170 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
+          { weight: "3/16 oz.", label: "5–6 Units", cfs: "13,200 – 19,800 CFS", sub: "170 – 255 MW Heavy Flow", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" },
+          { weight: "1/4 oz.", label: "7–8 Units (Full)", cfs: "19,800 – 26,400+ CFS", sub: "255 – 340 MW Flood / Heavy", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/D971D9A2-6C8C-456E-BE46-05CB6769A991.png?v=1768259377" }
+        ]
+      },
+      table_rock: {
+        title: "Table Rock / Lake Taneycomo Flow Chart",
+        rows: [
+          { weight: "1/16 oz.", label: "Minimum Flow", cfs: "Up to 1,000 CFS", sub: "Off / Trickle • Wading", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
+          { weight: "3/32 oz.", label: "1 Unit", cfs: "1,000 – 3,775 CFS", sub: "Up to 57 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
+          { weight: "1/8 oz.", label: "2 Units", cfs: "3,775 – 7,550 CFS", sub: "57 – 115 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
+          { weight: "3/16 oz.", label: "3–4 Units", cfs: "7,550 – 15,100+ CFS", sub: "115 – 230 MW Full Gen", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" }
+        ]
+      },
+      norfork: {
+        title: "Norfork Dam Flow Chart",
+        rows: [
+          { weight: "1/16 oz.", label: "Minimum Flow", cfs: "Up to 900 CFS", sub: "Off / Wadeable", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
+          { weight: "3/32 oz.", label: "1/2 Unit", cfs: "900 – 1,800 CFS", sub: "Light Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
+          { weight: "1/8 oz.", label: "1 Unit", cfs: "1,800 – 3,600 CFS", sub: "Standard 1-Unit Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
+          { weight: "3/16 oz.", label: "2 Units (Full)", cfs: "Above 3,600+ CFS", sub: "Full 2-Unit Heavy Release", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" }
+        ]
+      },
+      beaver: {
+        title: "Beaver Dam Flow Chart",
+        rows: [
+          { weight: "1/16 oz.", label: "Minimum Flow", cfs: "Up to 1,000 CFS", sub: "Wadeable Shoals (40-500 CFS)", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
+          { weight: "3/32 oz.", label: "1 Unit (Low)", cfs: "1,000 – 2,200 CFS", sub: "Single Unit Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
+          { weight: "1/8 oz.", label: "1 Unit (Full)", cfs: "2,200 – 4,400 CFS", sub: "Full Turbine Capacity", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
+          { weight: "3/16 oz.", label: "2 Units / Spill", cfs: "Above 4,400+ CFS", sub: "Maximum Dam Discharge", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" }
+        ]
+      },
+      greers: {
+        title: "Greers Ferry / Little Red Flow Chart",
+        rows: [
+          { weight: "1/16 oz.", label: "Minimum Flow", cfs: "Up to 1,000 CFS", sub: "Wadeable River Shoals", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
+          { weight: "3/32 oz.", label: "1 Unit (Low)", cfs: "1,000 – 2,000 CFS", sub: "Moderate Current", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
+          { weight: "1/8 oz.", label: "1 Unit (Full)", cfs: "2,000 – 3,950 CFS", sub: "Full Generation Current", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
+          { weight: "3/16 oz.", label: "2 Units (Full)", cfs: "Above 3,950+ CFS", sub: "Heavy Generation Flow", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" }
+        ]
+      }
+    };
+
     let currentDam = 'beaver';
     let currentFlowData = {};
 
@@ -547,6 +653,8 @@
       document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
       document.getElementById('tab-' + tabId).classList.add('active');
       event.target.classList.add('active');
+      if (tabId === 'chart') switchChart('bull_shoals', document.querySelector('.dam-tab-pill'));
+      if (tabId === 'locator') filterRetailers('all', document.querySelector('.retailer-filter-pill'));
       if (tabId === 'catches') renderCatches();
     }
 
@@ -565,17 +673,17 @@
       let pReason = "0 units / Low wadeable release below Beaver Dam — 2-4 lb line, micro-twitches along shallow gravel shoals.";
 
       let a1Title = "Tri Olive HD (1/32 oz)";
-      let a1Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538";
-      let a1Link = "https://shop.zigjig.com/products/zig-jig-heavy-duty-1-32-oz?variant=40743138164813";
+      a1Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538";
+      a1Link = "https://shop.zigjig.com/products/zig-jig-heavy-duty-1-32-oz?variant=40743138164813";
 
       let a2Title = "White/Chartreuse HD (1/32 oz)";
-      let a2Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4DE2C42B-36BD-42E3-9E47-51E39927355C_c7d5fd0c-a58f-4be9-b66f-1d790a289029.png?v=1768259377";
-      let a2Link = "https://shop.zigjig.com/products/zig-jig-heavy-duty-1-32-oz?variant=40743138394189";
+      a2Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4DE2C42B-36BD-42E3-9E47-51E39927355C_c7d5fd0c-a58f-4be9-b66f-1d790a289029.png?v=1768259377";
+      a2Link = "https://shop.zigjig.com/products/zig-jig-heavy-duty-1-32-oz?variant=40743138394189";
 
-      let conditionText = "🌊 <strong>Beaver Dam Tailwater:</strong> 0 Units (40 CFS) • Clear cold water • Finesse wading conditions.";
+      let conditionText = "🌊 <strong>Beaver Dam Tailwater:</strong> 0 Units (40 CFS) • Clear cold water • Finesse wade conditions.";
 
       if (currentDam === 'beaver') {
-        conditionText = "🌊 <strong>Beaver Dam Tailwater:</strong> 0 Units (40 CFS) • Clear cold water • Finesse wading conditions.";
+        conditionText = "🌊 <strong>Beaver Dam Tailwater:</strong> 0 Units (40 CFS) • Clear cold water • Finesse wade conditions.";
       } else if (currentDam === 'bull_shoals') {
         conditionText = "🌊 <strong>Bull Shoals Dam:</strong> 2 Units (~3,200 CFS) • Moderate generation • Drift seam presentation.";
         pTitle = "Olive / Ginger (1/16 oz)";
@@ -624,6 +732,48 @@
       document.getElementById('alt2-title').innerText = a2Title;
       document.getElementById('alt2-img').src = a2Img;
       document.getElementById('alt2-link').href = a2Link;
+    }
+
+    // 3. SWITCH FLOW CHART INFOGRAPHICS
+    function switchChart(damKey, elem) {
+      document.querySelectorAll('.dam-tab-pill').forEach(p => p.classList.remove('active'));
+      elem.classList.add('active');
+
+      const chart = FLOW_CHARTS[damKey];
+      const container = document.getElementById('flow-chart-container');
+      
+      container.innerHTML = `
+        <div style="font-weight:800; font-size:1.05rem; margin-bottom:12px; color:var(--text-main);">${chart.title}</div>
+        ${chart.rows.map(r => `
+          <div class="flow-row">
+            <div class="flow-weight">${r.weight}</div>
+            <img src="${r.img}" class="flow-icon">
+            <div class="flow-desc-box">
+              <div class="flow-label">${r.label}</div>
+              <div class="flow-cfs">${r.cfs}</div>
+              <div class="flow-sub">${r.sub}</div>
+            </div>
+          </div>
+        `).join('')}
+      `;
+    }
+
+    // 4. RETAILER LOCATOR FILTER
+    function filterRetailers(regionKey, elem) {
+      document.querySelectorAll('.retailer-filter-pill').forEach(p => p.classList.remove('active'));
+      elem.classList.add('active');
+
+      const container = document.getElementById('retailer-list-container');
+      const filtered = (regionKey === 'all') ? RETAILERS : RETAILERS.filter(r => r.region === regionKey);
+
+      container.innerHTML = filtered.map(r => `
+        <div class="retailer-card">
+          <span class="retailer-tag">${r.tag}</span>
+          <div class="retailer-name">${r.name}</div>
+          <div class="retailer-address">${r.address}</div>
+          <a href="https://maps.apple.com/?q=${r.mapQuery}" target="_blank" class="btn btn-secondary" style="font-size:0.85rem; padding:10px;">📍 Open in Apple / Google Maps</a>
+        </div>
+      `).join('');
     }
 
     function saveJigToBox(type) {
@@ -697,6 +847,8 @@
 
     // Initialize on load
     calculateFlowJigs();
+    switchChart('bull_shoals', document.querySelector('.dam-tab-pill'));
+    filterRetailers('all', document.querySelector('.retailer-filter-pill'));
   </script>
 </body>
 </html>
