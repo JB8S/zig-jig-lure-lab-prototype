@@ -56,6 +56,7 @@
       border-bottom: 3px solid transparent;
       cursor: pointer;
       user-select: none;
+      text-decoration: none;
     }
     .nav-tab.active {
       color: #0f172a;
@@ -261,16 +262,32 @@
     .retailer-address { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px; }
     .retailer-tag { display: inline-block; background: #e0f2fe; color: #0369a1; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; text-transform: uppercase; }
 
-    .builder-frame-wrap {
+    /* CONTEST / CATCH LOG */
+    .form-group { margin-bottom: 14px; }
+    label { display: block; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; color: var(--text-muted); margin-bottom: 6px; }
+    input[type="text"], input[type="file"], textarea {
       width: 100%;
-      height: 680px;
+      background: #f8fafc;
       border: 1.5px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-      background: #ffffff;
-      margin-top: 12px;
+      border-radius: 10px;
+      color: var(--text-main);
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      outline: none;
     }
-    .builder-frame { width: 100%; height: 100%; border: none; }
+    .feed-item { background: #ffffff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
+    .feed-img { width: 100%; height: 210px; object-fit: cover; background: #e2e8f0; display: block; }
+    .feed-body { padding: 14px; }
+    .contest-rules-box {
+      background: #fdf8e6;
+      border: 1.5px solid #fde68a;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 16px;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      color: #92400e;
+    }
   </style>
 </head>
 <body>
@@ -285,12 +302,13 @@
     </div>
   </header>
 
-  <!-- CLEAN TABS (NO INLINE ONCLICK) -->
+  <!-- DIRECT 5-TAB BAR -->
   <nav class="nav-tabs">
     <div class="nav-tab active" data-tab="selector">🎯 Jig Picker</div>
     <div class="nav-tab" data-tab="chart">📊 Flow Charts</div>
     <div class="nav-tab" data-tab="locator">📍 Where to Buy</div>
-    <div class="nav-tab" data-tab="builder">🔨 Custom Jig</div>
+    <a href="https://shop.zigjig.com/pages/build-your-custom-zig-jig" target="_blank" class="nav-tab" style="color:var(--brand-accent);">🔨 Custom Jig ↗</a>
+    <div class="nav-tab" data-tab="catches">📸 Catch Log</div>
   </nav>
 
   <div class="container">
@@ -405,363 +423,3 @@
 
         <div class="infographic-card" id="flow-chart-container"></div>
         <a href="https://shop.zigjig.com" target="_blank" class="btn btn-dark">Shop All Weights on ZigJig.com</a>
-      </div>
-    </div>
-
-    <!-- TAB 3: WHERE TO BUY DIRECTORY (EXACT 15 VERIFIED PARTNERS ONLY) -->
-    <div id="tab-locator" class="tab-content">
-      <div class="card">
-        <div class="card-title">Official Zig Jig Retail Partners</div>
-        <div class="card-desc">Need jigs on the water today? Get directions to our 15 verified local stores.</div>
-
-        <div class="retailer-filter-bar" id="retailer-pills">
-          <span class="retailer-filter-pill active" data-region="all">All Partners (15)</span>
-          <span class="retailer-filter-pill" data-region="mtn_home">Mountain Home Area (10)</span>
-          <span class="retailer-filter-pill" data-region="nwa">Northwest Arkansas (2)</span>
-          <span class="retailer-filter-pill" data-region="utah">Utah (3)</span>
-        </div>
-
-        <div id="retailer-list-container"></div>
-      </div>
-    </div>
-
-    <!-- TAB 4: CUSTOM JIG BUILDER -->
-    <div id="tab-builder" class="tab-content">
-      <div class="card">
-        <div class="card-title">Official Custom Zig Jig Builder</div>
-        <div class="card-desc">Tied by fishermen, made for fishermen. Customize your pattern on our Shopify store.</div>
-        <a href="https://shop.zigjig.com/pages/build-your-custom-zig-jig" target="_blank" class="btn btn-dark" style="margin-bottom:12px;">Open Fullscreen on ZigJig.com ↗</a>
-        <div class="builder-frame-wrap">
-          <iframe src="https://shop.zigjig.com/pages/build-your-custom-zig-jig" class="builder-frame" loading="lazy"></iframe>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <script>
-    const RETAILERS = [
-      { 
-        name: "Aspire Outdoors", 
-        tag: "Mountain Home, AR", 
-        region: "mtn_home", 
-        address: "2492 Hwy 62 East, Mtn. Home, AR 72653", 
-        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Aspire+Outdoors+2492+Hwy+62+East+Mountain+Home+AR+72653" 
-      },
-      { 
-        name: "Harps Food Stores", 
-        tag: "Mountain Home, AR", 
-        region: "mtn_home", 
-        address: "924 Hwy 62 East, Mtn. Home, AR 72653", 
-        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Harps+Food+Stores+924+Hwy+62+East+Mountain+Home+AR+72653" 
-      },
-      { 
-        name: "Stetson’s Resort", 
-        tag: "Flippin, AR", 
-        region: "mtn_home", 
-        address: "906 Marion County 7002, Flippin, AR 72634", 
-        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Stetsons+Resort+906+Marion+County+7002+Flippin+AR+72634" 
-      },
-      { 
-        name: "Bull Shoals-White River State Park Boat Dock", 
-        tag: "Bull Shoals Dam / Lakeview, AR", 
-        region: "mtn_home", 
-        address: "129 Bull Shoals Park, Lakeview, AR 72642", 
-        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Bull+Shoals+White+River+State+Park+Boat+Dock+129+Bull+Shoals+Park+Lakeview+AR+72642" 
-      },
-      { 
-        name: "White Buffalo Resort", 
-        tag: "Mountain Home, AR", 
-        region: "mtn_home", 
-        address: "418 White Buffalo Trail, Mtn Home, AR 72653", 
-        mapsUrl: "https://www.google.com/maps/search/?api=1&query=White+Buffalo+Resort+418+White+Buffalo+Trail+Mountain+Home+AR+72653" 
-      },
-      { 
-        name: "Natural State Fly Shop", 
-        tag: "Cotter, AR", 
-        region: "mtn_home", 
-        address: "102 Harding Blvd, Cotter, AR 72626", 
-        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Natural+State+Fly+Shop+102+Harding+Blvd+Cotter+AR+72626" 
-      },
-      { 
-        name: "Rainbow Drive Resort", 
-        tag: "Cotter, AR", 
-        region: "mtn_home", 
-        address: "669 Rainbow Landing Dr, Cotter, AR 72626", 
-        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Rainbow+Drive+Resort+669+Rainbow+Landing+Dr+Cotter+AR+72626" 
-      },
-      { 
-        name: "Gerry’s Qwik Stop Bait & Tackle", 
-        tag: "Mountain Home, AR", 
-        region: "mtn_home", 
-        address: "4651 Hwy 62 East, Mtn. Home, AR 72653", 
-        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Gerrys+Qwik+Stop+4651+Hwy+62+East+Mountain+Home+AR+72653" 
-      },
-      { 
-        name: "Woodsman’s Package Store", 
-        tag: "Norfork, AR", 
-        region: "mtn_home", 
-        address: "59 Fisherman’s St., Norfork, AR", 
-        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Woodsmans+Package+Store+59+Fishermans+St+Norfork+AR" 
-      },
-      { 
-        name: "Lemley’s Country Store", 
-        tag: "Calico Rock, AR", 
-        region: "mtn_home", 
-        address: "240 Main St., Calico Rock, AR 72519", 
-        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Lemleys+Country+Store+240+Main+St+Calico+Rock+AR+72519" 
-      },
-      { 
-        name: "Riverview Resort", 
-        tag: "Eureka Springs, AR", 
-        region: "nwa", 
-        address: "17939 US-62, Eureka Springs, AR 72632", 
-        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Riverview+Resort+17939+US-62+Eureka+Springs+AR+72632" 
-      },
-      { 
-        name: "Hook, Line & Sinker", 
-        tag: "Rogers, AR", 
-        region: "nwa", 
-        address: "98 W. Locust St., Rogers, AR 72756", 
-        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Hook+Line+Sinker+98+W+Locust+St+Rogers+AR+72756" 
-      },
-      { 
-        name: "Trout Creek Flies", 
-        tag: "Dutch John, UT", 
-        region: "utah", 
-        address: "1155 West Little Hole Rd., Dutch John, UT 84023", 
-        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Trout+Creek+Flies+1155+West+Little+Hole+Rd+Dutch+John+UT+84023" 
-      },
-      { 
-        name: "Fish Tech Outfitters", 
-        tag: "Holladay, UT", 
-        region: "utah", 
-        address: "6153 S. Highland Dr., Holladay, UT 84121", 
-        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Fish+Tech+Outfitters+6153+S+Highland+Dr+Holladay+UT+84121" 
-      },
-      { 
-        name: "Flaming Gorge Resort", 
-        tag: "Dutch John, UT", 
-        region: "utah", 
-        address: "1100 E Flaming Gorge Resort, Dutch John, UT 84023", 
-        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Flaming+Gorge+Resort+1100+E+Flaming+Gorge+Resort+Dutch+John+UT+84023" 
-      }
-    ];
-
-    const FLOW_CHARTS = {
-      bull_shoals: {
-        title: "Bull Shoals Dam Flow Chart",
-        rows: [
-          { weight: "1/16 oz.", label: "1 Unit", cfs: "Up to 3,300 CFS", sub: "< 45 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
-          { weight: "3/32 oz.", label: "2 Units", cfs: "3,300 – 6,600 CFS", sub: "45 – 85 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
-          { weight: "1/8 oz.", label: "3–4 Units", cfs: "6,600 – 13,200 CFS", sub: "85 – 170 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
-          { weight: "3/16 oz.", label: "5–6 Units", cfs: "13,200 – 19,800 CFS", sub: "170 – 255 MW Heavy Flow", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" },
-          { weight: "1/4 oz.", label: "7–8 Units (Full)", cfs: "19,800 – 26,400+ CFS", sub: "255 – 340 MW Flood / Heavy", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/D971D9A2-6C8C-456E-BE46-05CB6769A991.png?v=1768259377" }
-        ]
-      },
-      table_rock: {
-        title: "Table Rock / Lake Taneycomo Flow Chart",
-        rows: [
-          { weight: "1/16 oz.", label: "Minimum Flow", cfs: "Up to 1,000 CFS", sub: "Off / Trickle • Wading", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
-          { weight: "3/32 oz.", label: "1 Unit", cfs: "1,000 – 3,775 CFS", sub: "Up to 57 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
-          { weight: "1/8 oz.", label: "2 Units", cfs: "3,775 – 7,550 CFS", sub: "57 – 115 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
-          { weight: "3/16 oz.", label: "3–4 Units", cfs: "7,550 – 15,100+ CFS", sub: "115 – 230 MW Full Gen", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" }
-        ]
-      },
-      norfork: {
-        title: "Norfork Dam Flow Chart",
-        rows: [
-          { weight: "1/16 oz.", label: "Minimum Flow", cfs: "Up to 900 CFS", sub: "Off / Wadeable", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
-          { weight: "3/32 oz.", label: "1/2 Unit", cfs: "900 – 1,800 CFS", sub: "Light Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
-          { weight: "1/8 oz.", label: "1 Unit", cfs: "1,800 – 3,600 CFS", sub: "Standard 1-Unit Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
-          { weight: "3/16 oz.", label: "2 Units (Full)", cfs: "Above 3,600+ CFS", sub: "Full 2-Unit Heavy Release", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" }
-        ]
-      },
-      beaver: {
-        title: "Beaver Dam Flow Chart",
-        rows: [
-          { weight: "1/16 oz.", label: "Minimum Flow", cfs: "Up to 1,000 CFS", sub: "Wadeable Shoals (40-500 CFS)", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
-          { weight: "3/32 oz.", label: "1 Unit (Low)", cfs: "1,000 – 2,200 CFS", sub: "Single Unit Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
-          { weight: "1/8 oz.", label: "1 Unit (Full)", cfs: "2,200 – 4,400 CFS", sub: "Full Turbine Capacity", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
-          { weight: "3/16 oz.", label: "2 Units / Spill", cfs: "Above 4,400+ CFS", sub: "Maximum Dam Discharge", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" }
-        ]
-      },
-      greers: {
-        title: "Greers Ferry / Little Red Flow Chart",
-        rows: [
-          { weight: "1/16 oz.", label: "Minimum Flow", cfs: "Up to 1,000 CFS", sub: "Wadeable River Shoals", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
-          { weight: "3/32 oz.", label: "1 Unit (Low)", cfs: "1,000 – 2,000 CFS", sub: "Moderate Current", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
-          { weight: "1/8 oz.", label: "1 Unit (Full)", cfs: "2,000 – 3,950 CFS", sub: "Full Generation Current", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
-          { weight: "3/16 oz.", label: "2 Units (Full)", cfs: "Above 3,950+ CFS", sub: "Heavy Generation Flow", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" }
-        ]
-      }
-    };
-
-    let currentDam = 'bull_shoals';
-    let currentWeather = 'clear';
-
-    function calculatePick() {
-      let weight = "3/32 oz";
-      let pColor = "Tri Olive";
-      let pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538";
-      let pLink = "https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620470698061";
-      let pReason = "2 units generation flow — 3/32 oz keeps you in the strike zone along riverbed gravel.";
-
-      let a1Color = "Olive / Ginger";
-      let a1Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DD5CDFD-A9F4-4926-9C22-67D4E499A3E1.png?v=1768275554";
-      let a1Link = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703467085";
-
-      let a2Color = "White / Chartreuse";
-      let a2Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/DE62566C-BFAE-45C9-80D2-4E7D1A6BB340.png?v=1768275907";
-      let a2Link = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703794765";
-
-      let condBanner = "🌊 <strong>Bull Shoals Dam:</strong> 2 Units (~3,200 CFS) • Drift seam presentation.";
-
-      if (currentDam === 'norfork') {
-        weight = "1/16 oz";
-        condBanner = "🌊 <strong>Norfork Dam:</strong> 0 Units (450 CFS) • Finesse wade conditions.";
-        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4F01D6B3-F7DD-45BB-A337-BF40EE55EA05.png?v=1768275507";
-        pLink = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703401549";
-        pReason = "Low flow wading — light 1/16 oz twitch along weedlines.";
-      } else if (currentDam === 'taneycomo') {
-        weight = "3/32 oz";
-        condBanner = "🌊 <strong>Lake Taneycomo:</strong> 1 Unit (1,400 CFS) • Steady current drift.";
-      } else if (currentDam === 'beaver') {
-        weight = "1/16 oz";
-        condBanner = "🌊 <strong>Beaver Dam:</strong> Minimum Flow • Shallow shoal presentation.";
-        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4F01D6B3-F7DD-45BB-A337-BF40EE55EA05.png?v=1768275507";
-        pLink = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703401549";
-      } else if (currentDam === 'little_red') {
-        weight = "1/16 oz";
-        condBanner = "🌊 <strong>Little Red River:</strong> Minimum Flow • Clear cold water.";
-        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4F01D6B3-F7DD-45BB-A337-BF40EE55EA05.png?v=1768275507";
-        pLink = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703401549";
-      }
-
-      if (currentWeather === 'cloudy') {
-        pColor = "Sculpin / Olive";
-        a1Color = "Black / Chartreuse";
-        a2Color = "Tri Olive";
-        pReason += " Overcast skies trigger aggressive brown trout strikes on silhouette colors.";
-      } else if (currentWeather === 'stained') {
-        pColor = "Black";
-        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353";
-        a1Color = "Black / Red";
-        a2Color = "Black / Chartreuse";
-        pReason += " Stained water requires maximum silhouette and contrast.";
-      }
-
-      document.getElementById('live-condition-label').innerHTML = condBanner;
-      document.getElementById('primary-title').innerText = pColor + " (" + weight + ")";
-      document.getElementById('primary-img').src = pImg;
-      document.getElementById('primary-link').href = pLink;
-      document.getElementById('primary-reason').innerHTML = "<strong>Presentation:</strong> " + pReason;
-
-      document.getElementById('alt1-title').innerText = a1Color + " (" + weight + ")";
-      document.getElementById('alt1-img').src = a1Img;
-      document.getElementById('alt1-link').href = a1Link;
-
-      document.getElementById('alt2-title').innerText = a2Color + " (" + weight + ")";
-      document.getElementById('alt2-img').src = a2Img;
-      document.getElementById('alt2-link').href = a2Link;
-    }
-
-    function renderFlowChart(damKey) {
-      const chart = FLOW_CHARTS[damKey];
-      const container = document.getElementById('flow-chart-container');
-      if (!chart || !container) return;
-      
-      container.innerHTML = '<div style="font-weight:800; font-size:1.05rem; margin-bottom:12px; color:var(--text-main);">' + chart.title + '</div>' +
-        chart.rows.map(function(r) {
-          return '<div class="flow-row">' +
-            '<div class="flow-weight">' + r.weight + '</div>' +
-            '<img src="' + r.img + '" class="flow-icon">' +
-            '<div class="flow-desc-box">' +
-              '<div class="flow-label">' + r.label + '</div>' +
-              '<div class="flow-cfs">' + r.cfs + '</div>' +
-              '<div class="flow-sub">' + r.sub + '</div>' +
-            '</div>' +
-          '</div>';
-        }).join('');
-    }
-
-    function renderRetailers(regionKey) {
-      const container = document.getElementById('retailer-list-container');
-      if (!container) return;
-
-      const filtered = (regionKey === 'all') ? RETAILERS : RETAILERS.filter(function(r) { return r.region === regionKey; });
-
-      container.innerHTML = filtered.map(function(r) {
-        return '<div class="retailer-card">' +
-          '<span class="retailer-tag">' + r.tag + '</span>' +
-          '<div class="retailer-name">' + r.name + '</div>' +
-          '<div class="retailer-address">' + r.address + '</div>' +
-          '<a href="' + r.mapsUrl + '" target="_blank" class="btn btn-secondary" style="font-size:0.85rem; padding:10px;">📍 Directions in Google Maps</a>' +
-        '</div>';
-      }).join('');
-    }
-
-    // NATIVE EVENT LISTENERS
-    document.addEventListener('DOMContentLoaded', function() {
-      // 1. Tab Bar
-      document.querySelectorAll('.nav-tab').forEach(function(tab) {
-        tab.addEventListener('click', function() {
-          document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
-          document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
-          
-          tab.classList.add('active');
-          const tabId = tab.getAttribute('data-tab');
-          const content = document.getElementById('tab-' + tabId);
-          if (content) content.classList.add('active');
-
-          if (tabId === 'chart') renderFlowChart('bull_shoals');
-          if (tabId === 'locator') renderRetailers('all');
-        });
-      });
-
-      // 2. Dam Selection Chips
-      document.querySelectorAll('.dam-chip').forEach(function(chip) {
-        chip.addEventListener('click', function() {
-          document.querySelectorAll('.dam-chip').forEach(function(c) { c.classList.remove('active'); });
-          chip.classList.add('active');
-          currentDam = chip.getAttribute('data-dam');
-          calculatePick();
-        });
-      });
-
-      // 3. Weather Toggles
-      document.querySelectorAll('.weather-toggle').forEach(function(toggle) {
-        toggle.addEventListener('click', function() {
-          document.querySelectorAll('.weather-toggle').forEach(function(w) { w.classList.remove('active'); });
-          toggle.classList.add('active');
-          currentWeather = toggle.getAttribute('data-weather');
-          calculatePick();
-        });
-      });
-
-      // 4. Flow Chart Pills
-      document.querySelectorAll('.dam-tab-pill').forEach(function(pill) {
-        pill.addEventListener('click', function() {
-          document.querySelectorAll('.dam-tab-pill').forEach(function(p) { p.classList.remove('active'); });
-          pill.classList.add('active');
-          renderFlowChart(pill.getAttribute('data-chart'));
-        });
-      });
-
-      // 5. Retailer Filter Pills
-      document.querySelectorAll('.retailer-filter-pill').forEach(function(pill) {
-        pill.addEventListener('click', function() {
-          document.querySelectorAll('.retailer-filter-pill').forEach(function(p) { p.classList.remove('active'); });
-          pill.classList.add('active');
-          renderRetailers(pill.getAttribute('data-region'));
-        });
-      });
-
-      // Initialize defaults
-      calculatePick();
-      renderFlowChart('bull_shoals');
-      renderRetailers('all');
-    });
-  </script>
-</body>
-</html>
