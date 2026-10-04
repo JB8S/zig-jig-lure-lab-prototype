@@ -42,6 +42,8 @@
     .rec-badge { display: inline-block; background: var(--accent); color: #04131d; font-size: 0.7rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; margin-bottom: 6px; }
     .rec-name { font-size: 1.15rem; font-weight: 800; color: #fff; }
     .rec-details { font-size: 0.82rem; color: var(--text-muted); margin: 6px 0 10px 0; }
+    .rec-img-wrapper { width: 100%; height: 210px; background: #04080b; border-radius: 8px; overflow: hidden; margin-bottom: 12px; border: 1px solid #1e3a4b; }
+    .rec-img { width: 100%; height: 100%; object-fit: contain; display: block; }
     .feed-item { background: #091217; border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
     .feed-img { width: 100%; height: 210px; object-fit: cover; background: #04080b; display: block; }
     .feed-body { padding: 12px; }
@@ -71,7 +73,7 @@
     <div id="tab-quiz" class="tab-content active">
       <div class="card">
         <div class="card-title">Find Today's Zig Jig</div>
-        <div class="card-desc">Enter your fishing river/lake and current CFS flow rate to get an exact weight, color, and depth presentation.</div>
+        <div class="card-desc">Enter your fishing river/lake and current CFS flow rate to get an exact weight, color, real product photo, and direct product link.</div>
 
         <div class="form-group">
           <label>Location / Water Body</label>
@@ -129,12 +131,17 @@
         <button class="btn btn-primary" onclick="generateRecommendation()">Show My Recommendation</button>
 
         <div id="quiz-result" style="display:none;" class="rec-box">
-          <span class="rec-badge" id="rec-type">Primary Starting Jig</span>
+          <span class="rec-badge" id="rec-type">Recommended Zig Jig</span>
           <div class="rec-name" id="rec-name">Black / Olive</div>
           <div class="rec-details" id="rec-details">Weight: 1/16 oz • Flow Strategy: Drift seams</div>
+          
+          <div class="rec-img-wrapper">
+            <img id="rec-image" class="rec-img" src="" alt="Recommended Zig Jig">
+          </div>
+
           <p id="rec-reason" style="font-size:0.82rem; color:#cbd5e1; line-height:1.4; margin-bottom:12px;"></p>
           
-          <a id="rec-shop-link" href="https://shop.zigjig.com" target="_blank" class="btn btn-primary">Shop This Ready-To-Order Jig</a>
+          <a id="rec-shop-link" href="#" target="_blank" class="btn btn-primary">Shop This Exact Jig on ZigJig.com</a>
           <a href="https://shop.zigjig.com/pages/build-your-custom-zig-jig" target="_blank" class="btn btn-outline">Customize in Shopify Jig Builder</a>
           <button class="btn btn-secondary" onclick="saveToBox()">Save to My Jig Box</button>
         </div>
@@ -252,48 +259,69 @@
       const clarity = document.getElementById('clarity').value;
       const light = document.getElementById('light').value;
 
-      let name = "White / Chartreuse";
+      let name = "Zig Jig Marabou Trout Jig – 1/16 oz (12 Pack)";
+      let colorPattern = "Black / Olive";
       let weight = "1/16 oz";
+      let shopUrl = "https://shop.zigjig.com/products/zig-jig-1-16-oz";
+      let imgUrl = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/55725774-2407-4726-82D6-A1AC34C70D16_2.png?v=1768249793";
       let flowStrategy = "Cast across current seams and let the jig swim naturally through the strike zone.";
       let reason = "Versatile high-contrast setup designed to trigger reaction strikes across varying flow.";
 
-      // CFS / Flow-driven weight logic
+      // CFS / Flow-driven weight and specific product URLs
       if (cfs === 'low') {
-        weight = "1/32 oz or 1/16 oz (Regular)";
-        flowStrategy = "Wadeable slow current — light line (2-4 lb), finesse jigging or micro-twitches along shallow gravel bars.";
+        weight = "1/32 oz (Regular / HD)";
+        name = "Zig Jig Marabou Trout Jig – 1/32 oz (12 Pack)";
+        shopUrl = "https://shop.zigjig.com/products/zig-jig-1-32-oz";
+        imgUrl = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/B0449002-2D61-4513-A5C1-B7B771FD7E17.png?v=1768252968";
+        flowStrategy = "Wadeable slow current (<500 CFS) — light line (2-4 lb), finesse jigging along shallow gravel bars and pools.";
       } else if (cfs === 'medium') {
-        weight = "1/16 oz or 3/32 oz (Regular / HD)";
-        flowStrategy = "Moderate flow — keep the rod tip up, work the bottom 12 inches of current seams and eddy lines.";
+        weight = "1/16 oz (12 Pack)";
+        name = "Zig Jig Marabou Trout Jig – 1/16 oz (12 Pack)";
+        shopUrl = "https://shop.zigjig.com/products/zig-jig-1-16-oz";
+        imgUrl = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/55725774-2407-4726-82D6-A1AC34C70D16_2.png?v=1768249793";
+        flowStrategy = "Moderate flow (1-2 units / 500-3,500 CFS) — keep rod tip up, work the bottom 12 inches of current seams.";
       } else if (cfs === 'high') {
-        weight = "1/8 oz or 3/16 oz HD";
-        flowStrategy = "Fast water & heavy current — heavier head cuts through generation flow down to holding fish near the riverbed.";
+        weight = "1/8 oz Heavy Duty (12 Pack)";
+        name = "Zig Jig Heavy Duty Marabou Trout Jig – 1/8 oz";
+        shopUrl = "https://shop.zigjig.com/products/zig-jig-heavy-duty-1-8-oz";
+        imgUrl = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/D974E455-977E-4FB3-B8C3-0F68BFF586A9.png?v=1768252484";
+        flowStrategy = "Fast water (3-4 units / 3,500-10,000+ CFS) — heavy head cuts down through high generation to holding trout near riverbed.";
       } else if (cfs === 'flood') {
-        weight = "1/4 oz or 3/8 oz Super HD (2x Hook)";
-        flowStrategy = "Heavy generation / high water — target soft inside bends and bank structure where fish tuck out of the main current.";
+        weight = "1/4 oz Super HD (2x Hook)";
+        name = "Zig Jig Super HD Marabou Trout Jig – 1/4 oz";
+        shopUrl = "https://shop.zigjig.com/products/super-hd-jig-1-4-oz";
+        imgUrl = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/D971D9A2-6C8C-456E-BE46-05CB6769A991.png?v=1768259377";
+        flowStrategy = "Heavy generation / flood stage (10,000+ CFS) — target inside bank eddies and structure where fish escape heavy current.";
       } else if (cfs === 'lake') {
-        weight = "1/16 oz or 1/8 oz";
-        flowStrategy = "Vertical jigging or slow steady retrieve along brush and docks.";
+        weight = "3/32 oz (12 Pack)";
+        name = "Zig Jig Marabou Trout Jig – 3/32 oz";
+        shopUrl = "https://shop.zigjig.com/products/zig-jig-3-32-oz";
+        imgUrl = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538";
+        flowStrategy = "Still water / lake banks / brush piles — steady swim with rhythmic twitch cadence.";
       }
 
       // Color / Clarity logic
       if (clarity === 'clear' && light === 'bright') {
-        name = "Ginger / Olive Finesse or Tri Olive";
+        colorPattern = "Ginger / Olive Finesse or Tri Olive";
         reason = `Natural earthy marabou presentation for clear water in ${location}. Won't spook pressured fish in bright light.`;
       } else if (clarity === 'clear' && light !== 'bright') {
-        name = "Black / Olive or Olive / Ginger";
+        colorPattern = "Black / Olive or Olive / Ginger";
         reason = `Subtle silhouette contrast that stands out against gray skies in clear to moderate water.`;
       } else if (clarity === 'stained') {
-        name = "White / Chartreuse or Olive / Peach";
+        colorPattern = "White / Chartreuse or Olive / Peach";
         reason = `Bright accents help fish track the jig through stained current while keeping a natural profile.`;
       } else if (clarity === 'muddy') {
-        name = "Super HD Chartreuse / White or Red / White";
+        colorPattern = "Super HD Chartreuse / White or Red / White";
         reason = `Maximum visibility and contrast to cut through muddy water and trigger strikes in heavy flow.`;
       }
 
       currentRec = { 
         name, 
+        colorPattern,
         weight, 
         location,
+        shopUrl,
+        imgUrl,
         cfsText: document.getElementById('cfs').options[document.getElementById('cfs').selectedIndex].text,
         flowStrategy, 
         reason, 
@@ -302,7 +330,9 @@
       };
 
       document.getElementById('rec-name').innerText = name;
-      document.getElementById('rec-details').innerText = "Weight: " + weight + " • Location: " + location;
+      document.getElementById('rec-details').innerText = "Color Pattern: " + colorPattern + " • " + weight;
+      document.getElementById('rec-image').src = imgUrl;
+      document.getElementById('rec-shop-link').href = shopUrl;
       document.getElementById('rec-reason').innerHTML = `<strong>Why it works:</strong> ${reason}<br><br><strong>Flow Presentation:</strong> ${flowStrategy}`;
       document.getElementById('quiz-result').style.display = 'block';
     }
@@ -324,11 +354,12 @@
       }
       container.innerHTML = box.map((item, idx) => `
         <div class="rec-box" style="margin-top:10px;">
+          ${item.imgUrl ? `<img src="${item.imgUrl}" style="width:100%; height:130px; object-fit:contain; background:#04080b; border-radius:6px; margin-bottom:8px;">` : ''}
           <div class="rec-name">${item.name}</div>
-          <div class="rec-details">${item.weight} • ${item.location}</div>
-          <div style="font-size:0.75rem; color:#f59e0b; margin-bottom:4px;">Flow: ${item.cfsText || 'Standard'}</div>
-          <p style="font-size:0.8rem; color:#cbd5e1;">${item.reason}</p>
-          <a href="https://shop.zigjig.com" target="_blank" class="btn btn-primary" style="padding:8px; font-size:0.82rem; margin-top:8px;">Shop Ready-To-Order</a>
+          <div class="rec-details">${item.colorPattern || ''} • ${item.weight}</div>
+          <div style="font-size:0.75rem; color:#f59e0b; margin-bottom:4px;">Flow: ${item.cfsText || 'Standard'} • ${item.location}</div>
+          <p style="font-size:0.8rem; color:#cbd5e1; margin-bottom:8px;">${item.reason}</p>
+          <a href="${item.shopUrl || 'https://shop.zigjig.com'}" target="_blank" class="btn btn-primary" style="padding:8px; font-size:0.82rem;">Shop This Exact Jig</a>
         </div>
       `).join('');
     }
