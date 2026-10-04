@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>White River Zig Jig — Tailwaters Flow & Store Locator</title>
   
-  <!-- APPLE TOUCH ICON & STANDALONE PWA META -->
+  <!-- CROSSED-RODS HERITAGE LOGO PWA ICON -->
   <link rel="apple-touch-icon" href="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/transparent-logo-zigjig.webp?v=1713400142">
   <link rel="icon" type="image/webp" href="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/transparent-logo-zigjig.webp?v=1713400142">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -39,7 +39,7 @@
       justify-content: space-between;
     }
     .brand-wrap { display: flex; align-items: center; gap: 14px; }
-    .brand-logo { width: 48px; height: 48px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6)); }
+    .brand-logo { width: 48px; height: 48px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6)); border-radius: 50%; }
     .brand-title { font-size: 1.15rem; font-weight: 900; color: #ffffff; letter-spacing: -0.3px; line-height: 1.15; }
     .brand-title span { color: var(--brand-copper); }
     .brand-sub { font-size: 0.72rem; color: #a7b7af; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -279,7 +279,7 @@
 
   <header>
     <div class="brand-wrap">
-      <img src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/transparent-logo-zigjig.webp?v=1713400142" class="brand-logo" alt="White River Zig Jigs Logo">
+      <img src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/transparent-logo-zigjig.webp?v=1713400142" class="brand-logo" alt="The Original White River Zig Jig Logo">
       <div>
         <div class="brand-title">WHITE RIVER <span>ZIG JIG</span></div>
         <div class="brand-sub">Tailwaters Flow & Jig Picker</div>
@@ -1121,7 +1121,7 @@
       const savedName = localStorage.getItem('zig_angler_name');
       const savedEmail = localStorage.getItem('zig_angler_email');
       if (savedName) document.getElementById('catch-angler').value = savedName;
-      if (savedEmail) document.getElementById('catch-email').value = savedEmail;
+      if (savedEmail) document.getElementById('catch-angler').value = savedEmail;
     } catch (e) {}
 
     // Synchronous initial paint + dynamic weather refresh
