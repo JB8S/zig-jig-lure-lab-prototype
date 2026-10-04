@@ -1,1 +1,356 @@
-Single-page mobile-first prototype with Find My Jig questionnaire, recommendation results, My Jig Box saved patterns, fish-photo catch log, and monthly contest submission with social-posting consent.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Zig Jig Lure Lab — Find Your Jig</title>
+  <style>
+    :root {
+      --bg: #0d1418;
+      --card-bg: #16222a;
+      --card-border: #243b48;
+      --primary: #f59e0b;
+      --primary-hover: #d97706;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-green: #10b981;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 90px; }
+    header { background: #080d10; border-bottom: 1px solid var(--card-border); padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .brand-title { font-size: 1.15rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+    .brand-title span { color: var(--primary); }
+    .tagline { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; }
+    .nav-tabs { display: flex; background: #080d10; border-bottom: 1px solid var(--card-border); overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .nav-tab { flex: 1; min-width: 80px; text-align: center; padding: 12px 6px; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; }
+    .nav-tab.active { color: var(--primary); border-bottom-color: var(--primary); background: rgba(245, 158, 11, 0.08); }
+    .container { max-width: 520px; margin: 0 auto; padding: 16px; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+    .card-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; color: #fff; }
+    .card-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 14px; }
+    .form-group { margin-bottom: 14px; }
+    label { display: block; font-size: 0.82rem; font-weight: 600; color: #cbd5e1; margin-bottom: 6px; }
+    select, input[type="text"], input[type="email"], textarea { width: 100%; background: #0b1319; border: 1px solid #2a4352; border-radius: 8px; color: #fff; padding: 10px 12px; font-size: 0.9rem; }
+    .btn { display: inline-block; width: 100%; text-align: center; padding: 12px 16px; font-size: 0.92rem; font-weight: 700; border-radius: 8px; cursor: pointer; border: none; text-decoration: none; }
+    .btn-primary { background: var(--primary); color: #000; margin-top: 8px; }
+    .btn-secondary { background: #243b48; color: #fff; margin-top: 8px; }
+    .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); margin-top: 8px; }
+    .rec-box { background: #091217; border: 1px solid #1e3a4b; border-radius: 10px; padding: 14px; margin-top: 14px; }
+    .rec-badge { display: inline-block; background: var(--accent); color: #04131d; font-size: 0.7rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; margin-bottom: 6px; }
+    .rec-name { font-size: 1.15rem; font-weight: 800; color: #fff; }
+    .rec-details { font-size: 0.82rem; color: var(--text-muted); margin: 6px 0 10px 0; }
+    .feed-item { background: #091217; border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+    .feed-img { width: 100%; height: 210px; object-fit: cover; background: #04080b; display: block; }
+    .feed-body { padding: 12px; }
+    .consent-box { display: flex; align-items: flex-start; gap: 8px; margin: 12px 0; font-size: 0.78rem; color: #cbd5e1; line-height: 1.35; }
+    .consent-box input { margin-top: 2px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <div class="brand-title">WHITE RIVER <span>ZIG JIG</span></div>
+      <div class="tagline">Lure Lab • Condition Decision Engine</div>
+    </div>
+  </header>
+
+  <nav class="nav-tabs">
+    <div class="nav-tab active" onclick="switchTab('quiz')">🎯 Find Jig</div>
+    <div class="nav-tab" onclick="switchTab('box')">🧰 My Jig Box</div>
+    <div class="nav-tab" onclick="switchTab('catches')">📸 Log Catch</div>
+    <div class="nav-tab" onclick="switchTab('contest')">🏆 Contest</div>
+  </nav>
+
+  <div class="container">
+
+    <!-- TAB 1: FIND MY JIG -->
+    <div id="tab-quiz" class="tab-content active">
+      <div class="card">
+        <div class="card-title">Find Today's Zig Jig</div>
+        <div class="card-desc">Select your current water and light conditions for an instant, proven pattern recommendation.</div>
+
+        <div class="form-group">
+          <label>Target Species</label>
+          <select id="species">
+            <option value="Trout">Trout (Rainbow / Brown)</option>
+            <option value="Crappie">Crappie</option>
+            <option value="Bass">Bass / Smallmouth</option>
+            <option value="Panfish">Panfish / Sunfish</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Water Clarity</label>
+          <select id="clarity">
+            <option value="clear">Crystal Clear (High visibility)</option>
+            <option value="stained">Lightly Stained / Green tint</option>
+            <option value="muddy">Muddy / High / Blown Out</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Sky & Light</label>
+          <select id="light">
+            <option value="bright">Bright Sunlight / Blue Sky</option>
+            <option value="cloudy">Overcast / Cloudy</option>
+            <option value="lowlight">Dawn / Dusk / Low Light</option>
+            <option value="night">Night Fishing</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Water Type & Depth</label>
+          <select id="depth">
+            <option value="shallow">Shallow riffles / runs (1-3 ft)</option>
+            <option value="medium">Medium current / pools (3-6 ft)</option>
+            <option value="deep">Deep tailwaters / lake drops (6+ ft)</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary" onclick="generateRecommendation()">Show My Recommendation</button>
+
+        <div id="quiz-result" style="display:none;" class="rec-box">
+          <span class="rec-badge" id="rec-type">Primary Starting Jig</span>
+          <div class="rec-name" id="rec-name">Black / Olive</div>
+          <div class="rec-details" id="rec-details">Weight: 1/16 oz • Retrieve: Slow drift with gentle twitches</div>
+          <p id="rec-reason" style="font-size:0.82rem; color:#cbd5e1; line-height:1.4; margin-bottom:12px;"></p>
+          
+          <a id="rec-shop-link" href="https://shop.zigjig.com" target="_blank" class="btn btn-primary">Shop This Ready-To-Order Jig</a>
+          <a href="https://shop.zigjig.com/pages/build-your-custom-zig-jig" target="_blank" class="btn btn-outline">Customize in Shopify Jig Builder</a>
+          <button class="btn btn-secondary" onclick="saveToBox()">Save to My Jig Box</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: MY JIG BOX -->
+    <div id="tab-box" class="tab-content">
+      <div class="card">
+        <div class="card-title">My Jig Box</div>
+        <div class="card-desc">Your saved patterns, weights, and water notes for quick re-ordering.</div>
+        <div id="jig-box-list" style="margin-top:12px;"></div>
+      </div>
+    </div>
+
+    <!-- TAB 3: LOG CATCH -->
+    <div id="tab-catches" class="tab-content">
+      <div class="card">
+        <div class="card-title">Log a Catch</div>
+        <div class="card-desc">Save your catch photo and remember which Zig Jig pattern delivered.</div>
+
+        <div class="form-group">
+          <label>Catch Photo</label>
+          <input type="file" id="catch-photo-input" accept="image/*" onchange="previewPhoto(this)">
+          <img id="photo-preview" class="feed-img" style="display:none; margin-top:8px; border-radius:8px;">
+        </div>
+
+        <div class="form-group">
+          <label>Fish Species & Size</label>
+          <input type="text" id="catch-species" placeholder="e.g. 19 in Rainbow Trout">
+        </div>
+
+        <div class="form-group">
+          <label>Zig Jig Pattern Used</label>
+          <input type="text" id="catch-jig" placeholder="e.g. 1/16 oz White/Chartreuse">
+        </div>
+
+        <div class="form-group">
+          <label>Location & Water Notes</label>
+          <textarea id="catch-notes" rows="2" placeholder="e.g. Below dam outlet in medium flow"></textarea>
+        </div>
+
+        <button class="btn btn-primary" onclick="saveCatch()">Save Catch to Log</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Recent Catches</div>
+        <div id="catch-feed"></div>
+      </div>
+    </div>
+
+    <!-- TAB 4: MONTHLY CONTEST -->
+    <div id="tab-contest" class="tab-content">
+      <div class="card">
+        <div class="card-title">Monthly Catch Contest 🏆</div>
+        <div class="card-desc">Submit your Zig Jig catch. Every month we pick one winning photo to receive <strong>1 Dozen Custom Zig Jigs!</strong></div>
+
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="contest-name" placeholder="Full Name">
+        </div>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="contest-email" placeholder="For prize notification">
+        </div>
+
+        <div class="form-group">
+          <label>Social Handle (Optional)</label>
+          <input type="text" id="contest-social" placeholder="@yourhandle">
+        </div>
+
+        <div class="form-group">
+          <label>Contest Catch Photo</label>
+          <input type="file" id="contest-photo-input" accept="image/*">
+        </div>
+
+        <div class="consent-box">
+          <input type="checkbox" id="contest-consent" required>
+          <label for="contest-consent">I confirm this is my photo and grant White River Zig Jigs full permission to feature this catch on social media and marketing channels.</label>
+        </div>
+
+        <button class="btn btn-primary" onclick="submitContest()">Submit Contest Entry</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let currentRec = null;
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-' + tabId).classList.add('active');
+      event.target.classList.add('active');
+      if (tabId === 'box') renderJigBox();
+      if (tabId === 'catches') renderCatches();
+    }
+
+    function generateRecommendation() {
+      const species = document.getElementById('species').value;
+      const clarity = document.getElementById('clarity').value;
+      const light = document.getElementById('light').value;
+      const depth = document.getElementById('depth').value;
+
+      let name = "White / Chartreuse";
+      let weight = "1/16 oz";
+      let reason = "High-contrast pattern designed to catch attention in tinted water.";
+
+      if (clarity === 'clear' && light === 'bright') {
+        name = "Ginger / Olive Finesse";
+        weight = depth === 'shallow' ? '1/32 oz' : '1/16 oz';
+        reason = "Natural earthy tones that won't spook finicky fish in high visibility.";
+      } else if (clarity === 'clear' && light !== 'bright') {
+        name = "Black / Olive";
+        weight = "1/16 oz";
+        reason = "Subtle silhouette that creates great contrast without being overwhelming.";
+      } else if (clarity === 'muddy') {
+        name = "Super HD Chartreuse / White";
+        weight = depth === 'deep' ? '1/4 oz' : '1/8 oz';
+        reason = "Maximum visibility and vibration to help fish key in through dirty current.";
+      }
+
+      currentRec = { name, weight, reason, species, date: new Date().toLocaleDateString() };
+
+      document.getElementById('rec-name').innerText = name;
+      document.getElementById('rec-details').innerText = "Suggested Weight: " + weight + " • Target: " + species;
+      document.getElementById('rec-reason').innerText = reason;
+      document.getElementById('quiz-result').style.display = 'block';
+    }
+
+    function saveToBox() {
+      if (!currentRec) return;
+      let box = JSON.parse(localStorage.getItem('zig_jig_box') || '[]');
+      box.unshift(currentRec);
+      localStorage.setItem('zig_jig_box', JSON.stringify(box));
+      alert('Saved to your Jig Box!');
+    }
+
+    function renderJigBox() {
+      const box = JSON.parse(localStorage.getItem('zig_jig_box') || '[]');
+      const container = document.getElementById('jig-box-list');
+      if (box.length === 0) {
+        container.innerHTML = '<p style="font-size:0.85rem; color:#94a3b8;">No jigs saved yet. Use the Find Jig tab to discover and save patterns!</p>';
+        return;
+      }
+      container.innerHTML = box.map((item, idx) => `
+        <div class="rec-box" style="margin-top:10px;">
+          <div class="rec-name">${item.name}</div>
+          <div class="rec-details">${item.weight} • Saved ${item.date}</div>
+          <p style="font-size:0.8rem; color:#cbd5e1;">${item.reason}</p>
+          <a href="https://shop.zigjig.com" target="_blank" class="btn btn-primary" style="padding:8px; font-size:0.82rem; margin-top:8px;">Shop Ready-To-Order</a>
+        </div>
+      `).join('');
+    }
+
+    function previewPhoto(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = document.getElementById('photo-preview');
+          img.src = e.target.result;
+          img.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function saveCatch() {
+      const species = document.getElementById('catch-species').value;
+      const jig = document.getElementById('catch-jig').value;
+      const notes = document.getElementById('catch-notes').value;
+      const img = document.getElementById('photo-preview').src;
+
+      if (!species || !jig) {
+        alert('Please fill in the species and jig used.');
+        return;
+      }
+
+      let catches = JSON.parse(localStorage.getItem('zig_catches') || '[]');
+      catches.unshift({ species, jig, notes, img: img.startsWith('data:') ? img : '', date: new Date().toLocaleDateString() });
+      localStorage.setItem('zig_catches', JSON.stringify(catches));
+
+      document.getElementById('catch-species').value = '';
+      document.getElementById('catch-jig').value = '';
+      document.getElementById('catch-notes').value = '';
+      document.getElementById('photo-preview').style.display = 'none';
+
+      alert('Catch saved to your log!');
+      renderCatches();
+    }
+
+    function renderCatches() {
+      const catches = JSON.parse(localStorage.getItem('zig_catches') || '[]');
+      const container = document.getElementById('catch-feed');
+      if (catches.length === 0) {
+        container.innerHTML = '<p style="font-size:0.85rem; color:#94a3b8;">No catches logged yet. Take a photo and log your first catch!</p>';
+        return;
+      }
+      container.innerHTML = catches.map(c => `
+        <div class="feed-item">
+          ${c.img ? `<img src="${c.img}" class="feed-img">` : ''}
+          <div class="feed-body">
+            <div style="font-weight:700; color:#fff; font-size:0.95rem;">${c.species}</div>
+            <div style="font-size:0.8rem; color:#f59e0b; margin:2px 0;">Jig: ${c.jig}</div>
+            <div style="font-size:0.75rem; color:#94a3b8;">${c.date} • ${c.notes || 'No notes'}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function submitContest() {
+      const name = document.getElementById('contest-name').value;
+      const email = document.getElementById('contest-email').value;
+      const consent = document.getElementById('contest-consent').checked;
+
+      if (!name || !email) {
+        alert('Please enter your name and email.');
+        return;
+      }
+      if (!consent) {
+        alert('Please check the permission box to allow Zig Jig to feature your photo.');
+        return;
+      }
+
+      alert('🎉 Contest entry received! Winner chosen at the end of the month.');
+      document.getElementById('contest-name').value = '';
+      document.getElementById('contest-email').value = '';
+      document.getElementById('contest-consent').checked = false;
+    }
+  </script>
+</body>
+</html>
