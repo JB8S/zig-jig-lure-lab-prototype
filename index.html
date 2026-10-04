@@ -33,7 +33,7 @@
     .brand-title span { color: var(--brand-accent); }
     .brand-sub { font-size: 0.74rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    /* HARDWARE CSS RADIO SWITCHES - 100% BULLETPROOF */
+    /* PURE CSS TAB SWITCHING */
     input.tab-switch { display: none; }
 
     .nav-tabs {
@@ -68,7 +68,6 @@
 
     .container { max-width: 520px; margin: 0 auto; padding: 16px; }
 
-    /* TABS DISPLAY LOGIC (CSS PURE) */
     .tab-content { display: none; }
     #radio-picker:checked ~ .container #tab-selector,
     #radio-charts:checked ~ .container #tab-chart,
@@ -88,7 +87,6 @@
     .card-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; color: var(--text-main); }
     .card-desc { font-size: 0.86rem; color: var(--text-muted); line-height: 1.45; margin-bottom: 16px; }
 
-    /* JIG PICKER CARDS */
     .conditions-banner {
       background: #eff6ff;
       border: 1px solid #bfdbfe;
@@ -264,7 +262,7 @@
     </div>
   </header>
 
-  <!-- PURE HARDWARE RADIO TABS (ZERO SCRIPT REQUIRED TO SWITCH) -->
+  <!-- PURE HARDWARE RADIO TABS -->
   <input type="radio" name="main-nav" id="radio-picker" class="tab-switch" checked>
   <input type="radio" name="main-nav" id="radio-charts" class="tab-switch">
   <input type="radio" name="main-nav" id="radio-where" class="tab-switch">
@@ -352,7 +350,7 @@
       </div>
     </div>
 
-    <!-- TAB 2: FLOW CHARTS (PRE-RENDERED NATIVE HTML) -->
+    <!-- TAB 2: FLOW CHARTS -->
     <div id="tab-chart" class="tab-content">
       <div class="card">
         <div class="card-title">How to Choose Jig Weight by Flow</div>
@@ -407,7 +405,7 @@
       </div>
     </div>
 
-    <!-- TAB 3: WHERE TO BUY DIRECTORY (PRE-RENDERED DIRECT GOOGLE MAPS LINKS) -->
+    <!-- TAB 3: WHERE TO BUY DIRECTORY -->
     <div id="tab-locator" class="tab-content">
       <div class="card">
         <div class="card-title">Official Zig Jig Retail Partners</div>
@@ -533,13 +531,15 @@
         <div class="card-title">Log a Catch & Win 1 Dozen Jigs</div>
         <div class="card-desc">Submit your fish details to enter this month's free dozen jigs giveaway.</div>
 
+        <!-- UPDATED OFFICIAL RULES & DATES -->
         <div class="contest-rules-box">
           <strong>🏆 Official Monthly Contest Rules:</strong>
-          <ul style="margin: 6px 0 0 16px; font-size: 0.8rem; line-height: 1.4;">
+          <ul style="margin: 6px 0 0 16px; font-size: 0.8rem; line-height: 1.45;">
             <li>Catch must be taken on an authentic <strong>White River Zig Jig</strong>.</li>
             <li>Submit a clear photo with your river location & jig pattern.</li>
-            <li>1 winner selected on the 1st of every month to receive <strong>1 Dozen Free Jigs</strong> of their choice!</li>
-            <li>Entries are emailed directly to <strong>orders@zigjig.fish</strong>.</li>
+            <li><strong>Entry Deadline:</strong> Submissions must be received by the <strong>28th of each month</strong>.</li>
+            <li><strong>Winner Announcement:</strong> 1 winner is chosen on the <strong>1st of the following month</strong> for <strong>1 Dozen Free Jigs</strong>!</li>
+            <li>All photos and entries are emailed directly to <strong>orders@zigjig.fish</strong>.</li>
           </ul>
         </div>
 
@@ -635,7 +635,7 @@
             <label for="catch-consent"><strong>I agree:</strong> I grant White River Zig Jig permission to feature my catch photo on social media, marketing, and community channels.</label>
           </div>
 
-          <button type="submit" class="btn btn-dark">Enter Giveaway & Save Catch</button>
+          <button type="submit" class="btn btn-dark" id="btn-submit-entry">Enter Giveaway & Save Catch</button>
         </form>
       </div>
 
@@ -648,7 +648,8 @@
   </div>
 
   <script>
-    let compressedPhotoData = '';
+    let rawSelectedFile = null;
+    let localCompressedData = '';
 
     function calculatePick() {
       const dam = document.getElementById('select-dam').value;
@@ -721,6 +722,7 @@
 
     function previewCatchPhoto(input) {
       if (input.files && input.files[0]) {
+        rawSelectedFile = input.files[0];
         const reader = new FileReader();
         reader.onload = function(e) {
           const img = new Image();
@@ -738,19 +740,45 @@
             canvas.height = height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-            compressedPhotoData = canvas.toDataURL('image/jpeg', 0.7);
+            localCompressedData = canvas.toDataURL('image/jpeg', 0.7);
             const preview = document.getElementById('photo-preview');
-            preview.src = compressedPhotoData;
+            preview.src = localCompressedData;
             preview.style.display = 'block';
           };
           img.src = e.target.result;
         };
-        reader.readAsDataURL(input.files[0]);
+        reader.readAsDataURL(rawSelectedFile);
       }
     }
 
-    function submitCatch(e) {
+    // CLOUDINARY DIRECT UPLOAD TO ATTACH PHOTO LINK IN EMAIL
+    async function uploadToCloudinary(file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', 'kyog4occ');
+      formData.append('folder', 'jig-orders');
+
+      try {
+        const res = await fetch('https://api.cloudinary.com/v1_1/scbq72ea/image/upload', {
+          method: 'POST',
+          body: formData
+        });
+        if (res.ok) {
+          const data = await res.json();
+          return data.secure_url;
+        }
+      } catch (err) {
+        console.error('Cloudinary upload error:', err);
+      }
+      return '';
+    }
+
+    async function submitCatch(e) {
       e.preventDefault();
+
+      const btn = document.getElementById('btn-submit-entry');
+      btn.innerText = 'Uploading Photo & Submitting...';
+      btn.disabled = true;
 
       const angler = document.getElementById('catch-angler').value.trim();
       const email = document.getElementById('catch-email').value.trim();
@@ -760,9 +788,9 @@
       const weight = document.getElementById('catch-weight').value;
       const color = document.getElementById('catch-color').value;
 
-      if (!compressedPhotoData) {
-        alert('Please select a catch photo.');
-        return;
+      let onlinePhotoUrl = '';
+      if (rawSelectedFile) {
+        onlinePhotoUrl = await uploadToCloudinary(rawSelectedFile);
       }
 
       try {
@@ -784,7 +812,8 @@
         species: species,
         size: length,
         jig: jigCombined,
-        img: compressedPhotoData,
+        img: localCompressedData || onlinePhotoUrl,
+        photoUrl: onlinePhotoUrl,
         date: new Date().toLocaleDateString()
       });
 
@@ -792,28 +821,39 @@
         localStorage.setItem('zig_catches', JSON.stringify(catches.slice(0, 15)));
       } catch (err) {}
 
-      const subject = encodeURIComponent("Giveaway Entry: " + length + "\" " + species + " by " + angler);
+      const photoLine = onlinePhotoUrl 
+        ? "Attached Catch Photo: " + onlinePhotoUrl + "\n\n"
+        : "(Photo stored locally on device)\n\n";
+
+      const subject = encodeURIComponent("Monthly Giveaway Entry: " + length + "\" " + species + " by " + angler);
       const body = encodeURIComponent(
-        "New Monthly Giveaway Catch Submission!\n\n" +
-        "Angler: " + angler + "\n" +
-        "Email: " + email + "\n" +
-        "River Location / Dam: " + loc + "\n" +
+        "🏆 NEW MONTHLY GIVEAWAY ENTRY\n\n" +
+        "Angler Name: " + angler + "\n" +
+        "Angler Email: " + email + "\n\n" +
         "Fish Species: " + species + "\n" +
-        "Length: " + length + " inches\n" +
+        "Length: " + length + " Inches\n" +
+        "River Location / Dam: " + loc + "\n" +
         "Zig Jig Size: " + weight + "\n" +
-        "Zig Jig Color: " + color + "\n" +
+        "Zig Jig Color: " + color + "\n\n" +
+        photoLine +
         "Social Media Permission: GRANTED (Yes)\n" +
-        "Date Submitted: " + new Date().toLocaleString()
+        "Deadline: Entries close 28th of each month\n" +
+        "Winner Announced: 1st of following month\n" +
+        "Submission Timestamp: " + new Date().toLocaleString()
       );
 
       window.open("mailto:orders@zigjig.fish?subject=" + subject + "&body=" + body, "_blank");
 
+      btn.innerText = 'Enter Giveaway & Save Catch';
+      btn.disabled = false;
+
       document.getElementById('catch-photo-input').value = '';
       document.getElementById('catch-length').value = '';
       document.getElementById('photo-preview').style.display = 'none';
-      compressedPhotoData = '';
+      localCompressedData = '';
+      rawSelectedFile = null;
 
-      alert('🎉 Entry received! Your catch has been entered into the giveaway and routed to orders@zigjig.fish.');
+      alert('🎉 Entry received! Your catch and photo have been entered into the giveaway and routed to orders@zigjig.fish.');
       renderCatchesList();
     }
 
@@ -843,15 +883,5 @@
       }).join('');
     }
 
-    // Auto load profile on load
     try {
-      const savedName = localStorage.getItem('zig_angler_name');
-      const savedEmail = localStorage.getItem('zig_angler_email');
-      if (savedName) document.getElementById('catch-angler').value = savedName;
-      if (savedEmail) document.getElementById('catch-email').value = savedEmail;
-    } catch (e) {}
-
-    renderCatchesList();
-  </script>
-</body>
-</html>
+      const savedName
