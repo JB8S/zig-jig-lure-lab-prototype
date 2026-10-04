@@ -54,7 +54,7 @@
   <header>
     <div>
       <div class="brand-title">WHITE RIVER <span>ZIG JIG</span></div>
-      <div class="tagline">Lure Lab • Condition Decision Engine</div>
+      <div class="tagline">Lure Lab • Water & CFS Decision Engine</div>
     </div>
   </header>
 
@@ -71,7 +71,31 @@
     <div id="tab-quiz" class="tab-content active">
       <div class="card">
         <div class="card-title">Find Today's Zig Jig</div>
-        <div class="card-desc">Select your current water and light conditions for an instant, proven pattern recommendation.</div>
+        <div class="card-desc">Enter your fishing river/lake and current CFS flow rate to get an exact weight, color, and depth presentation.</div>
+
+        <div class="form-group">
+          <label>Location / Water Body</label>
+          <select id="location">
+            <option value="White River (Bull Shoals / Norfork)">White River (Bull Shoals / Norfork Tailwaters)</option>
+            <option value="Roaring River / MO Trout Parks">Roaring River / Missouri Trout Parks</option>
+            <option value="Lake Taneycomo">Lake Taneycomo</option>
+            <option value="Little Red River">Little Red River</option>
+            <option value="Spring River">Spring River</option>
+            <option value="Table Rock / Stockton / Ozark Lakes">Table Rock / Stockton / Ozark Lakes</option>
+            <option value="Other River / Creek / Tailwater">Other River / Creek / Tailwater</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>River Flow Rate (CFS / Generators)</label>
+          <select id="cfs">
+            <option value="low">Low Flow / 0 Generators (&lt; 500 CFS / Wadeable)</option>
+            <option value="medium">Medium Flow / 1-2 Generators (500 - 3,500 CFS)</option>
+            <option value="high">High Flow / 3-4+ Generators (3,500 - 10,000+ CFS)</option>
+            <option value="flood">Heavy Generation / Blown Out / High Mud (10,000+ CFS)</option>
+            <option value="lake">Still Water / Lake / No Current</option>
+          </select>
+        </div>
 
         <div class="form-group">
           <label>Target Species</label>
@@ -88,7 +112,7 @@
           <select id="clarity">
             <option value="clear">Crystal Clear (High visibility)</option>
             <option value="stained">Lightly Stained / Green tint</option>
-            <option value="muddy">Muddy / High / Blown Out</option>
+            <option value="muddy">Muddy / Murky / Heavy Stain</option>
           </select>
         </div>
 
@@ -102,21 +126,12 @@
           </select>
         </div>
 
-        <div class="form-group">
-          <label>Water Type & Depth</label>
-          <select id="depth">
-            <option value="shallow">Shallow riffles / runs (1-3 ft)</option>
-            <option value="medium">Medium current / pools (3-6 ft)</option>
-            <option value="deep">Deep tailwaters / lake drops (6+ ft)</option>
-          </select>
-        </div>
-
         <button class="btn btn-primary" onclick="generateRecommendation()">Show My Recommendation</button>
 
         <div id="quiz-result" style="display:none;" class="rec-box">
           <span class="rec-badge" id="rec-type">Primary Starting Jig</span>
           <div class="rec-name" id="rec-name">Black / Olive</div>
-          <div class="rec-details" id="rec-details">Weight: 1/16 oz • Retrieve: Slow drift with gentle twitches</div>
+          <div class="rec-details" id="rec-details">Weight: 1/16 oz • Flow Strategy: Drift seams</div>
           <p id="rec-reason" style="font-size:0.82rem; color:#cbd5e1; line-height:1.4; margin-bottom:12px;"></p>
           
           <a id="rec-shop-link" href="https://shop.zigjig.com" target="_blank" class="btn btn-primary">Shop This Ready-To-Order Jig</a>
@@ -130,7 +145,7 @@
     <div id="tab-box" class="tab-content">
       <div class="card">
         <div class="card-title">My Jig Box</div>
-        <div class="card-desc">Your saved patterns, weights, and water notes for quick re-ordering.</div>
+        <div class="card-desc">Your saved patterns, weights, and CFS flow notes for quick re-ordering.</div>
         <div id="jig-box-list" style="margin-top:12px;"></div>
       </div>
     </div>
@@ -148,18 +163,23 @@
         </div>
 
         <div class="form-group">
+          <label>Location & River Flow (CFS)</label>
+          <input type="text" id="catch-location-input" placeholder="e.g. White River below Bull Shoals, 2 units (~1,800 CFS)">
+        </div>
+
+        <div class="form-group">
           <label>Fish Species & Size</label>
           <input type="text" id="catch-species" placeholder="e.g. 19 in Rainbow Trout">
         </div>
 
         <div class="form-group">
-          <label>Zig Jig Pattern Used</label>
-          <input type="text" id="catch-jig" placeholder="e.g. 1/16 oz White/Chartreuse">
+          <label>Zig Jig Pattern & Weight Used</label>
+          <input type="text" id="catch-jig" placeholder="e.g. 1/8 oz Black/Olive HD">
         </div>
 
         <div class="form-group">
-          <label>Location & Water Notes</label>
-          <textarea id="catch-notes" rows="2" placeholder="e.g. Below dam outlet in medium flow"></textarea>
+          <label>Notes / Water Conditions</label>
+          <textarea id="catch-notes" rows="2" placeholder="e.g. Stained water, current seams along the gravel bar"></textarea>
         </div>
 
         <button class="btn btn-primary" onclick="saveCatch()">Save Catch to Log</button>
@@ -185,6 +205,11 @@
         <div class="form-group">
           <label>Email Address</label>
           <input type="email" id="contest-email" placeholder="For prize notification">
+        </div>
+
+        <div class="form-group">
+          <label>Water / Location</label>
+          <input type="text" id="contest-location" placeholder="e.g. Norfork Tailwater, Arkansas">
         </div>
 
         <div class="form-group">
@@ -221,34 +246,64 @@
     }
 
     function generateRecommendation() {
+      const location = document.getElementById('location').value;
+      const cfs = document.getElementById('cfs').value;
       const species = document.getElementById('species').value;
       const clarity = document.getElementById('clarity').value;
       const light = document.getElementById('light').value;
-      const depth = document.getElementById('depth').value;
 
       let name = "White / Chartreuse";
       let weight = "1/16 oz";
-      let reason = "High-contrast pattern designed to catch attention in tinted water.";
+      let flowStrategy = "Cast across current seams and let the jig swim naturally through the strike zone.";
+      let reason = "Versatile high-contrast setup designed to trigger reaction strikes across varying flow.";
 
-      if (clarity === 'clear' && light === 'bright') {
-        name = "Ginger / Olive Finesse";
-        weight = depth === 'shallow' ? '1/32 oz' : '1/16 oz';
-        reason = "Natural earthy tones that won't spook finicky fish in high visibility.";
-      } else if (clarity === 'clear' && light !== 'bright') {
-        name = "Black / Olive";
-        weight = "1/16 oz";
-        reason = "Subtle silhouette that creates great contrast without being overwhelming.";
-      } else if (clarity === 'muddy') {
-        name = "Super HD Chartreuse / White";
-        weight = depth === 'deep' ? '1/4 oz' : '1/8 oz';
-        reason = "Maximum visibility and vibration to help fish key in through dirty current.";
+      // CFS / Flow-driven weight logic
+      if (cfs === 'low') {
+        weight = "1/32 oz or 1/16 oz (Regular)";
+        flowStrategy = "Wadeable slow current — light line (2-4 lb), finesse jigging or micro-twitches along shallow gravel bars.";
+      } else if (cfs === 'medium') {
+        weight = "1/16 oz or 3/32 oz (Regular / HD)";
+        flowStrategy = "Moderate flow — keep the rod tip up, work the bottom 12 inches of current seams and eddy lines.";
+      } else if (cfs === 'high') {
+        weight = "1/8 oz or 3/16 oz HD";
+        flowStrategy = "Fast water & heavy current — heavier head cuts through generation flow down to holding fish near the riverbed.";
+      } else if (cfs === 'flood') {
+        weight = "1/4 oz or 3/8 oz Super HD (2x Hook)";
+        flowStrategy = "Heavy generation / high water — target soft inside bends and bank structure where fish tuck out of the main current.";
+      } else if (cfs === 'lake') {
+        weight = "1/16 oz or 1/8 oz";
+        flowStrategy = "Vertical jigging or slow steady retrieve along brush and docks.";
       }
 
-      currentRec = { name, weight, reason, species, date: new Date().toLocaleDateString() };
+      // Color / Clarity logic
+      if (clarity === 'clear' && light === 'bright') {
+        name = "Ginger / Olive Finesse or Tri Olive";
+        reason = `Natural earthy marabou presentation for clear water in ${location}. Won't spook pressured fish in bright light.`;
+      } else if (clarity === 'clear' && light !== 'bright') {
+        name = "Black / Olive or Olive / Ginger";
+        reason = `Subtle silhouette contrast that stands out against gray skies in clear to moderate water.`;
+      } else if (clarity === 'stained') {
+        name = "White / Chartreuse or Olive / Peach";
+        reason = `Bright accents help fish track the jig through stained current while keeping a natural profile.`;
+      } else if (clarity === 'muddy') {
+        name = "Super HD Chartreuse / White or Red / White";
+        reason = `Maximum visibility and contrast to cut through muddy water and trigger strikes in heavy flow.`;
+      }
+
+      currentRec = { 
+        name, 
+        weight, 
+        location,
+        cfsText: document.getElementById('cfs').options[document.getElementById('cfs').selectedIndex].text,
+        flowStrategy, 
+        reason, 
+        species, 
+        date: new Date().toLocaleDateString() 
+      };
 
       document.getElementById('rec-name').innerText = name;
-      document.getElementById('rec-details').innerText = "Suggested Weight: " + weight + " • Target: " + species;
-      document.getElementById('rec-reason').innerText = reason;
+      document.getElementById('rec-details').innerText = "Weight: " + weight + " • Location: " + location;
+      document.getElementById('rec-reason').innerHTML = `<strong>Why it works:</strong> ${reason}<br><br><strong>Flow Presentation:</strong> ${flowStrategy}`;
       document.getElementById('quiz-result').style.display = 'block';
     }
 
@@ -270,7 +325,8 @@
       container.innerHTML = box.map((item, idx) => `
         <div class="rec-box" style="margin-top:10px;">
           <div class="rec-name">${item.name}</div>
-          <div class="rec-details">${item.weight} • Saved ${item.date}</div>
+          <div class="rec-details">${item.weight} • ${item.location}</div>
+          <div style="font-size:0.75rem; color:#f59e0b; margin-bottom:4px;">Flow: ${item.cfsText || 'Standard'}</div>
           <p style="font-size:0.8rem; color:#cbd5e1;">${item.reason}</p>
           <a href="https://shop.zigjig.com" target="_blank" class="btn btn-primary" style="padding:8px; font-size:0.82rem; margin-top:8px;">Shop Ready-To-Order</a>
         </div>
@@ -290,6 +346,7 @@
     }
 
     function saveCatch() {
+      const loc = document.getElementById('catch-location-input').value;
       const species = document.getElementById('catch-species').value;
       const jig = document.getElementById('catch-jig').value;
       const notes = document.getElementById('catch-notes').value;
@@ -301,9 +358,17 @@
       }
 
       let catches = JSON.parse(localStorage.getItem('zig_catches') || '[]');
-      catches.unshift({ species, jig, notes, img: img.startsWith('data:') ? img : '', date: new Date().toLocaleDateString() });
+      catches.unshift({ 
+        location: loc || 'River',
+        species, 
+        jig, 
+        notes, 
+        img: img.startsWith('data:') ? img : '', 
+        date: new Date().toLocaleDateString() 
+      });
       localStorage.setItem('zig_catches', JSON.stringify(catches));
 
+      document.getElementById('catch-location-input').value = '';
       document.getElementById('catch-species').value = '';
       document.getElementById('catch-jig').value = '';
       document.getElementById('catch-notes').value = '';
@@ -326,6 +391,7 @@
           <div class="feed-body">
             <div style="font-weight:700; color:#fff; font-size:0.95rem;">${c.species}</div>
             <div style="font-size:0.8rem; color:#f59e0b; margin:2px 0;">Jig: ${c.jig}</div>
+            <div style="font-size:0.75rem; color:#38bdf8; margin-bottom:2px;">📍 ${c.location}</div>
             <div style="font-size:0.75rem; color:#94a3b8;">${c.date} • ${c.notes || 'No notes'}</div>
           </div>
         </div>
@@ -349,6 +415,7 @@
       alert('🎉 Contest entry received! Winner chosen at the end of the month.');
       document.getElementById('contest-name').value = '';
       document.getElementById('contest-email').value = '';
+      document.getElementById('contest-location').value = '';
       document.getElementById('contest-consent').checked = false;
     }
   </script>
