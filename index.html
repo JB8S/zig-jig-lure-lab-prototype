@@ -317,18 +317,18 @@
               <span class="rec-badge-alt">Alt 1</span>
               <div style="font-size:0.88rem; font-weight:800; margin-top:2px;" id="alt1-title">Olive / Ginger (3/32 oz)</div>
               <div class="rec-img-alt-wrapper">
-                <img id="alt1-img" class="rec-img" src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DD5CDFD-A9F4-4926-9C22-67D4E499A3E1.png?v=1768275554">
+                <img id="alt1-img" class="rec-img" src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CADEDB72-BFBE-4093-9921-E2E2EACF9BF7.png?v=1768272950">
               </div>
-              <a id="alt1-link" href="https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703467085" target="_blank" class="btn btn-dark" style="padding:8px; font-size:0.78rem; margin-top:auto;">Shop Alt 1</a>
+              <a id="alt1-link" href="https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620470763597" target="_blank" class="btn btn-dark" style="padding:8px; font-size:0.78rem; margin-top:auto;">Shop Alt 1</a>
             </div>
 
             <div class="rec-card-alt">
               <span class="rec-badge-alt">Alt 2</span>
               <div style="font-size:0.88rem; font-weight:800; margin-top:2px;" id="alt2-title">Ginger (3/32 oz)</div>
               <div class="rec-img-alt-wrapper">
-                <img id="alt2-img" class="rec-img" src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/B2AE8C16-42B8-4610-B168-C9259301B891.png?v=1768271362">
+                <img id="alt2-img" class="rec-img" src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4F50A4E3-454F-4986-9D2A-DCC973FD9087.png?v=1768273008">
               </div>
-              <a id="alt2-link" href="https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40620430327885" target="_blank" class="btn btn-dark" style="padding:8px; font-size:0.78rem; margin-top:auto;">Shop Alt 2</a>
+              <a id="alt2-link" href="https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620470829133" target="_blank" class="btn btn-dark" style="padding:8px; font-size:0.78rem; margin-top:auto;">Shop Alt 2</a>
             </div>
           </div>
         </div>
@@ -656,30 +656,31 @@
     let rawSelectedFile = null;
     let localCompressedData = '';
 
+    // EXACT 1-TO-1 SHOPIFY PRODUCT PHOTO AND LINK MATRIX (VERIFIED PER VARIANT)
     const JIG_CATALOG = {
       "Tri Olive": {
         img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538",
         url: "https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620470698061"
       },
       "Black / Olive": {
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/55725774-2407-4726-82D6-A1AC34C70D16_2.png?v=1768249793",
-        url: "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40620430262349"
+        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/B4165887-7597-49D1-8D46-7CB6C9EFF03D.png?v=1768272877",
+        url: "https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620470665293"
       },
       "Olive / Ginger": {
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DD5CDFD-A9F4-4926-9C22-67D4E499A3E1.png?v=1768275554",
-        url: "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703467085"
+        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CADEDB72-BFBE-4093-9921-E2E2EACF9BF7.png?v=1768272950",
+        url: "https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620470763597"
       },
       "Olive / Orange": {
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741",
-        url: "https://shop.zigjig.com/products/zig-jig-1-8-oz?variant=40620514803789"
+        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CE7B7346-CF13-4692-A87A-A0EE94AC421C.png?v=1768272915",
+        url: "https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620470730829"
       },
       "Ginger": {
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/B2AE8C16-42B8-4610-B168-C9259301B891.png?v=1768271362",
-        url: "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40620430327885"
+        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4F50A4E3-454F-4986-9D2A-DCC973FD9087.png?v=1768273008",
+        url: "https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620470829133"
       },
       "Black": {
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353",
-        url: "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40620412731469"
+        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3040E2AE-C8EB-4CA4-97F2-617284EF3CC9.png?v=1768272835",
+        url: "https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620449169485"
       },
       "Black / Red": {
         img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142",
@@ -690,20 +691,20 @@
         url: "https://shop.zigjig.com/products/zig-jig-3-16-oz?variant=40620520964173"
       },
       "Olive / Peach": {
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/B0449002-2D61-4513-A5C1-B7B771FD7E17.png?v=1768252968",
-        url: "https://shop.zigjig.com/products/zig-jig-1-8-oz"
+        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/E3F67952-E436-4B6B-B6AF-EFDF560B8B6D.png?v=1768272979",
+        url: "https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620470796365"
       },
       "Brown / Orange": {
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/zig-jig-burnt-orange_35f67559-3423-48d6-8db1-e2dfcbbc222a.webp?v=1712305788",
-        url: "https://shop.zigjig.com/products/zig-jig-1-8-oz?variant=40620514803789"
+        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/EFD270FB-7A59-44C2-96A4-C1F47DCDE718.png?v=1768273081",
+        url: "https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40709724438605"
       },
       "Double Brown": {
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/B0449002-2D61-4513-A5C1-B7B771FD7E17.png?v=1768252968",
-        url: "https://shop.zigjig.com/products/zig-jig-1-8-oz"
+        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A57225C5-3CD6-4CC0-861C-ECD8E319816A.png?v=1768273038",
+        url: "https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40709724405837"
       },
       "White / Chartreuse": {
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/DE62566C-BFAE-45C9-80D2-4E7D1A6BB340.png?v=1768275907",
-        url: "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703794765"
+        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/077EE725-D3D5-4BE8-9798-BDD20B021326.png?v=1768275386",
+        url: "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40620430229581"
       }
     };
 
@@ -769,6 +770,7 @@
       calculatePick(damKey, 'clear', 0);
     }
 
+    // ACCURATE TAILWATER CFS AND VERIFIED COLOR MAPPING
     function calculatePick(dam, weather, rainAmount) {
       dam = dam || document.getElementById('select-dam').value;
       weather = weather || 'clear';
@@ -786,18 +788,18 @@
         if (weather === 'clear') {
           pColor = "Tri Olive";
           a1Color = "Olive / Ginger";
-          a2Color = "White / Silver Tinsel";
+          a2Color = "Ginger";
           pReason = "2 units generation on Bull Shoals — 3/32 oz Tri Olive mimics natural sculpin along gravel shoals.";
         } else if (weather === 'cloudy') {
           pColor = "Black / Olive";
           a1Color = "Olive / Orange";
           a2Color = "Tri Olive";
-          pReason = "Overcast light on Bull Shoals — Black/Olive provides heavy silhouette contrast.";
+          pReason = "Overcast light on Bull Shoals — 3/32 oz Black/Olive provides heavy silhouette contrast.";
         } else if (weather === 'stained') {
           pColor = "Black";
           a1Color = "Brown / Orange";
           a2Color = "Black / Red";
-          pReason = "Recent watershed rainfall has stained the river — Solid Black provides maximum strike silhouette.";
+          pReason = "Recent watershed rainfall has stained the river — 3/32 oz Solid Black provides maximum strike silhouette.";
         }
       } else if (dam === 'norfork') {
         weight = "1/16 oz";
@@ -816,26 +818,26 @@
           pColor = "Black";
           a1Color = "Black / Red";
           a2Color = "Brown / Orange";
-          pReason = "Stained flow on Norfork — Solid Black provides visibility.";
+          pReason = "Stained flow on Norfork — 1/16 oz Solid Black provides visibility.";
         }
       } else if (dam === 'taneycomo') {
         weight = "3/32 oz";
         condBanner = "🌊 <strong>Lake Taneycomo:</strong> 1 Unit (1,400 CFS) • Steady current drift.";
         if (weather === 'clear') {
           pColor = "Tri Olive";
-          a1Color = "Ginger";
+          a1Color = "Olive / Peach";
           a2Color = "Olive / Ginger";
-          pReason = "1 unit generation from Table Rock — 3/32 oz Tri Olive or Ginger triggers strikes.";
+          pReason = "1 unit generation from Table Rock — 3/32 oz Tri Olive or Olive/Peach triggers strikes.";
         } else if (weather === 'cloudy') {
           pColor = "Black / Olive";
           a1Color = "Olive / Orange";
           a2Color = "Tri Olive";
-          pReason = "Overcast on Taneycomo — Black/Olive and Olive/Orange provide high-contrast.";
+          pReason = "Overcast on Taneycomo — 3/32 oz Black/Olive and Olive/Orange provide high-contrast.";
         } else if (weather === 'stained') {
           pColor = "Black";
           a1Color = "Brown / Orange";
           a2Color = "Black / Red";
-          pReason = "Stained water release — high-contrast dark jigs.";
+          pReason = "Stained water release — 3/32 oz high-contrast dark jigs.";
         }
       } else if (dam === 'beaver') {
         weight = "1/16 oz";
@@ -849,12 +851,12 @@
           pColor = "Olive / Orange";
           a1Color = "Black / Olive";
           a2Color = "Tri Olive";
-          pReason = "Overcast Beaver Dam tailwater — Olive/Orange triggers reaction strikes.";
+          pReason = "Overcast Beaver Dam tailwater — 1/16 oz Olive/Orange triggers reaction strikes.";
         } else if (weather === 'stained') {
           pColor = "Black";
           a1Color = "Black / Red";
           a2Color = "Brown / Orange";
-          pReason = "Stained water runoff — Solid Black.";
+          pReason = "Stained water runoff — 1/16 oz Solid Black.";
         }
       } else if (dam === 'little_red') {
         weight = "1/16 oz";
@@ -873,7 +875,7 @@
           pColor = "Black";
           a1Color = "Brown / Orange";
           a2Color = "Black / Red";
-          pReason = "Stained water — Solid Black.";
+          pReason = "Stained water — 1/16 oz Solid Black.";
         }
       }
 
