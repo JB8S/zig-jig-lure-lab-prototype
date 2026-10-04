@@ -4,35 +4,47 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>White River Zig Jig — Tailwaters Flow & Store Locator</title>
+  
+  <!-- APPLE TOUCH ICON & STANDALONE PWA META -->
+  <link rel="apple-touch-icon" href="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/transparent-logo-zigjig.webp?v=1713400142">
+  <link rel="icon" type="image/webp" href="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/transparent-logo-zigjig.webp?v=1713400142">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Zig Jig Flow">
+
   <style>
     :root {
-      --bg-page: #f8fafc;
+      --bg-page: #faf8f5;
       --card-bg: #ffffff;
-      --border: #e2e8f0;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --header-bg: #0b1319;
-      --brand-accent: #f59e0b;
+      --border: #e7dfd5;
+      --text-main: #14211d;
+      --text-muted: #6b7280;
+      --header-bg: #091310;
+      --brand-forest: #14342b;
+      --brand-copper: #c26928;
+      --brand-copper-light: #fef5ed;
       --brand-green: #059669;
       --brand-blue: #0284c7;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: rgba(0,0,0,0.05); }
     body { background-color: var(--bg-page); color: var(--text-main); padding-bottom: 90px; }
     
+    /* HERITAGE OZARK FOREST & COPPER HEADER */
     header {
       background: var(--header-bg);
-      border-bottom: 2px solid #1e293b;
+      border-bottom: 2px solid #1e382f;
       padding: 14px 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
     .brand-wrap { display: flex; align-items: center; gap: 14px; }
-    .brand-logo { width: 48px; height: 48px; object-fit: contain; }
+    .brand-logo { width: 48px; height: 48px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6)); }
     .brand-title { font-size: 1.15rem; font-weight: 900; color: #ffffff; letter-spacing: -0.3px; line-height: 1.15; }
-    .brand-title span { color: var(--brand-accent); }
-    .brand-sub { font-size: 0.74rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .brand-title span { color: var(--brand-copper); }
+    .brand-sub { font-size: 0.72rem; color: #a7b7af; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
+    /* BRANDED NAVIGATION BAR */
     .nav-tabs {
       display: flex;
       background: #ffffff;
@@ -56,32 +68,41 @@
       justify-content: center;
     }
     .nav-tab.active {
-      color: #0f172a;
-      border-bottom-color: #0f172a;
-      background: #f1f5f9;
+      color: var(--brand-forest);
+      border-bottom-color: var(--brand-forest);
+      background: #f4efe9;
     }
 
     .container { max-width: 520px; margin: 0 auto; padding: 16px; }
 
     .card {
       background: var(--card-bg);
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       border-radius: 14px;
       padding: 18px;
       margin-bottom: 16px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+      box-shadow: 0 1px 4px rgba(20, 33, 29, 0.04);
     }
-    .card-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; color: var(--text-main); }
-    .card-desc { font-size: 0.86rem; color: var(--text-muted); line-height: 1.45; margin-bottom: 16px; }
+    .card-title { font-size: 1.12rem; font-weight: 800; margin-bottom: 4px; color: var(--brand-forest); }
+    .card-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.45; margin-bottom: 16px; }
+
+    .tagline-banner {
+      font-style: italic;
+      color: var(--brand-copper);
+      font-weight: 700;
+      font-size: 0.82rem;
+      margin-bottom: 14px;
+      display: block;
+    }
 
     .conditions-banner {
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
+      background: #f0f7f4;
+      border: 1.5px solid #cce3d8;
       border-radius: 10px;
       padding: 12px 14px;
       margin-bottom: 16px;
       font-size: 0.84rem;
-      color: #1e40af;
+      color: var(--brand-forest);
       font-weight: 600;
       line-height: 1.35;
     }
@@ -96,33 +117,34 @@
       cursor: pointer;
       border: none;
       text-decoration: none;
+      transition: opacity 0.15s ease;
     }
-    .btn-dark { background: #0f172a; color: #ffffff; margin-top: 8px; }
-    .btn-secondary { background: #f1f5f9; color: var(--text-main); margin-top: 8px; border: 1px solid var(--border); }
+    .btn-dark { background: var(--brand-forest); color: #ffffff; margin-top: 8px; }
+    .btn-secondary { background: #f4efe9; color: var(--text-main); margin-top: 8px; border: 1.5px solid var(--border); font-weight: 700; }
 
     .rec-card-main {
       background: #ffffff;
-      border: 2px solid #0f172a;
+      border: 2px solid var(--brand-forest);
       border-radius: 14px;
       padding: 16px;
       margin-bottom: 16px;
     }
     .alt-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
     .rec-card-alt {
-      background: #f8fafc;
-      border: 1px solid var(--border);
+      background: #faf8f5;
+      border: 1.5px solid var(--border);
       border-radius: 12px;
       padding: 12px;
       display: flex;
       flex-direction: column;
     }
-    .rec-badge-main { display: inline-block; background: #0f172a; color: #fff; font-size: 0.7rem; font-weight: 800; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; margin-bottom: 8px; }
-    .rec-badge-alt { display: inline-block; background: var(--brand-accent); color: #000; font-size: 0.68rem; font-weight: 800; padding: 3px 6px; border-radius: 4px; text-transform: uppercase; margin-bottom: 6px; align-self: flex-start; }
+    .rec-badge-main { display: inline-block; background: var(--brand-forest); color: #fff; font-size: 0.7rem; font-weight: 800; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; margin-bottom: 8px; }
+    .rec-badge-alt { display: inline-block; background: var(--brand-copper); color: #fff; font-size: 0.68rem; font-weight: 800; padding: 3px 6px; border-radius: 4px; text-transform: uppercase; margin-bottom: 6px; align-self: flex-start; }
     
     .rec-img-wrapper {
       width: 100%;
       height: 190px;
-      background: #f8fafc;
+      background: #faf8f5;
       border-radius: 8px;
       overflow: hidden;
       margin: 10px 0;
@@ -150,34 +172,34 @@
       align-items: center;
       justify-content: space-between;
       padding: 12px 0;
-      border-bottom: 1px solid #f1f5f9;
+      border-bottom: 1px solid #f0ebe4;
     }
     .flow-row:last-child { border-bottom: none; }
-    .flow-weight { font-size: 1.15rem; font-weight: 900; color: var(--text-main); width: 85px; }
+    .flow-weight { font-size: 1.15rem; font-weight: 900; color: var(--brand-forest); width: 85px; }
     .flow-icon { width: 75px; height: 42px; object-fit: contain; }
     .flow-desc-box { text-align: right; }
-    .flow-label { font-size: 0.88rem; font-weight: 800; color: #0284c7; }
+    .flow-label { font-size: 0.88rem; font-weight: 800; color: var(--brand-copper); }
     .flow-cfs { font-size: 0.78rem; font-weight: 700; color: var(--text-main); }
     .flow-sub { font-size: 0.7rem; color: var(--text-muted); }
 
     .retailer-card {
       background: #ffffff;
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       border-radius: 12px;
       padding: 16px;
       margin-bottom: 12px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.02);
     }
-    .retailer-name { font-size: 1.05rem; font-weight: 800; color: var(--text-main); margin-bottom: 4px; }
+    .retailer-name { font-size: 1.05rem; font-weight: 800; color: var(--brand-forest); margin-bottom: 4px; }
     .retailer-address { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px; }
-    .retailer-tag { display: inline-block; background: #e0f2fe; color: #0369a1; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; text-transform: uppercase; }
+    .retailer-tag { display: inline-block; background: var(--brand-copper-light); color: var(--brand-copper); font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; text-transform: uppercase; }
 
     .form-group { margin-bottom: 14px; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
     label { display: block; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; color: var(--text-muted); margin-bottom: 6px; }
     input[type="text"], input[type="email"], input[type="number"], select {
       width: 100%;
-      background: #f8fafc;
+      background: #faf8f5;
       border: 1.5px solid var(--border);
       border-radius: 10px;
       color: var(--text-main);
@@ -188,7 +210,7 @@
       -webkit-appearance: none;
     }
     select {
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2314342b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
       background-repeat: no-repeat;
       background-position: right 14px center;
       background-size: 16px;
@@ -200,7 +222,7 @@
       gap: 10px;
       margin: 14px 0;
       padding: 12px;
-      background: #f8fafc;
+      background: #faf8f5;
       border: 1.5px solid var(--border);
       border-radius: 10px;
       font-size: 0.82rem;
@@ -215,34 +237,41 @@
       flex-shrink: 0;
     }
     .contest-rules-box {
-      background: #fdf8e6;
-      border: 1.5px solid #fde68a;
+      background: #fdfaf3;
+      border: 1.5px solid #ecd8b8;
       border-radius: 12px;
       padding: 14px;
       margin-bottom: 16px;
       font-size: 0.82rem;
       line-height: 1.45;
-      color: #92400e;
+      color: #78350f;
     }
     .section-headline {
       font-size: 1.05rem;
       font-weight: 900;
       margin: 24px 0 12px 0;
-      color: var(--text-main);
+      color: var(--brand-forest);
       border-bottom: 2px solid var(--border);
       padding-bottom: 6px;
     }
     .weather-live-chip {
-      background: #f1f5f9;
+      background: #f4efe9;
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 10px 14px;
       font-size: 0.85rem;
-      color: #334155;
+      color: var(--brand-forest);
       margin-bottom: 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+    }
+    .footer-heritage {
+      text-align: center;
+      padding: 24px 16px 8px 16px;
+      font-size: 0.8rem;
+      color: #8c8275;
+      line-height: 1.5;
     }
   </style>
 </head>
@@ -262,7 +291,7 @@
     <button type="button" class="nav-tab active" onclick="showTab('tab-selector', this)">🎯 Jig Picker</button>
     <button type="button" class="nav-tab" onclick="showTab('tab-chart', this)">📊 Flow Charts</button>
     <button type="button" class="nav-tab" onclick="showTab('tab-locator', this)">📍 Where to Buy</button>
-    <a href="https://shop.zigjig.com/pages/build-your-custom-zig-jig" target="_blank" class="nav-tab" style="color:var(--brand-accent);">🔨 Custom Jig ↗</a>
+    <a href="https://shop.zigjig.com/pages/build-your-custom-zig-jig" target="_blank" class="nav-tab" style="color:var(--brand-copper);">🔨 Custom Jig ↗</a>
     <button type="button" class="nav-tab" onclick="showTab('tab-catches', this)">📸 Catch Log</button>
   </nav>
 
@@ -272,6 +301,7 @@
     <div id="tab-selector" style="display:block;">
       <div class="card">
         <div class="card-title">Tailwaters Jig Picker</div>
+        <div class="tagline-banner">"Once fish get it on their minds, they've got to have it!"</div>
         <div class="card-desc">Matches live dam flow, sky conditions, and river clarity to the exact Zig Jig pattern & direct store checkout link.</div>
 
         <div class="form-group">
@@ -287,7 +317,7 @@
 
         <div class="weather-live-chip" id="weather-live-chip">
           <span>📡 <strong>Live Sky & Rainfall:</strong> Checking conditions...</span>
-          <span style="font-size:0.75rem; color:#059669; font-weight:700;">● Live</span>
+          <span style="font-size:0.75rem; color:var(--brand-green); font-weight:700;">● Live</span>
         </div>
 
         <div class="conditions-banner" id="live-condition-label">
@@ -650,6 +680,12 @@
       </div>
     </div>
 
+    <!-- HERITAGE CONSERVATION FOOTER -->
+    <div class="footer-heritage">
+      <strong>Please Practice Catch & Release — It’s Our Kids' Future.</strong><br>
+      White River Zig Jig • Hand-Tied in the USA
+    </div>
+
   </div>
 
   <script>
@@ -758,7 +794,7 @@
             weatherDesc = '☁️ Overcast (' + cloud + '% Cloud Cover)';
           }
 
-          chip.innerHTML = "<span>📡 <strong>" + coords.name + ":</strong> " + weatherDesc + "</span><span style='font-size:0.75rem; color:#059669; font-weight:700;'>● Live</span>";
+          chip.innerHTML = "<span>📡 <strong>" + coords.name + ":</strong> " + weatherDesc + "</span><span style='font-size:0.75rem; color:var(--brand-green); font-weight:700;'>● Live</span>";
           calculatePick(damKey, weatherStatus, pastRain);
           return;
         }
@@ -1069,13 +1105,13 @@
       }
 
       container.innerHTML = catches.map(function(c) {
-        return '<div class="feed-item" style="background:#fff; border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; margin-bottom:14px;">' +
+        return '<div class="feed-item" style="background:#fff; border:1.5px solid #e7dfd5; border-radius:12px; overflow:hidden; margin-bottom:14px;">' +
           (c.img ? '<img src="' + c.img + '" style="width:100%; height:210px; object-fit:cover; display:block;">' : '') +
           '<div style="padding:14px;">' +
-            '<div style="font-weight:800; color:#0f172a; font-size:1rem;">' + (c.species || 'Fish') + ' (' + (c.size || '') + '")</div>' +
-            '<div style="font-size:0.85rem; font-weight:700; color:#f59e0b; margin:2px 0;">Jig: ' + (c.jig || '') + '</div>' +
+            '<div style="font-weight:800; color:#14342b; font-size:1rem;">' + (c.species || 'Fish') + ' (' + (c.size || '') + '")</div>' +
+            '<div style="font-size:0.85rem; font-weight:700; color:#c26928; margin:2px 0;">Jig: ' + (c.jig || '') + '</div>' +
             '<div style="font-size:0.78rem; color:#0284c7; font-weight:600; margin-bottom:2px;">📍 ' + (c.location || '') + ' • Angler: ' + (c.angler || '') + '</div>' +
-            '<div style="font-size:0.78rem; color:#64748b;">' + (c.date || '') + '</div>' +
+            '<div style="font-size:0.78rem; color:#8c8275;">' + (c.date || '') + '</div>' +
           '</div>' +
         '</div>';
       }).join('');
