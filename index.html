@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>White River Zig Jig — Lure Lab</title>
+  <title>White River Zig Jig — Tailwaters Flow & Lure Lab</title>
   <style>
     :root {
       --bg-page: #f8fafc;
@@ -33,10 +33,10 @@
       box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     }
     .brand-wrap { display: flex; align-items: center; gap: 12px; }
-    .brand-logo { width: 48px; height: 48px; object-fit: contain; }
+    .brand-logo { width: 46px; height: 46px; object-fit: contain; }
     .brand-title { font-size: 1.05rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.3px; line-height: 1.15; }
     .brand-title span { color: var(--brand-accent); }
-    .brand-sub { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
+    .brand-sub { font-size: 0.74rem; color: var(--text-muted); font-weight: 600; }
 
     /* NAVIGATION TABS */
     .nav-tabs {
@@ -44,18 +44,22 @@
       background: #ffffff;
       border-bottom: 1px solid var(--border);
       position: sticky;
-      top: 73px;
+      top: 71px;
       z-index: 90;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
     .nav-tab {
       flex: 1;
+      min-width: 80px;
       text-align: center;
       padding: 13px 4px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 700;
       color: var(--text-muted);
       border-bottom: 3px solid transparent;
       cursor: pointer;
+      white-space: nowrap;
     }
     .nav-tab.active {
       color: var(--text-main);
@@ -79,6 +83,24 @@
     .card-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; color: var(--text-main); }
     .card-desc { font-size: 0.86rem; color: var(--text-muted); line-height: 1.45; margin-bottom: 16px; }
 
+    /* DAM SELECTOR CARDS */
+    .dam-chip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+    .dam-chip {
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .dam-chip.active {
+      border-color: var(--brand-dark);
+      background: #f1f5f9;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    }
+    .dam-chip-name { font-size: 0.85rem; font-weight: 700; color: var(--text-main); }
+    .dam-chip-flow { font-size: 0.74rem; color: var(--brand-blue); font-weight: 600; margin-top: 2px; }
+
     /* FORM ELEMENTS */
     .form-group { margin-bottom: 14px; }
     label { display: block; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; color: var(--text-muted); margin-bottom: 6px; }
@@ -100,8 +122,8 @@
       display: inline-block;
       width: 100%;
       text-align: center;
-      padding: 14px 16px;
-      font-size: 0.95rem;
+      padding: 13px 16px;
+      font-size: 0.92rem;
       font-weight: 800;
       border-radius: 10px;
       cursor: pointer;
@@ -109,40 +131,50 @@
       text-decoration: none;
       transition: all 0.15s ease;
     }
-    .btn-dark { background: var(--brand-dark); color: #ffffff; margin-top: 10px; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15); }
+    .btn-dark { background: var(--brand-dark); color: #ffffff; margin-top: 8px; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12); }
     .btn-secondary { background: #f1f5f9; color: var(--text-main); margin-top: 8px; border: 1px solid var(--border); }
     .btn-outline { background: #ffffff; border: 1.5px solid var(--brand-dark); color: var(--brand-dark); margin-top: 8px; }
 
-    /* RECOMMENDATION BOX */
-    .rec-box {
+    /* 3 PATTERNS GRID (Primary + 2 Alternates) */
+    .rec-card-main {
       background: #ffffff;
       border: 2px solid var(--brand-dark);
       border-radius: 14px;
-      padding: 18px;
-      margin-top: 18px;
+      padding: 16px;
+      margin-bottom: 16px;
     }
-    .rec-badge {
-      display: inline-block;
-      background: var(--brand-dark);
-      color: #ffffff;
-      font-size: 0.72rem;
-      font-weight: 800;
-      padding: 4px 10px;
-      border-radius: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 10px;
+    .alt-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+    .rec-card-alt {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
     }
-    .rec-name { font-size: 1.25rem; font-weight: 800; color: var(--text-main); }
-    .rec-details { font-size: 0.9rem; color: var(--brand-green); font-weight: 700; margin: 4px 0 12px 0; }
+
+    .rec-badge-main { display: inline-block; background: var(--brand-dark); color: #fff; font-size: 0.7rem; font-weight: 800; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; margin-bottom: 8px; }
+    .rec-badge-alt { display: inline-block; background: var(--brand-accent); color: #000; font-size: 0.68rem; font-weight: 800; padding: 3px 6px; border-radius: 4px; text-transform: uppercase; margin-bottom: 6px; align-self: flex-start; }
     
     .rec-img-wrapper {
       width: 100%;
-      height: 230px;
+      height: 190px;
       background: #f8fafc;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 14px;
+      margin: 10px 0;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .rec-img-alt-wrapper {
+      width: 100%;
+      height: 120px;
+      background: #ffffff;
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 6px 0;
       border: 1px solid var(--border);
       display: flex;
       align-items: center;
@@ -150,16 +182,32 @@
     }
     .rec-img { width: 100%; height: 100%; object-fit: contain; }
 
-    .rec-info-pane {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px;
-      font-size: 0.85rem;
-      line-height: 1.45;
-      color: #334155;
-      margin-bottom: 14px;
+    /* INTERACTIVE JIG BUILDER PREVIEW */
+    .builder-preview-box {
+      width: 100%;
+      height: 220px;
+      background: #ffffff;
+      border: 2px solid var(--brand-dark);
+      border-radius: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
     }
+    .jig-canvas {
+      width: 180px;
+      height: 140px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .jig-layer-head { width: 34px; height: 34px; border-radius: 50%; position: absolute; left: 30px; z-index: 5; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    .jig-layer-body { width: 90px; height: 50px; border-radius: 0 40px 40px 0; position: absolute; left: 50px; z-index: 3; }
+    .jig-layer-accent { width: 80px; height: 25px; border-radius: 0 30px 30px 0; position: absolute; left: 55px; top: 58px; z-index: 4; }
+    .jig-layer-shine { width: 75px; height: 12px; background: rgba(255,255,255,0.7); position: absolute; left: 55px; z-index: 6; border-radius: 10px; }
 
     /* FEED & CONTEST */
     .feed-item { background: #ffffff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
@@ -176,113 +224,208 @@
       <img src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/transparent-logo-zigjig.webp?v=1713400142" class="brand-logo" alt="White River Zig Jigs Logo">
       <div>
         <div class="brand-title">WHITE RIVER <span>ZIG JIG</span></div>
-        <div class="brand-sub">Lure Lab • Water & CFS Decision Engine</div>
+        <div class="brand-sub">Tailwaters Dam Flow & Lure Lab</div>
       </div>
     </div>
   </header>
 
   <nav class="nav-tabs">
-    <div class="nav-tab active" onclick="switchTab('quiz')">🎯 Find Jig</div>
+    <div class="nav-tab active" onclick="switchTab('flow')">🌊 Dam Flows</div>
+    <div class="nav-tab" onclick="switchTab('builder')">🔨 Jig Builder</div>
     <div class="nav-tab" onclick="switchTab('box')">🧰 My Jig Box</div>
-    <div class="nav-tab" onclick="switchTab('catches')">📸 Log Catch</div>
+    <div class="nav-tab" onclick="switchTab('catches')">📸 Catch Log</div>
     <div class="nav-tab" onclick="switchTab('contest')">🏆 Contest</div>
   </nav>
 
   <div class="container">
 
-    <!-- TAB 1: FIND MY JIG -->
-    <div id="tab-quiz" class="tab-content active">
+    <!-- TAB 1: TAILWATERS FLOW & 3-PATTERN JIG PICKER -->
+    <div id="tab-flow" class="tab-content active">
       <div class="card">
-        <div class="card-title">Match Your Jig to the Water</div>
-        <div class="card-desc">Select your target water body and flow generation. We'll recommend the exact verified in-stock Zig Jig for today's conditions.</div>
+        <div class="card-title">Live Tailwater Conditions</div>
+        <div class="card-desc">Select a dam tailwater to calculate today's Primary Zig Jig and 2 Alternate Patterns based on water release and weather.</div>
 
-        <div class="form-group">
-          <label>River or Lake Location</label>
-          <select id="location">
-            <option value="White River (Bull Shoals / Norfork)">White River (Bull Shoals / Norfork Tailwaters)</option>
-            <option value="Roaring River / MO Trout Parks">Roaring River / Missouri Trout Parks</option>
-            <option value="Lake Taneycomo">Lake Taneycomo</option>
-            <option value="Little Red River">Little Red River</option>
-            <option value="Spring River">Spring River</option>
-            <option value="Table Rock / Stockton / Ozark Lakes">Table Rock / Stockton / Ozark Lakes</option>
-            <option value="Other River / Creek / Tailwater">Other River / Creek / Tailwater</option>
-          </select>
+        <label>Select Dam / Tailwater</label>
+        <div class="dam-chip-grid">
+          <div class="dam-chip active" onclick="selectDam('bull_shoals', this)">
+            <div class="dam-chip-name">Bull Shoals Dam</div>
+            <div class="dam-chip-flow" id="flow-bull">2 Units • ~3,200 CFS</div>
+          </div>
+          <div class="dam-chip" onclick="selectDam('norfork', this)">
+            <div class="dam-chip-name">Norfork Dam</div>
+            <div class="dam-chip-flow" id="flow-norfork">0 Units • 450 CFS (Wade)</div>
+          </div>
+          <div class="dam-chip" onclick="selectDam('taneycomo', this)">
+            <div class="dam-chip-name">Lake Taneycomo</div>
+            <div class="dam-chip-flow" id="flow-taneycomo">1 Unit • 1,400 CFS</div>
+          </div>
+          <div class="dam-chip" onclick="selectDam('little_red', this)">
+            <div class="dam-chip-name">Greers Ferry / Little Red</div>
+            <div class="dam-chip-flow" id="flow-littlered">0 Units • Minimum Flow</div>
+          </div>
         </div>
 
         <div class="form-group">
-          <label>River Flow Rate (CFS / Generation)</label>
-          <select id="cfs">
-            <option value="low">Low Flow / 0 Generators (&lt; 500 CFS / Wadeable)</option>
-            <option value="medium">Medium Flow / 1-2 Generators (500 - 3,500 CFS)</option>
-            <option value="high">High Flow / 3-4+ Generators (3,500 - 10,000+ CFS)</option>
-            <option value="flood">Heavy Generation / Blown Out / High Water (10,000+ CFS)</option>
-            <option value="lake">Still Water / Lake / No Current</option>
+          <label>Current Weather & Light</label>
+          <select id="weather-select" onchange="calculateFlowJigs()">
+            <option value="sunny">☀️ Bright Sun / Clear Blue Sky</option>
+            <option value="overcast">☁️ Overcast / Gray Sky</option>
+            <option value="lowlight">🌅 Dawn / Dusk / Low Light</option>
+            <option value="rain">🌧️ Rain / Stained Runoff</option>
           </select>
         </div>
 
-        <div class="form-group">
-          <label>Target Species</label>
-          <select id="species">
-            <option value="Trout">Trout (Rainbow / Brown)</option>
-            <option value="Crappie">Crappie</option>
-            <option value="Bass">Bass / Smallmouth</option>
-            <option value="Panfish">Panfish / Sunfish</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>Water Clarity</label>
-          <select id="clarity">
-            <option value="clear">Crystal Clear (High visibility)</option>
-            <option value="stained">Lightly Stained / Green tint</option>
-            <option value="muddy">Muddy / Murky / Heavy Stain</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>Sky & Light</label>
-          <select id="light">
-            <option value="bright">Bright Sunlight / Blue Sky</option>
-            <option value="cloudy">Overcast / Cloudy</option>
-            <option value="lowlight">Dawn / Dusk / Low Light</option>
-            <option value="night">Night Fishing</option>
-          </select>
-        </div>
-
-        <button class="btn btn-dark" onclick="generateRecommendation()">Show My Recommendation</button>
-
-        <div id="quiz-result" style="display:none;" class="rec-box">
-          <span class="rec-badge" id="rec-type">Recommended Zig Jig</span>
-          <div class="rec-name" id="rec-name">Olive / Ginger</div>
-          <div class="rec-details" id="rec-details">Weight: 1/16 oz • $26.00 / Dozen</div>
+        <!-- 1 PRIMARY + 2 ALTERNATES RESULT CONTAINER -->
+        <div id="flow-results" style="margin-top:16px;">
           
-          <div class="rec-img-wrapper">
-            <img id="rec-image" class="rec-img" src="" alt="Recommended Zig Jig">
+          <!-- PRIMARY JIG -->
+          <div class="rec-card-main">
+            <span class="rec-badge-main">⭐ Primary Starting Jig</span>
+            <div class="card-title" id="primary-title" style="font-size:1.15rem; margin-top:4px;">Olive / Ginger (1/16 oz)</div>
+            <div style="font-size:0.88rem; font-weight:700; color:var(--brand-green);" id="primary-price">$26.00 / Dozen</div>
+            
+            <div class="rec-img-wrapper">
+              <img id="primary-img" class="rec-img" src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DD5CDFD-A9F4-4926-9C22-67D4E499A3E1.png?v=1768275554" alt="Primary Zig Jig">
+            </div>
+
+            <div style="font-size:0.84rem; line-height:1.4; color:#334155; margin-bottom:10px;" id="primary-reason">
+              <strong>Flow Strategy:</strong> 2 units generation — keep rod tip up and drift along bottom current seams.
+            </div>
+
+            <a id="primary-link" href="https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703467085" target="_blank" class="btn btn-dark">Shop Primary Jig on ZigJig.com</a>
+            <button class="btn btn-secondary" onclick="saveJigToBox('primary')">Save to My Jig Box</button>
           </div>
 
-          <div class="rec-info-pane" id="rec-reason"></div>
-          
-          <a id="rec-shop-link" href="#" target="_blank" class="btn btn-dark">Shop This Exact Jig on ZigJig.com</a>
-          <a href="https://shop.zigjig.com/pages/build-your-custom-zig-jig" target="_blank" class="btn btn-outline">Customize in Shopify Jig Builder</a>
-          <button class="btn btn-secondary" onclick="saveToBox()">Save to My Jig Box</button>
+          <!-- 2 ALTERNATE OPTIONS -->
+          <div style="font-size:0.92rem; font-weight:800; color:var(--text-main); margin:14px 0 6px 0;">Backup Alternate Patterns:</div>
+          <div class="alt-cards-grid">
+            
+            <!-- ALT 1 -->
+            <div class="rec-card-alt">
+              <span class="rec-badge-alt">Alt Option 1</span>
+              <div style="font-size:0.9rem; font-weight:800; margin-top:2px;" id="alt1-title">Tri Olive (1/16 oz)</div>
+              <div style="font-size:0.75rem; color:var(--brand-green); font-weight:700;" id="alt1-price">$26.00 / Dozen</div>
+              <div class="rec-img-alt-wrapper">
+                <img id="alt1-img" class="rec-img" src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4F01D6B3-F7DD-45BB-A337-BF40EE55EA05.png?v=1768275507">
+              </div>
+              <div style="font-size:0.75rem; color:#475569; margin-bottom:8px;" id="alt1-reason">Subtle natural tone if fish are pressured.</div>
+              <a id="alt1-link" href="https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703401549" target="_blank" class="btn btn-dark" style="padding:8px; font-size:0.78rem; margin-top:auto;">Shop Alt 1</a>
+            </div>
+
+            <!-- ALT 2 -->
+            <div class="rec-card-alt">
+              <span class="rec-badge-alt">Alt Option 2</span>
+              <div style="font-size:0.9rem; font-weight:800; margin-top:2px;" id="alt2-title">White/Chartreuse (1/16 oz)</div>
+              <div style="font-size:0.75rem; color:var(--brand-green); font-weight:700;" id="alt2-price">$26.00 / Dozen</div>
+              <div class="rec-img-alt-wrapper">
+                <img id="alt2-img" class="rec-img" src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/DE62566C-BFAE-45C9-80D2-4E7D1A6BB340.png?v=1768275907">
+              </div>
+              <div style="font-size:0.75rem; color:#475569; margin-bottom:8px;" id="alt2-reason">Reaction trigger if water clouds up.</div>
+              <a id="alt2-link" href="https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703794765" target="_blank" class="btn btn-dark" style="padding:8px; font-size:0.78rem; margin-top:auto;">Shop Alt 2</a>
+            </div>
+
+          </div>
+
         </div>
+
       </div>
     </div>
 
-    <!-- TAB 2: MY JIG BOX -->
+    <!-- TAB 2: INTERACTIVE CUSTOM JIG BUILDER (Direct from Shopify store) -->
+    <div id="tab-builder" class="tab-content">
+      <div class="card">
+        <div class="card-title">Custom Jig Builder</div>
+        <div class="card-desc">Build your custom Zig Jig with live rendered colors, plating, and flash add-ons.</div>
+
+        <!-- LIVE VISUAL RENDER BOX -->
+        <div class="builder-preview-box">
+          <div class="jig-canvas">
+            <div class="jig-layer-head" id="render-head" style="background:#0f172a;"></div>
+            <div class="jig-layer-body" id="render-body" style="background:#4d7c0f;"></div>
+            <div class="jig-layer-accent" id="render-accent" style="background:#d97706;"></div>
+            <div class="jig-layer-shine" id="render-shine" style="display:none;"></div>
+          </div>
+          <div style="font-size:0.85rem; font-weight:800; color:var(--text-main); margin-top:8px;" id="builder-spec-label">
+            Black Head • Olive Body • Ginger Accent • No Flash
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Jig Size & Hook</label>
+          <select id="builder-size">
+            <option value="3/32 oz">3/32 oz (#4 Mustad Hook) — $30.00 / Dozen</option>
+            <option value="1/8 oz">1/8 oz (#4 Mustad Hook) — $30.00 / Dozen</option>
+            <option value="3/16 oz">3/16 oz (#2 Mustad Hook) — $32.00 / Dozen</option>
+            <option value="1/4 oz">1/4 oz (#2 Mustad Hook) — $32.00 / Dozen</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Jig Head Color & Plating</label>
+          <select id="builder-head-color" onchange="updateBuilderRender()">
+            <option value="#0f172a" data-name="Black">Black Nickel</option>
+            <option value="#d4af37" data-name="Gold Plated">Gold Plated (+$2)</option>
+            <option value="#e2e8f0" data-name="Chrome Plated">Chrome Plated (+$2)</option>
+            <option value="#4d7c0f" data-name="Olive">Olive</option>
+            <option value="#f97316" data-name="Orange">Orange</option>
+            <option value="#ffffff" data-name="White">White</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Main Body Marabou (Top/Center)</label>
+          <select id="builder-body-color" onchange="updateBuilderRender()">
+            <option value="#4d7c0f" data-name="Olive">Olive</option>
+            <option value="#0f172a" data-name="Black">Black</option>
+            <option value="#b45309" data-name="Brown">Brown</option>
+            <option value="#d97706" data-name="Ginger">Ginger</option>
+            <option value="#ffffff" data-name="White">White</option>
+            <option value="#ec4899" data-name="Pink">Pink</option>
+            <option value="#84cc16" data-name="Chartreuse">Chartreuse</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Bottom Accent Feather</label>
+          <select id="builder-accent-color" onchange="updateBuilderRender()">
+            <option value="#d97706" data-name="Ginger">Ginger</option>
+            <option value="#84cc16" data-name="Chartreuse">Chartreuse</option>
+            <option value="#f97316" data-name="Orange">Orange</option>
+            <option value="#ffffff" data-name="White">White</option>
+            <option value="#ec4899" data-name="Pink">Pink</option>
+            <option value="#4d7c0f" data-name="Olive">Olive</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Custom Shine Add-On</label>
+          <select id="builder-shine-select" onchange="updateBuilderRender()">
+            <option value="none">None (Pure Marabou)</option>
+            <option value="krystal">Krystal Flash (+$2/Dozen)</option>
+            <option value="flashabou">Flashabou (+$2/Dozen)</option>
+            <option value="tinsel">Silver Tinsel (+$2/Dozen)</option>
+          </select>
+        </div>
+
+        <a href="https://shop.zigjig.com/pages/build-your-custom-zig-jig" target="_blank" class="btn btn-dark">Order Custom Set on Shopify ($30–$32)</a>
+        <button class="btn btn-secondary" onclick="saveCustomJigToBox()">Save Custom Design to My Jig Box</button>
+      </div>
+    </div>
+
+    <!-- TAB 3: MY JIG BOX -->
     <div id="tab-box" class="tab-content">
       <div class="card">
         <div class="card-title">My Jig Box</div>
-        <div class="card-desc">Your saved patterns, weights, and CFS flow notes for quick re-ordering.</div>
+        <div class="card-desc">Your saved dam recommendations and custom-built recipes for quick re-ordering.</div>
         <div id="jig-box-list" style="margin-top:12px;"></div>
       </div>
     </div>
 
-    <!-- TAB 3: LOG CATCH -->
+    <!-- TAB 4: LOG CATCH -->
     <div id="tab-catches" class="tab-content">
       <div class="card">
         <div class="card-title">Log a Catch</div>
-        <div class="card-desc">Save your catch photo and remember which Zig Jig pattern delivered on the water.</div>
+        <div class="card-desc">Save your catch photo and record the exact dam flow and Zig Jig pattern that delivered.</div>
 
         <div class="form-group">
           <label>Catch Photo</label>
@@ -292,12 +435,12 @@
 
         <div class="form-group">
           <label>Location & River Flow (CFS)</label>
-          <input type="text" id="catch-location-input" placeholder="e.g. White River below Bull Shoals, 2 units (~1,800 CFS)">
+          <input type="text" id="catch-location-input" placeholder="e.g. Bull Shoals Dam, 2 units (~3,200 CFS)">
         </div>
 
         <div class="form-group">
           <label>Fish Species & Size</label>
-          <input type="text" id="catch-species" placeholder="e.g. 19 in Rainbow Trout">
+          <input type="text" id="catch-species" placeholder="e.g. 21 in Brown Trout">
         </div>
 
         <div class="form-group">
@@ -306,8 +449,8 @@
         </div>
 
         <div class="form-group">
-          <label>Notes / Water Conditions</label>
-          <textarea id="catch-notes" rows="2" placeholder="e.g. Stained water, current seams along the gravel bar"></textarea>
+          <label>Notes / Presentation</label>
+          <textarea id="catch-notes" rows="2" placeholder="e.g. Current seam drift near Wildcat Shoals"></textarea>
         </div>
 
         <button class="btn btn-dark" onclick="saveCatch()">Save Catch to Log</button>
@@ -319,7 +462,7 @@
       </div>
     </div>
 
-    <!-- TAB 4: MONTHLY CONTEST -->
+    <!-- TAB 5: MONTHLY CONTEST -->
     <div id="tab-contest" class="tab-content">
       <div class="card">
         <div class="card-title">Monthly Catch Contest 🏆</div>
@@ -337,7 +480,7 @@
 
         <div class="form-group">
           <label>Water / Location</label>
-          <input type="text" id="contest-location" placeholder="e.g. Norfork Tailwater, Arkansas">
+          <input type="text" id="contest-location" placeholder="e.g. White River below Bull Shoals Dam">
         </div>
 
         <div class="form-group">
@@ -362,140 +505,9 @@
   </div>
 
   <script>
-    // 100% LIVE VERIFIED SHOPIFY CATALOG DATABASE (Extracted from Shopify Admin API)
-    const JIG_CATALOG = {
-      // 1/32 oz HD
-      "1_32_olive_ginger": {
-        name: "Zig Jig Heavy Duty – 1/32 oz (12 Pack)",
-        color: "Olive / Ginger",
-        weight: "1/32 oz HD (2x Hook)",
-        price: "$26.95",
-        url: "https://shop.zigjig.com/products/zig-jig-heavy-duty-1-32-oz?variant=40743138230349",
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/B2AE8C16-42B8-4610-B168-C9259301B891.png?v=1768271362",
-        strategy: "Wadeable slow current (<500 CFS) — light line (2-4 lb), finesse jigging along shallow gravel bars and pools.",
-        reason: "Natural earthy Olive/Ginger finesse pattern that matches sculpin and insect life without spooking clear-water trout."
-      },
-      "1_32_tri_olive": {
-        name: "Zig Jig Heavy Duty – 1/32 oz (12 Pack)",
-        color: "Tri Olive",
-        weight: "1/32 oz HD (2x Hook)",
-        price: "$26.95",
-        url: "https://shop.zigjig.com/products/zig-jig-heavy-duty-1-32-oz?variant=40743138164813",
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538",
-        strategy: "Wadeable slow current (<500 CFS) — subtle twitches along bottom gravel beds.",
-        reason: "Subtle Tri Olive multi-tone presentation for overcast conditions in clear to moderate water."
-      },
-      "1_32_white_chartreuse": {
-        name: "Zig Jig Heavy Duty – 1/32 oz (12 Pack)",
-        color: "White / Chartreuse",
-        weight: "1/32 oz HD (2x Hook)",
-        price: "$26.95",
-        url: "https://shop.zigjig.com/products/zig-jig-heavy-duty-1-32-oz?variant=40743138394189",
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4DE2C42B-36BD-42E3-9E47-51E39927355C_c7d5fd0c-a58f-4be9-b66f-1d790a289029.png?v=1768259377",
-        strategy: "Low flow in stained water — high visibility pulse to trigger reaction strikes.",
-        reason: "Bright chartreuse and white contrast that helps fish track the jig through tinted current."
-      },
-
-      // 1/16 oz Regular
-      "1_16_olive_ginger": {
-        name: "Zig Jig Marabou Trout Jig – 1/16 oz (12 Pack)",
-        color: "Olive / Ginger",
-        weight: "1/16 oz (#4 Hook)",
-        price: "$26.00",
-        url: "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703467085",
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DD5CDFD-A9F4-4926-9C22-67D4E499A3E1.png?v=1768275554",
-        strategy: "Moderate flow (1-2 units / 500-3,500 CFS) — keep rod tip up, work the bottom 12 inches of current seams.",
-        reason: "White River classic Olive/Ginger presentation that produces year-round in clear water."
-      },
-      "1_16_tri_olive": {
-        name: "Zig Jig Marabou Trout Jig – 1/16 oz (12 Pack)",
-        color: "Tri Olive",
-        weight: "1/16 oz (#4 Hook)",
-        price: "$26.00",
-        url: "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703401549",
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4F01D6B3-F7DD-45BB-A337-BF40EE55EA05.png?v=1768275507",
-        strategy: "Moderate flow (1-2 units) — steady drift through current breaks.",
-        reason: "Subtle Tri Olive natural silhouette that stands out against gray skies in clear to moderate flow."
-      },
-      "1_16_white_chartreuse": {
-        name: "Zig Jig Marabou Trout Jig – 1/16 oz (12 Pack)",
-        color: "White / Chartreuse",
-        weight: "1/16 oz (#4 Hook)",
-        price: "$26.00",
-        url: "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703794765",
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/DE62566C-BFAE-45C9-80D2-4E7D1A6BB340.png?v=1768275907",
-        strategy: "Moderate flow in stained water — cast across current seams and let the marabou swim.",
-        reason: "Bright chartreuse accent provides maximum visibility when water has color."
-      },
-      "1_16_red_white": {
-        name: "Zig Jig Marabou Trout Jig – 1/16 oz (12 Pack)",
-        color: "Red / White",
-        weight: "1/16 oz (#4 Hook)",
-        price: "$26.00",
-        url: "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40882696618061",
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/IMG-0087.png?v=1768277261",
-        strategy: "Dirty/stained water — aggressive hops along current breaks.",
-        reason: "Bold red and white contrast that cuts through muddy current to draw feeding strikes."
-      },
-
-      // 1/8 oz Heavy Duty
-      "1_8_olive_ginger": {
-        name: "Zig Jig Heavy Duty – 1/8 oz (12 Pack)",
-        color: "Olive / Ginger",
-        weight: "1/8 oz HD (2x Hook)",
-        price: "$28.95",
-        url: "https://shop.zigjig.com/products/zig-jig-heavy-duty-1-8-oz?variant=40743194361933",
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/F6106060-7A92-4F8C-9ED3-26CACFDB5C09.png?v=1768270963",
-        strategy: "Fast generation current (3,500-10,000+ CFS) — heavy head cuts down to holding trout near bottom breaks.",
-        reason: "Heavy Duty 2x steel hook with natural Olive/Ginger marabou to hook and hold big trout in fast current."
-      },
-      "1_8_black_chartreuse": {
-        name: "Zig Jig Heavy Duty – 1/8 oz (12 Pack)",
-        color: "Black / Chartreuse",
-        weight: "1/8 oz HD (2x Hook)",
-        price: "$28.95",
-        url: "https://shop.zigjig.com/products/zig-jig-heavy-duty-1-8-oz?variant=40743194263629",
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/2AF64AF5-6090-48D5-9285-5CE632EE431E.png?v=1768270784",
-        strategy: "Heavy flow — high contrast presentation punched deep into current runs.",
-        reason: "Black silhouette with bright chartreuse tail triggers aggressive reaction strikes in generation flow."
-      },
-
-      // 1/4 oz Super HD (Flood / 10,000+ CFS)
-      "1_4_super_hd_white_chartreuse": {
-        name: "Zig Jig Super HD – 1/4 oz (12 Pack)",
-        color: "White / Chartreuse",
-        weight: "1/4 oz Super HD (1/0 Hook)",
-        price: "$31.95",
-        url: "https://shop.zigjig.com/products/super-hd-jig-1-4-oz?variant=40743089995853",
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/White_Chartreuse.png?v=1768256476",
-        strategy: "Heavy generation / flood stage (10,000+ CFS) — target inside bank eddies and structure where fish escape current.",
-        reason: "Super HD 2x steel hook (1/0 size) with high-visibility White/Chartreuse to reach trophy fish in high water."
-      },
-      "1_4_super_hd_white_gray": {
-        name: "Zig Jig Super HD – 1/4 oz (12 Pack)",
-        color: "White / Gray",
-        weight: "1/4 oz Super HD (1/0 Hook)",
-        price: "$31.95",
-        url: "https://shop.zigjig.com/products/super-hd-jig-1-4-oz?variant=40743089963085",
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/White_Gray.png?v=1768259280",
-        strategy: "Heavy current in clear-to-moderate water — cast tight to banks and deep current seams.",
-        reason: "Super HD 2x steel hook with natural baitfish White/Gray profile to trigger trophy trout."
-      },
-
-      // 3/32 oz Lake / Still Water
-      "3_32_tri_olive": {
-        name: "Zig Jig Marabou Trout Jig – 3/32 oz (12 Pack)",
-        color: "Tri Olive",
-        weight: "3/32 oz (#4 Hook)",
-        price: "$26.00",
-        url: "https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620470698061",
-        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538",
-        strategy: "Still water / lake banks / brush piles — steady swim with rhythmic twitch cadence.",
-        reason: "Subtle Tri Olive natural profile that excels in lakes, docks, and slow river pools."
-      }
-    };
-
-    let currentRec = null;
+    // TAILWATERS DAM CONFIGURATION & 3-PATTERN LOGIC
+    let currentDam = 'bull_shoals';
+    let currentFlowData = {};
 
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -506,94 +518,152 @@
       if (tabId === 'catches') renderCatches();
     }
 
-    function generateRecommendation() {
-      const location = document.getElementById('location').value;
-      const cfs = document.getElementById('cfs').value;
-      const species = document.getElementById('species').value;
-      const clarity = document.getElementById('clarity').value;
-      const light = document.getElementById('light').value;
-
-      let key = "1_16_olive_ginger";
-
-      // 1. LOW FLOW (< 500 CFS)
-      if (cfs === 'low') {
-        if (clarity === 'clear') {
-          key = (light === 'bright') ? "1_32_olive_ginger" : "1_32_tri_olive";
-        } else {
-          key = "1_32_white_chartreuse";
-        }
-      } 
-      // 2. MEDIUM FLOW (500 - 3,500 CFS)
-      else if (cfs === 'medium') {
-        if (clarity === 'clear') {
-          key = (light === 'bright') ? "1_16_olive_ginger" : "1_16_tri_olive";
-        } else if (clarity === 'stained') {
-          key = "1_16_white_chartreuse";
-        } else {
-          key = "1_16_red_white";
-        }
-      }
-      // 3. HIGH FLOW (3,500 - 10,000+ CFS)
-      else if (cfs === 'high') {
-        key = (clarity === 'clear') ? "1_8_olive_ginger" : "1_8_black_chartreuse";
-      }
-      // 4. FLOOD / HEAVY GENERATION (10,000+ CFS)
-      else if (cfs === 'flood') {
-        key = (clarity === 'clear') ? "1_4_super_hd_white_gray" : "1_4_super_hd_white_chartreuse";
-      }
-      // 5. STILL WATER / LAKE
-      else {
-        key = "3_32_tri_olive";
-      }
-
-      const item = JIG_CATALOG[key];
-
-      currentRec = {
-        name: item.name,
-        colorPattern: item.color,
-        weight: item.weight,
-        price: item.price,
-        location: location,
-        shopUrl: item.url,
-        imgUrl: item.img,
-        cfsText: document.getElementById('cfs').options[document.getElementById('cfs').selectedIndex].text,
-        flowStrategy: item.strategy,
-        reason: item.reason,
-        species: species,
-        date: new Date().toLocaleDateString()
-      };
-
-      document.getElementById('rec-name').innerText = item.name;
-      document.getElementById('rec-details').innerText = "Color: " + item.color + " • " + item.weight + " • " + item.price;
-      document.getElementById('rec-image').src = item.img;
-      document.getElementById('rec-shop-link').href = item.url;
-      document.getElementById('rec-reason').innerHTML = `<strong>Why it works:</strong> ${item.reason}<br><br><strong>Flow Presentation:</strong> ${item.strategy}`;
-      document.getElementById('quiz-result').style.display = 'block';
+    function selectDam(damId, elem) {
+      document.querySelectorAll('.dam-chip').forEach(c => c.classList.remove('active'));
+      elem.classList.add('active');
+      currentDam = damId;
+      calculateFlowJigs();
     }
 
-    function saveToBox() {
-      if (!currentRec) return;
+    function calculateFlowJigs() {
+      const weather = document.getElementById('weather-select').value;
+      
+      let pTitle = "Olive / Ginger (1/16 oz)";
+      let pPrice = "$26.00 / Dozen";
+      let pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DD5CDFD-A9F4-4926-9C22-67D4E499A3E1.png?v=1768275554";
+      let pLink = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703467085";
+      let pReason = "2 units generation — keep rod tip up and drift along bottom current seams.";
+
+      let a1Title = "Tri Olive (1/16 oz)";
+      let a1Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4F01D6B3-F7DD-45BB-A337-BF40EE55EA05.png?v=1768275507";
+      let a1Link = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703401549";
+      let a1Reason = "Subtle natural tone if fish are finicky in clear water.";
+
+      let a2Title = "White / Chartreuse (1/16 oz)";
+      let a2Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/DE62566C-BFAE-45C9-80D2-4E7D1A6BB340.png?v=1768275907";
+      let a2Link = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703794765";
+      let a2Reason = "Reaction color trigger if water gets cloudy or overcast.";
+
+      // Norfork Low Wade Flow (< 500 CFS)
+      if (currentDam === 'norfork' || currentDam === 'little_red') {
+        pTitle = "Olive / Ginger HD (1/32 oz)";
+        pPrice = "$26.95 / Dozen";
+        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/B2AE8C16-42B8-4610-B168-C9259301B891.png?v=1768271362";
+        pLink = "https://shop.zigjig.com/products/zig-jig-heavy-duty-1-32-oz?variant=40743138230349";
+        pReason = "0 units / Wadeable flow — 2-4 lb line, micro-twitches along shallow gravel shoals.";
+
+        a1Title = "Tri Olive HD (1/32 oz)";
+        a1Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538";
+        a1Link = "https://shop.zigjig.com/products/zig-jig-heavy-duty-1-32-oz?variant=40743138164813";
+
+        a2Title = "White/Chartreuse HD (1/32 oz)";
+        a2Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4DE2C42B-36BD-42E3-9E47-51E39927355C_c7d5fd0c-a58f-4be9-b66f-1d790a289029.png?v=1768259377";
+        a2Link = "https://shop.zigjig.com/products/zig-jig-heavy-duty-1-32-oz?variant=40743138394189";
+      }
+
+      // Rain / Dark water adjustments
+      if (weather === 'rain') {
+        pTitle = "Red / White (1/16 oz)";
+        pPrice = "$26.00 / Dozen";
+        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/IMG-0087.png?v=1768277261";
+        pLink = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40882696618061";
+        pReason = "High contrast pattern to cut through rain runoff and stained current.";
+      }
+
+      currentFlowData = { pTitle, pPrice, pImg, pLink, pReason, a1Title, a1Img, a1Link, a2Title, a2Img, a2Link };
+
+      document.getElementById('primary-title').innerText = pTitle;
+      document.getElementById('primary-price').innerText = pPrice;
+      document.getElementById('primary-img').src = pImg;
+      document.getElementById('primary-link').href = pLink;
+      document.getElementById('primary-reason').innerHTML = `<strong>Flow Strategy:</strong> ${pReason}`;
+
+      document.getElementById('alt1-title').innerText = a1Title;
+      document.getElementById('alt1-img').src = a1Img;
+      document.getElementById('alt1-link').href = a1Link;
+
+      document.getElementById('alt2-title').innerText = a2Title;
+      document.getElementById('alt2-img').src = a2Img;
+      document.getElementById('alt2-link').href = a2Link;
+    }
+
+    // INTERACTIVE JIG BUILDER RENDERER
+    function updateBuilderRender() {
+      const headSelect = document.getElementById('builder-head-color');
+      const bodySelect = document.getElementById('builder-body-color');
+      const accentSelect = document.getElementById('builder-accent-color');
+      const shineSelect = document.getElementById('builder-shine-select');
+
+      const headHex = headSelect.value;
+      const bodyHex = bodySelect.value;
+      const accentHex = accentSelect.value;
+      const shineVal = shineSelect.value;
+
+      document.getElementById('render-head').style.background = headHex;
+      document.getElementById('render-body').style.background = bodyHex;
+      document.getElementById('render-accent').style.background = accentHex;
+      
+      const shineElem = document.getElementById('render-shine');
+      if (shineVal !== 'none') {
+        shineElem.style.display = 'block';
+      } else {
+        shineElem.style.display = 'none';
+      }
+
+      const headName = headSelect.options[headSelect.selectedIndex].getAttribute('data-name');
+      const bodyName = bodySelect.options[bodySelect.selectedIndex].getAttribute('data-name');
+      const accentName = accentSelect.options[accentSelect.selectedIndex].getAttribute('data-name');
+      const shineName = shineSelect.options[shineSelect.selectedIndex].text;
+
+      document.getElementById('builder-spec-label').innerText = `${headName} Head • ${bodyName} Body • ${accentName} Accent • ${shineName}`;
+    }
+
+    function saveJigToBox(type) {
+      let item = {
+        name: currentFlowData.pTitle,
+        details: currentFlowData.pPrice,
+        img: currentFlowData.pImg,
+        url: currentFlowData.pLink,
+        note: `Saved from ${currentDam} flow recommendation`,
+        date: new Date().toLocaleDateString()
+      };
       let box = JSON.parse(localStorage.getItem('zig_jig_box') || '[]');
-      box.unshift(currentRec);
+      box.unshift(item);
       localStorage.setItem('zig_jig_box', JSON.stringify(box));
       alert('Saved to your Jig Box!');
+    }
+
+    function saveCustomJigToBox() {
+      const spec = document.getElementById('builder-spec-label').innerText;
+      const size = document.getElementById('builder-size').value;
+      let item = {
+        name: `Custom Zig Jig (${size})`,
+        details: spec,
+        img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/transparent-logo-zigjig.webp?v=1713400142",
+        url: "https://shop.zigjig.com/pages/build-your-custom-zig-jig",
+        note: "Custom design saved from Jig Builder",
+        date: new Date().toLocaleDateString()
+      };
+      let box = JSON.parse(localStorage.getItem('zig_jig_box') || '[]');
+      box.unshift(item);
+      localStorage.setItem('zig_jig_box', JSON.stringify(box));
+      alert('Custom design saved to your Jig Box!');
     }
 
     function renderJigBox() {
       const box = JSON.parse(localStorage.getItem('zig_jig_box') || '[]');
       const container = document.getElementById('jig-box-list');
       if (box.length === 0) {
-        container.innerHTML = '<p style="font-size:0.88rem; color:#64748b; text-align:center; padding:20px 0;">No jigs saved yet. Use Find Jig to discover and save patterns!</p>';
+        container.innerHTML = '<p style="font-size:0.88rem; color:#64748b; text-align:center; padding:20px 0;">No jigs saved yet. Use Dam Flows or the Jig Builder to save designs!</p>';
         return;
       }
-      container.innerHTML = box.map((item, idx) => `
+      container.innerHTML = box.map(item => `
         <div class="card" style="margin-top:12px; border:1px solid #cbd5e1;">
-          ${item.imgUrl ? `<img src="${item.imgUrl}" style="width:100%; height:140px; object-fit:contain; background:#f8fafc; border-radius:8px; margin-bottom:10px;">` : ''}
+          <img src="${item.img}" style="width:100%; height:130px; object-fit:contain; background:#f8fafc; border-radius:8px; margin-bottom:10px;">
           <div class="card-title" style="font-size:1.05rem;">${item.name}</div>
-          <div style="font-size:0.85rem; font-weight:700; color:#059669; margin-bottom:4px;">${item.colorPattern} • ${item.weight} • ${item.price || ''}</div>
-          <div style="font-size:0.78rem; color:#f59e0b; font-weight:600; margin-bottom:6px;">Flow: ${item.cfsText || 'Standard'} • ${item.location}</div>
-          <p style="font-size:0.82rem; color:#475569; margin-bottom:10px;">${item.reason}</p>
-          <a href="${item.shopUrl || 'https://shop.zigjig.com'}" target="_blank" class="btn btn-dark" style="padding:10px; font-size:0.88rem;">Shop This Exact Jig</a>
+          <div style="font-size:0.82rem; font-weight:700; color:var(--brand-green); margin-bottom:4px;">${item.details}</div>
+          <p style="font-size:0.8rem; color:#475569; margin-bottom:10px;">${item.note} • ${item.date}</p>
+          <a href="${item.url}" target="_blank" class="btn btn-dark" style="padding:10px; font-size:0.88rem;">Order on Shopify</a>
         </div>
       `).join('');
     }
@@ -683,6 +753,9 @@
       document.getElementById('contest-location').value = '';
       document.getElementById('contest-consent').checked = false;
     }
+
+    // Initialize on load
+    calculateFlowJigs();
   </script>
 </body>
 </html>
