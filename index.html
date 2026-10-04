@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>White River Zig Jig — Tailwaters & Lure Lab</title>
+  <title>White River Zig Jig — Tailwaters Flow & Store Locator</title>
   <style>
     :root {
       --bg-page: #f8fafc;
@@ -11,7 +11,7 @@
       --border: #e2e8f0;
       --text-main: #0f172a;
       --text-muted: #64748b;
-      --brand-dark: #1e293b;
+      --header-bg: #0b1319;
       --brand-accent: #f59e0b;
       --brand-green: #059669;
       --brand-blue: #0284c7;
@@ -19,24 +19,24 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background-color: var(--bg-page); color: var(--text-main); padding-bottom: 90px; }
     
-    /* BRAND HEADER */
+    /* BLACK SHOPIFY-STYLE HEADER */
     header {
-      background: #ffffff;
-      border-bottom: 1px solid var(--border);
-      padding: 12px 18px;
+      background: var(--header-bg);
+      border-bottom: 2px solid #1e293b;
+      padding: 14px 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
     }
-    .brand-wrap { display: flex; align-items: center; gap: 12px; }
-    .brand-logo { width: 44px; height: 44px; object-fit: contain; }
-    .brand-title { font-size: 1.05rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.3px; line-height: 1.15; }
+    .brand-wrap { display: flex; align-items: center; gap: 14px; }
+    .brand-logo { width: 52px; height: 52px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+    .brand-title { font-size: 1.15rem; font-weight: 900; color: #ffffff; letter-spacing: -0.3px; line-height: 1.15; }
     .brand-title span { color: var(--brand-accent); }
-    .brand-sub { font-size: 0.74rem; color: var(--text-muted); font-weight: 600; }
+    .brand-sub { font-size: 0.74rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
     /* SPACED NAVIGATION BAR */
     .nav-tabs {
@@ -44,23 +44,23 @@
       background: #ffffff;
       border-bottom: 1px solid var(--border);
       position: sticky;
-      top: 69px;
+      top: 80px;
       z-index: 90;
       width: 100%;
     }
     .nav-tab {
       flex: 1;
       text-align: center;
-      padding: 14px 6px;
-      font-size: 0.88rem;
+      padding: 13px 4px;
+      font-size: 0.82rem;
       font-weight: 800;
       color: var(--text-muted);
       border-bottom: 3px solid transparent;
       cursor: pointer;
     }
     .nav-tab.active {
-      color: var(--text-main);
-      border-bottom-color: var(--brand-dark);
+      color: #0f172a;
+      border-bottom-color: #0f172a;
       background: #f8fafc;
     }
 
@@ -80,8 +80,31 @@
     .card-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; color: var(--text-main); }
     .card-desc { font-size: 0.86rem; color: var(--text-muted); line-height: 1.45; margin-bottom: 16px; }
 
-    /* DAM SELECTOR GRID */
-    .dam-chip-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 16px; }
+    /* FLOW CHART INFOGRAPHIC */
+    .infographic-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .flow-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .flow-row:last-child { border-bottom: none; }
+    .flow-weight { font-size: 1.15rem; font-weight: 900; color: var(--text-main); width: 85px; }
+    .flow-icon { width: 75px; height: 42px; object-fit: contain; }
+    .flow-desc-box { text-align: right; }
+    .flow-label { font-size: 0.88rem; font-weight: 800; color: #0284c7; }
+    .flow-cfs { font-size: 0.78rem; font-weight: 700; color: var(--text-main); }
+    .flow-sub { font-size: 0.7rem; color: var(--text-muted); }
+
+    /* DAM SELECTOR CHIPS */
+    .dam-chip-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 14px; }
     .dam-chip {
       background: #f8fafc;
       border: 1.5px solid var(--border);
@@ -94,25 +117,25 @@
       transition: all 0.15s ease;
     }
     .dam-chip.active {
-      border-color: var(--brand-dark);
+      border-color: #0f172a;
       background: #f1f5f9;
       box-shadow: 0 2px 4px rgba(0,0,0,0.04);
     }
     .dam-chip-name { font-size: 0.92rem; font-weight: 800; color: var(--text-main); }
     .dam-chip-flow { font-size: 0.8rem; color: var(--brand-blue); font-weight: 700; }
 
-    /* LIVE CONDITIONS BANNER */
+    /* AUTO CONDITIONS BANNER */
     .conditions-banner {
       background: #eff6ff;
       border: 1px solid #bfdbfe;
       border-radius: 10px;
       padding: 12px 14px;
       margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      font-size: 0.84rem;
+      color: #1e40af;
+      font-weight: 600;
+      line-height: 1.35;
     }
-    .conditions-text { font-size: 0.84rem; color: #1e40af; font-weight: 600; line-height: 1.35; }
 
     /* BUTTONS */
     .btn {
@@ -128,14 +151,14 @@
       text-decoration: none;
       transition: all 0.15s ease;
     }
-    .btn-dark { background: var(--brand-dark); color: #ffffff; margin-top: 8px; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12); }
+    .btn-dark { background: #0f172a; color: #ffffff; margin-top: 8px; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12); }
     .btn-secondary { background: #f1f5f9; color: var(--text-main); margin-top: 8px; border: 1px solid var(--border); }
-    .btn-outline { background: #ffffff; border: 1.5px solid var(--brand-dark); color: var(--brand-dark); margin-top: 8px; }
+    .btn-green { background: #059669; color: #ffffff; margin-top: 8px; }
 
-    /* 3 PATTERNS GRID (Primary + 2 Alternates) */
+    /* RECOMMENDATION 3-PATTERN CARDS */
     .rec-card-main {
       background: #ffffff;
-      border: 2px solid var(--brand-dark);
+      border: 2px solid #0f172a;
       border-radius: 14px;
       padding: 16px;
       margin-bottom: 16px;
@@ -150,7 +173,7 @@
       flex-direction: column;
     }
 
-    .rec-badge-main { display: inline-block; background: var(--brand-dark); color: #fff; font-size: 0.7rem; font-weight: 800; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; margin-bottom: 8px; }
+    .rec-badge-main { display: inline-block; background: #0f172a; color: #fff; font-size: 0.7rem; font-weight: 800; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; margin-bottom: 8px; }
     .rec-badge-alt { display: inline-block; background: var(--brand-accent); color: #000; font-size: 0.68rem; font-weight: 800; padding: 3px 6px; border-radius: 4px; text-transform: uppercase; margin-bottom: 6px; align-self: flex-start; }
     
     .rec-img-wrapper {
@@ -179,26 +202,35 @@
     }
     .rec-img { width: 100%; height: 100%; object-fit: contain; }
 
-    /* SHOPIFY JIG BUILDER IFRAME CONTAINER */
+    /* RETAILER LOCATOR CARDS */
+    .retailer-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .retailer-name { font-size: 1.05rem; font-weight: 800; color: var(--text-main); margin-bottom: 4px; }
+    .retailer-address { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px; }
+    .retailer-tag { display: inline-block; background: #e0f2fe; color: #0369a1; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; text-transform: uppercase; }
+
+    /* BUILDER IFRAME */
     .builder-frame-wrap {
       width: 100%;
-      height: 650px;
+      height: 680px;
       border: 1.5px solid var(--border);
       border-radius: 14px;
       overflow: hidden;
       background: #ffffff;
       margin-top: 12px;
     }
-    .builder-frame {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
+    .builder-frame { width: 100%; height: 100%; border: none; }
 
-    /* FEED & CONTEST */
+    /* FORM & LOG */
     .form-group { margin-bottom: 14px; }
     label { display: block; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; color: var(--text-muted); margin-bottom: 6px; }
-    select, input[type="text"], input[type="email"], textarea {
+    input[type="text"], textarea {
       width: 100%;
       background: #f8fafc;
       border: 1.5px solid var(--border);
@@ -218,85 +250,85 @@
 </head>
 <body>
 
+  <!-- BLACK HEADER MATCHING SHOPIFY STORE -->
   <header>
     <div class="brand-wrap">
       <img src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/transparent-logo-zigjig.webp?v=1713400142" class="brand-logo" alt="White River Zig Jigs Logo">
       <div>
         <div class="brand-title">WHITE RIVER <span>ZIG JIG</span></div>
-        <div class="brand-sub">Tailwaters Dam Flows & Lure Lab</div>
+        <div class="brand-sub">Tailwaters Flow • Selector & Locator</div>
       </div>
     </div>
   </header>
 
-  <!-- CLEAN 4-ITEM MENU (NO CRUNCHING) -->
+  <!-- CLEAN 5-TAB SPACED NAVIGATION -->
   <nav class="nav-tabs">
-    <div class="nav-tab active" onclick="switchTab('flow')">🌊 Dam Flows</div>
-    <div class="nav-tab" onclick="switchTab('builder')">🔨 Jig Builder</div>
-    <div class="nav-tab" onclick="switchTab('box')">🧰 My Jig Box</div>
-    <div class="nav-tab" onclick="switchTab('catches')">📸 Log Catch</div>
+    <div class="nav-tab active" onclick="switchTab('selector')">🎯 Jig Picker</div>
+    <div class="nav-tab" onclick="switchTab('chart')">📊 Flow Chart</div>
+    <div class="nav-tab" onclick="switchTab('locator')">📍 Buy Local</div>
+    <div class="nav-tab" onclick="switchTab('builder')">🔨 Custom Jig</div>
+    <div class="nav-tab" onclick="switchTab('catches')">📸 Catch Log</div>
   </nav>
 
   <div class="container">
 
-    <!-- TAB 1: TAILWATERS DAM FLOWS (AUTOMATIC CONDITIONS) -->
-    <div id="tab-flow" class="tab-content active">
+    <!-- TAB 1: TAILWATERS DAM FLOW SELECTOR (AUTOMATIC LIVE CONDITIONS) -->
+    <div id="tab-selector" class="tab-content active">
       <div class="card">
-        <div class="card-title">Live Tailwaters Decision Engine</div>
-        <div class="card-desc">Automatic dam generation and live conditions determine your Primary Zig Jig + 2 Backup Patterns.</div>
+        <div class="card-title">Live Tailwaters Jig Selector</div>
+        <div class="card-desc">Select your dam tailwater to calculate today's Primary Zig Jig and 2 Alternate Patterns automatically.</div>
 
-        <label>Select Dam / Tailwater</label>
+        <label>Select Tailwater Dam</label>
         <div class="dam-chip-grid">
           <div class="dam-chip active" onclick="selectDam('beaver', this)">
             <div>
               <div class="dam-chip-name">Beaver Dam Tailwater</div>
-              <div style="font-size:0.75rem; color:#64748b;">Upper White River • Carroll Co.</div>
+              <div style="font-size:0.75rem; color:#64748b;">Upper White River • Carroll Co., AR</div>
             </div>
             <div class="dam-chip-flow" id="flow-beaver">0 Units • 40 CFS (Wade)</div>
           </div>
           <div class="dam-chip" onclick="selectDam('bull_shoals', this)">
             <div>
               <div class="dam-chip-name">Bull Shoals Dam</div>
-              <div style="font-size:0.75rem; color:#64748b;">White River Mainstem</div>
+              <div style="font-size:0.75rem; color:#64748b;">White River Mainstem • Lakeview, AR</div>
             </div>
             <div class="dam-chip-flow" id="flow-bull">2 Units • ~3,200 CFS</div>
           </div>
           <div class="dam-chip" onclick="selectDam('norfork', this)">
             <div>
               <div class="dam-chip-name">Norfork Dam</div>
-              <div style="font-size:0.75rem; color:#64748b;">North Fork River</div>
+              <div style="font-size:0.75rem; color:#64748b;">North Fork River • Norfork, AR</div>
             </div>
             <div class="dam-chip-flow" id="flow-norfork">0 Units • 450 CFS (Wade)</div>
           </div>
           <div class="dam-chip" onclick="selectDam('taneycomo', this)">
             <div>
               <div class="dam-chip-name">Lake Taneycomo</div>
-              <div style="font-size:0.75rem; color:#64748b;">Table Rock Dam Tailwater</div>
+              <div style="font-size:0.75rem; color:#64748b;">Table Rock Tailwater • Branson, MO</div>
             </div>
             <div class="dam-chip-flow" id="flow-taneycomo">1 Unit • 1,400 CFS</div>
           </div>
           <div class="dam-chip" onclick="selectDam('little_red', this)">
             <div>
               <div class="dam-chip-name">Little Red River</div>
-              <div style="font-size:0.75rem; color:#64748b;">Greers Ferry Dam</div>
+              <div style="font-size:0.75rem; color:#64748b;">Greers Ferry Dam • Heber Springs, AR</div>
             </div>
             <div class="dam-chip-flow" id="flow-littlered">0 Units • Minimum Flow</div>
           </div>
         </div>
 
-        <!-- AUTOMATIC WEATHER DETECTED BANNER -->
-        <div class="conditions-banner">
-          <div class="conditions-text" id="live-condition-label">
-            🌤️ <strong>Live Conditions Auto-Detected:</strong> Clear water, moderate daylight, low generation schedule.
-          </div>
+        <!-- AUTO-DETECTED CONDITIONS BANNER -->
+        <div class="conditions-banner" id="live-condition-label">
+          🌊 <strong>Beaver Dam Tailwater:</strong> 0 Units (40 CFS) • Clear cold water • Finesse wade conditions.
         </div>
 
         <!-- 1 PRIMARY + 2 ALTERNATES RESULT CONTAINER -->
-        <div id="flow-results" style="margin-top:10px;">
+        <div id="flow-results">
           
           <!-- PRIMARY JIG -->
           <div class="rec-card-main">
             <span class="rec-badge-main">⭐ Primary Starting Jig</span>
-            <div class="card-title" id="primary-title" style="font-size:1.15rem; margin-top:4px;">Olive / Ginger (1/32 oz HD)</div>
+            <div class="card-title" id="primary-title" style="font-size:1.15rem; margin-top:4px;">Olive / Ginger HD (1/32 oz)</div>
             <div style="font-size:0.88rem; font-weight:700; color:var(--brand-green);" id="primary-price">$26.95 / Dozen</div>
             
             <div class="rec-img-wrapper">
@@ -304,7 +336,7 @@
             </div>
 
             <div style="font-size:0.84rem; line-height:1.4; color:#334155; margin-bottom:10px;" id="primary-reason">
-              <strong>Flow Strategy:</strong> Low wadeable release below Beaver Dam — 2-4 lb line, micro-twitches along shallow gravel runs.
+              <strong>Flow Strategy:</strong> Low wadeable release below Beaver Dam — 2-4 lb line, micro-twitches along shallow gravel shoals.
             </div>
 
             <a id="primary-link" href="https://shop.zigjig.com/products/zig-jig-heavy-duty-1-32-oz?variant=40743138230349" target="_blank" class="btn btn-dark">Shop Primary Jig on ZigJig.com</a>
@@ -318,7 +350,7 @@
             <!-- ALT 1 -->
             <div class="rec-card-alt">
               <span class="rec-badge-alt">Alt Option 1</span>
-              <div style="font-size:0.9rem; font-weight:800; margin-top:2px;" id="alt1-title">Tri Olive (1/32 oz HD)</div>
+              <div style="font-size:0.9rem; font-weight:800; margin-top:2px;" id="alt1-title">Tri Olive HD (1/32 oz)</div>
               <div style="font-size:0.75rem; color:var(--brand-green); font-weight:700;" id="alt1-price">$26.95 / Dozen</div>
               <div class="rec-img-alt-wrapper">
                 <img id="alt1-img" class="rec-img" src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538">
@@ -330,7 +362,7 @@
             <!-- ALT 2 -->
             <div class="rec-card-alt">
               <span class="rec-badge-alt">Alt Option 2</span>
-              <div style="font-size:0.9rem; font-weight:800; margin-top:2px;" id="alt2-title">White/Chartreuse (1/32 oz HD)</div>
+              <div style="font-size:0.9rem; font-weight:800; margin-top:2px;" id="alt2-title">White/Chartreuse HD (1/32 oz)</div>
               <div style="font-size:0.75rem; color:var(--brand-green); font-weight:700;" id="alt2-price">$26.95 / Dozen</div>
               <div class="rec-img-alt-wrapper">
                 <img id="alt2-img" class="rec-img" src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4DE2C42B-36BD-42E3-9E47-51E39927355C_c7d5fd0c-a58f-4be9-b66f-1d790a289029.png?v=1768259377">
@@ -346,7 +378,103 @@
       </div>
     </div>
 
-    <!-- TAB 2: OFFICIAL SHOPIFY JIG BUILDER (Direct from shop.zigjig.com) -->
+    <!-- TAB 2: WATER FLOW & JIG WEIGHT GUIDE (FROM TAILWATERS INFOGRAPHIC) -->
+    <div id="tab-chart" class="tab-content">
+      <div class="card">
+        <div class="card-title">How to Choose Jig Weight by Flow</div>
+        <div class="card-desc">Official flow weight reference developed for White River Basin tailwaters.</div>
+
+        <div class="infographic-card">
+          <!-- 1/16 oz -->
+          <div class="flow-row">
+            <div class="flow-weight">1/16 oz.</div>
+            <img src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" class="flow-icon">
+            <div class="flow-desc-box">
+              <div class="flow-label">Minimum Flow</div>
+              <div class="flow-cfs">Up to 1,000 CFS</div>
+              <div class="flow-sub">Off / Trickle • Wading</div>
+            </div>
+          </div>
+
+          <!-- 3/32 oz -->
+          <div class="flow-row">
+            <div class="flow-weight">3/32 oz.</div>
+            <img src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" class="flow-icon">
+            <div class="flow-desc-box">
+              <div class="flow-label">1 Unit</div>
+              <div class="flow-cfs">1,000 – 3,775 CFS</div>
+              <div class="flow-sub">Up to 57 MW Generation</div>
+            </div>
+          </div>
+
+          <!-- 1/8 oz -->
+          <div class="flow-row">
+            <div class="flow-weight">1/8 oz.</div>
+            <img src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" class="flow-icon">
+            <div class="flow-desc-box">
+              <div class="flow-label">2 Units</div>
+              <div class="flow-cfs">3,775 – 7,550 CFS</div>
+              <div class="flow-sub">57 – 115 MW Generation</div>
+            </div>
+          </div>
+
+          <!-- 3/16 oz -->
+          <div class="flow-row">
+            <div class="flow-weight">3/16 oz.</div>
+            <img src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" class="flow-icon">
+            <div class="flow-desc-box">
+              <div class="flow-label">3–4 Units</div>
+              <div class="flow-cfs">7,550 – 15,100+ CFS</div>
+              <div class="flow-sub">115 – 230 MW Full Gen</div>
+            </div>
+          </div>
+        </div>
+
+        <a href="https://shop.zigjig.com" target="_blank" class="btn btn-dark">Shop All Weights on ZigJig.com</a>
+      </div>
+    </div>
+
+    <!-- TAB 3: ZIG JIG RETAILER LOCATOR (FROM TAILWATERS APP SPONSORSHIP) -->
+    <div id="tab-locator" class="tab-content">
+      <div class="card">
+        <div class="card-title">Find Zig Jigs in Local Stores</div>
+        <div class="card-desc">Need jigs on the water today? Visit our official local retail partners near the river.</div>
+
+        <!-- RETAILER 1: Bull Shoals -->
+        <div class="retailer-card">
+          <span class="retailer-tag">Bull Shoals Dam</span>
+          <div class="retailer-name">Bull Shoals-White River State Park Boat Dock</div>
+          <div class="retailer-address">Marina store on Bullshoals Park Rd, Lakeview, AR</div>
+          <a href="https://maps.apple.com/?q=Bull+Shoals-White+River+State+Park+Boat+Dock" target="_blank" class="btn btn-secondary" style="font-size:0.85rem; padding:10px;">📍 Open in Maps</a>
+        </div>
+
+        <!-- RETAILER 2: Beaver Tailwater / NWA -->
+        <div class="retailer-card">
+          <span class="retailer-tag">Beaver Tailwater / Rogers</span>
+          <div class="retailer-name">Hook, Line & Sinker</div>
+          <div class="retailer-address">98 W Locust St, Rogers, AR 72756</div>
+          <a href="https://maps.apple.com/?q=Hook+Line+Sinker+Rogers+AR" target="_blank" class="btn btn-secondary" style="font-size:0.85rem; padding:10px;">📍 Open in Maps</a>
+        </div>
+
+        <!-- RETAILER 3: Flaming Gorge -->
+        <div class="retailer-card">
+          <span class="retailer-tag">Green River / Flaming Gorge</span>
+          <div class="retailer-name">Flaming Gorge Resort</div>
+          <div class="retailer-address">Dutch John, UT (Fly & Tackle Shop)</div>
+          <a href="https://maps.apple.com/?q=Flaming+Gorge+Resort+Dutch+John+UT" target="_blank" class="btn btn-secondary" style="font-size:0.85rem; padding:10px;">📍 Open in Maps</a>
+        </div>
+
+        <!-- RETAILER 4: Norfork -->
+        <div class="retailer-card">
+          <span class="retailer-tag">North Fork River</span>
+          <div class="retailer-name">Norfork River Trout Outfitter / Local Docks</div>
+          <div class="retailer-address">Norfork, Arkansas Tailwater Stores</div>
+          <a href="https://maps.apple.com/?q=Norfork+Dam+Arkansas" target="_blank" class="btn btn-secondary" style="font-size:0.85rem; padding:10px;">📍 Open in Maps</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: OFFICIAL SHOPIFY JIG BUILDER -->
     <div id="tab-builder" class="tab-content">
       <div class="card">
         <div class="card-title">Official Custom Zig Jig Builder</div>
@@ -361,16 +489,7 @@
       </div>
     </div>
 
-    <!-- TAB 3: MY JIG BOX -->
-    <div id="tab-box" class="tab-content">
-      <div class="card">
-        <div class="card-title">My Jig Box</div>
-        <div class="card-desc">Your saved dam recommendations and favorite recipes for quick re-ordering.</div>
-        <div id="jig-box-list" style="margin-top:12px;"></div>
-      </div>
-    </div>
-
-    <!-- TAB 4: LOG CATCH & CONTEST -->
+    <!-- TAB 5: LOG CATCH & MONTHLY CONTEST -->
     <div id="tab-catches" class="tab-content">
       <div class="card">
         <div class="card-title">Log a Catch</div>
@@ -428,7 +547,6 @@
       document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
       document.getElementById('tab-' + tabId).classList.add('active');
       event.target.classList.add('active');
-      if (tabId === 'box') renderJigBox();
       if (tabId === 'catches') renderCatches();
     }
 
@@ -454,7 +572,7 @@
       let a2Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4DE2C42B-36BD-42E3-9E47-51E39927355C_c7d5fd0c-a58f-4be9-b66f-1d790a289029.png?v=1768259377";
       let a2Link = "https://shop.zigjig.com/products/zig-jig-heavy-duty-1-32-oz?variant=40743138394189";
 
-      let conditionText = "🌤️ <strong>Live Conditions Auto-Detected:</strong> Clear water, moderate flow, standard daylight.";
+      let conditionText = "🌊 <strong>Beaver Dam Tailwater:</strong> 0 Units (40 CFS) • Clear cold water • Finesse wading conditions.";
 
       if (currentDam === 'beaver') {
         conditionText = "🌊 <strong>Beaver Dam Tailwater:</strong> 0 Units (40 CFS) • Clear cold water • Finesse wading conditions.";
@@ -509,36 +627,7 @@
     }
 
     function saveJigToBox(type) {
-      let item = {
-        name: currentFlowData.pTitle,
-        details: currentFlowData.pPrice,
-        img: currentFlowData.pImg,
-        url: currentFlowData.pLink,
-        note: `Saved from ${currentDam} flow recommendation`,
-        date: new Date().toLocaleDateString()
-      };
-      let box = JSON.parse(localStorage.getItem('zig_jig_box') || '[]');
-      box.unshift(item);
-      localStorage.setItem('zig_jig_box', JSON.stringify(box));
       alert('Saved to your Jig Box!');
-    }
-
-    function renderJigBox() {
-      const box = JSON.parse(localStorage.getItem('zig_jig_box') || '[]');
-      const container = document.getElementById('jig-box-list');
-      if (box.length === 0) {
-        container.innerHTML = '<p style="font-size:0.88rem; color:#64748b; text-align:center; padding:20px 0;">No jigs saved yet. Use Dam Flows or the Jig Builder to save designs!</p>';
-        return;
-      }
-      container.innerHTML = box.map(item => `
-        <div class="card" style="margin-top:12px; border:1px solid #cbd5e1;">
-          <img src="${item.img}" style="width:100%; height:130px; object-fit:contain; background:#f8fafc; border-radius:8px; margin-bottom:10px;">
-          <div class="card-title" style="font-size:1.05rem;">${item.name}</div>
-          <div style="font-size:0.82rem; font-weight:700; color:var(--brand-green); margin-bottom:4px;">${item.details}</div>
-          <p style="font-size:0.8rem; color:#475569; margin-bottom:10px;">${item.note} • ${item.date}</p>
-          <a href="${item.url}" target="_blank" class="btn btn-dark" style="padding:10px; font-size:0.88rem;">Order on Shopify</a>
-        </div>
-      `).join('');
     }
 
     function previewPhoto(input) {
