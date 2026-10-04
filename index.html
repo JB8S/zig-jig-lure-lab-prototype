@@ -267,30 +267,31 @@
       let flowStrategy = "";
       let reason = "";
 
-      // 1. LOW FLOW (< 500 CFS / Wadeable) -> 1/32 oz exact matching in-stock variants
+      // 1. LOW FLOW (< 500 CFS / Wadeable) -> 1/32 oz Heavy Duty (Matches Olive/Ginger)
       if (cfs === 'low') {
-        weight = "1/32 oz (12 Pack)";
-        name = "Zig Jig Marabou Trout Jig – 1/32 oz (12 Pack)";
+        weight = "1/32 oz HD (12 Pack)";
+        name = "Zig Jig Heavy Duty Marabou Trout Jig – 1/32 oz";
         flowStrategy = "Wadeable slow current (<500 CFS) — light line (2-4 lb), finesse jigging along shallow gravel bars and pools.";
 
         if (clarity === 'clear') {
-          colorPattern = "Ginger / Burnt Orange";
-          shopUrl = "https://shop.zigjig.com/products/zig-jig-1-32-oz?variant=40620353486925";
-          imgUrl = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/IMG-0091_c2c8fa72-192b-4a74-9cbb-08270ddce2c1.png?v=1768283146";
-          reason = `Natural earthy Ginger/Burnt Orange finesse pattern for clear low water in ${location}. Won't spook pressured fish.`;
+          colorPattern = "Olive / Ginger";
+          // 1/32 oz HD Olive/Ginger verified variant
+          shopUrl = "https://shop.zigjig.com/products/zig-jig-heavy-duty-1-32-oz?variant=40743138230349";
+          imgUrl = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/IMG-0091.png?v=1768277400";
+          reason = `Natural earthy Olive/Ginger finesse pattern for clear low water in ${location}. Won't spook pressured fish.`;
         } else if (clarity === 'stained') {
-          colorPattern = "White / Chartreuse";
-          shopUrl = "https://shop.zigjig.com/products/zig-jig-1-32-oz?variant=40620353716301";
-          imgUrl = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/IMG-0095.png?v=1768283865";
+          colorPattern = "White Chartreuse";
+          shopUrl = "https://shop.zigjig.com/products/zig-jig-heavy-duty-1-32-oz?variant=40743138394189";
+          imgUrl = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/DF3BDBF0-BC77-48BD-BCDB-5CB723A11E3D.png?v=1768272741";
           reason = `High-contrast White/Chartreuse visibility in low flow to draw aggressive reaction strikes.`;
         } else {
-          colorPattern = "Double Brown";
-          shopUrl = "https://shop.zigjig.com/products/zig-jig-1-32-oz?variant=40620353519693";
-          imgUrl = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/IMG-0089_4ee0f0a8-5d09-4323-861c-57a239c16f3c.png?v=1768283181";
-          reason = `Dark profile Double Brown for distinct silhouette in tinted water.`;
+          colorPattern = "Tri Olive";
+          shopUrl = "https://shop.zigjig.com/products/zig-jig-heavy-duty-1-32-oz?variant=40743138164813";
+          imgUrl = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/IMG-0089.png?v=1768277219";
+          reason = `Natural Tri Olive profile for distinct silhouette in tinted water.`;
         }
       } 
-      // 2. MEDIUM FLOW (500 - 3,500 CFS / 1-2 Units) -> 1/16 oz exact matching in-stock variants
+      // 2. MEDIUM FLOW (500 - 3,500 CFS / 1-2 Units) -> 1/16 oz
       else if (cfs === 'medium') {
         weight = "1/16 oz (12 Pack)";
         name = "Zig Jig Marabou Trout Jig – 1/16 oz (12 Pack)";
