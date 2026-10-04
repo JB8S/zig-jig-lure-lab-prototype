@@ -37,6 +37,7 @@
     .brand-title span { color: var(--brand-accent); }
     .brand-sub { font-size: 0.74rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
+    /* HARDWARE-NATIVE NAVIGATION TABS */
     .nav-tabs {
       display: flex;
       background: #ffffff;
@@ -49,14 +50,18 @@
     .nav-tab {
       flex: 1;
       text-align: center;
-      padding: 13px 4px;
-      font-size: 0.82rem;
+      padding: 14px 2px;
+      font-size: 0.8rem;
       font-weight: 800;
       color: var(--text-muted);
+      border: none;
+      background: transparent;
       border-bottom: 3px solid transparent;
       cursor: pointer;
-      user-select: none;
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .nav-tab.active {
       color: #0f172a;
@@ -79,6 +84,7 @@
     .card-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; color: var(--text-main); }
     .card-desc { font-size: 0.86rem; color: var(--text-muted); line-height: 1.45; margin-bottom: 16px; }
 
+    /* NATIVE BUTTON CHIPS */
     .dam-chip-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 14px; }
     .dam-chip {
       background: #f8fafc;
@@ -89,7 +95,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      user-select: none;
+      width: 100%;
+      text-align: left;
     }
     .dam-chip.active {
       border-color: #0f172a;
@@ -106,15 +113,14 @@
     }
     .weather-toggle {
       flex: 1;
-      padding: 10px;
+      padding: 10px 4px;
       text-align: center;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 800;
       border-radius: 8px;
       border: 1.5px solid var(--border);
       background: #f8fafc;
       cursor: pointer;
-      user-select: none;
     }
     .weather-toggle.active {
       border-color: #0f172a;
@@ -213,11 +219,12 @@
       cursor: pointer;
       margin-right: 6px;
       margin-bottom: 8px;
-      user-select: none;
+      border: 1px solid var(--border);
     }
     .dam-tab-pill.active {
       background: #0f172a;
       color: #ffffff;
+      border-color: #0f172a;
     }
     .flow-row {
       display: flex;
@@ -244,11 +251,12 @@
       color: var(--text-muted);
       cursor: pointer;
       white-space: nowrap;
-      user-select: none;
+      border: 1px solid var(--border);
     }
     .retailer-filter-pill.active {
       background: #0f172a;
       color: #ffffff;
+      border-color: #0f172a;
     }
     .retailer-card {
       background: #ffffff;
@@ -262,7 +270,6 @@
     .retailer-address { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px; }
     .retailer-tag { display: inline-block; background: #e0f2fe; color: #0369a1; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; text-transform: uppercase; }
 
-    /* CONTEST / CATCH LOG */
     .form-group { margin-bottom: 14px; }
     label { display: block; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; color: var(--text-muted); margin-bottom: 6px; }
     input[type="text"], input[type="file"], textarea {
@@ -302,13 +309,13 @@
     </div>
   </header>
 
-  <!-- DIRECT 5-TAB BAR -->
+  <!-- NATIVE BUTTON TABS -->
   <nav class="nav-tabs">
-    <div class="nav-tab active" data-tab="selector">🎯 Jig Picker</div>
-    <div class="nav-tab" data-tab="chart">📊 Flow Charts</div>
-    <div class="nav-tab" data-tab="locator">📍 Where to Buy</div>
+    <button type="button" class="nav-tab active" data-tab="selector">🎯 Jig Picker</button>
+    <button type="button" class="nav-tab" data-tab="chart">📊 Flow Charts</button>
+    <button type="button" class="nav-tab" data-tab="locator">📍 Where to Buy</button>
     <a href="https://shop.zigjig.com/pages/build-your-custom-zig-jig" target="_blank" class="nav-tab" style="color:var(--brand-accent);">🔨 Custom Jig ↗</a>
-    <div class="nav-tab" data-tab="catches">📸 Catch Log</div>
+    <button type="button" class="nav-tab" data-tab="catches">📸 Catch Log</button>
   </nav>
 
   <div class="container">
@@ -321,48 +328,48 @@
 
         <label>1. Select Tailwater Dam</label>
         <div class="dam-chip-grid">
-          <div class="dam-chip active" data-dam="bull_shoals">
+          <button type="button" class="dam-chip active" data-dam="bull_shoals">
             <div>
               <div class="dam-chip-name">Bull Shoals Dam</div>
               <div style="font-size:0.75rem; color:#64748b;">White River Mainstem • Lakeview, AR</div>
             </div>
             <div class="dam-chip-flow">2 Units • ~3,200 CFS</div>
-          </div>
-          <div class="dam-chip" data-dam="norfork">
+          </button>
+          <button type="button" class="dam-chip" data-dam="norfork">
             <div>
               <div class="dam-chip-name">Norfork Dam</div>
               <div style="font-size:0.75rem; color:#64748b;">North Fork River • Norfork, AR</div>
             </div>
             <div class="dam-chip-flow">0 Units • 450 CFS (Wade)</div>
-          </div>
-          <div class="dam-chip" data-dam="taneycomo">
+          </button>
+          <button type="button" class="dam-chip" data-dam="taneycomo">
             <div>
               <div class="dam-chip-name">Lake Taneycomo</div>
               <div style="font-size:0.75rem; color:#64748b;">Table Rock Tailwater • Branson, MO</div>
             </div>
             <div class="dam-chip-flow">1 Unit • 1,400 CFS</div>
-          </div>
-          <div class="dam-chip" data-dam="beaver">
+          </button>
+          <button type="button" class="dam-chip" data-dam="beaver">
             <div>
               <div class="dam-chip-name">Beaver Dam Tailwater</div>
               <div style="font-size:0.75rem; color:#64748b;">Upper White River • Carroll Co., AR</div>
             </div>
             <div class="dam-chip-flow">0 Units • 40 CFS (Wade)</div>
-          </div>
-          <div class="dam-chip" data-dam="little_red">
+          </button>
+          <button type="button" class="dam-chip" data-dam="little_red">
             <div>
               <div class="dam-chip-name">Little Red River</div>
               <div style="font-size:0.75rem; color:#64748b;">Greers Ferry Dam • Heber Springs, AR</div>
             </div>
             <div class="dam-chip-flow">0 Units • Minimum Flow</div>
-          </div>
+          </button>
         </div>
 
         <label>2. Current Weather & Sky</label>
         <div class="weather-toggle-bar">
-          <div class="weather-toggle active" data-weather="clear">☀️ Clear / Sunny</div>
-          <div class="weather-toggle" data-weather="cloudy">☁️ Overcast</div>
-          <div class="weather-toggle" data-weather="stained">🌧️ Stained Water</div>
+          <button type="button" class="weather-toggle active" data-weather="clear">☀️ Clear / Sunny</button>
+          <button type="button" class="weather-toggle" data-weather="cloudy">☁️ Overcast</button>
+          <button type="button" class="weather-toggle" data-weather="stained">🌧️ Stained Water</button>
         </div>
 
         <div class="conditions-banner" id="live-condition-label"></div>
@@ -414,12 +421,475 @@
         <div class="card-desc">Exact flow weight references calibrated for each dam's turbine capacity and CFS volume.</div>
 
         <div style="margin-bottom:12px;" id="dam-chart-pills">
-          <span class="dam-tab-pill active" data-chart="bull_shoals">Bull Shoals Dam</span>
-          <span class="dam-tab-pill" data-chart="table_rock">Table Rock / Taneycomo</span>
-          <span class="dam-tab-pill" data-chart="norfork">Norfork Dam</span>
-          <span class="dam-tab-pill" data-chart="beaver">Beaver Dam</span>
-          <span class="dam-tab-pill" data-chart="greers">Greers Ferry</span>
+          <button type="button" class="dam-tab-pill active" data-chart="bull_shoals">Bull Shoals Dam</button>
+          <button type="button" class="dam-tab-pill" data-chart="table_rock">Table Rock / Taneycomo</button>
+          <button type="button" class="dam-tab-pill" data-chart="norfork">Norfork Dam</button>
+          <button type="button" class="dam-tab-pill" data-chart="beaver">Beaver Dam</button>
+          <button type="button" class="dam-tab-pill" data-chart="greers">Greers Ferry</button>
         </div>
 
         <div class="infographic-card" id="flow-chart-container"></div>
         <a href="https://shop.zigjig.com" target="_blank" class="btn btn-dark">Shop All Weights on ZigJig.com</a>
+      </div>
+    </div>
+
+    <!-- TAB 3: WHERE TO BUY DIRECTORY (EXACT 15 VERIFIED PARTNERS ONLY) -->
+    <div id="tab-locator" class="tab-content">
+      <div class="card">
+        <div class="card-title">Official Zig Jig Retail Partners</div>
+        <div class="card-desc">Need jigs on the water today? Get directions to our 15 verified local stores.</div>
+
+        <div class="retailer-filter-bar" id="retailer-pills">
+          <button type="button" class="retailer-filter-pill active" data-region="all">All Partners (15)</button>
+          <button type="button" class="retailer-filter-pill" data-region="mtn_home">Mountain Home Area (10)</button>
+          <button type="button" class="retailer-filter-pill" data-region="nwa">Northwest Arkansas (2)</button>
+          <button type="button" class="retailer-filter-pill" data-region="utah">Utah (3)</button>
+        </div>
+
+        <div id="retailer-list-container"></div>
+      </div>
+    </div>
+
+    <!-- TAB 4: CATCH LOG & MONTHLY GIVEAWAY CONTEST -->
+    <div id="tab-catches" class="tab-content">
+      <div class="card">
+        <div class="card-title">Log a Catch & Win 1 Dozen Jigs</div>
+        <div class="card-desc">Submit your fish photo and pattern details to enter the monthly giveaway.</div>
+
+        <div class="contest-rules-box">
+          <strong>🏆 Official Monthly Contest Rules:</strong>
+          <ul style="margin: 6px 0 0 16px; font-size: 0.8rem; line-height: 1.4;">
+            <li>Catch must be taken on an authentic <strong>White River Zig Jig</strong>.</li>
+            <li>Submit a clear photo of the fish with your river location & jig pattern.</li>
+            <li>1 winner selected on the 1st of every month to receive <strong>1 Dozen Free Jigs</strong> of their choice!</li>
+            <li>Submissions grant permission for social media & community showcase.</li>
+          </ul>
+        </div>
+
+        <div class="form-group">
+          <label>Catch Photo</label>
+          <input type="file" id="catch-photo-input" accept="image/*">
+          <img id="photo-preview" class="feed-img" style="display:none; margin-top:10px; border-radius:10px;">
+        </div>
+
+        <div class="form-group">
+          <label>River Location & Dam Flow</label>
+          <input type="text" id="catch-location" placeholder="e.g. Bull Shoals Dam, 2 units (3,200 CFS)">
+        </div>
+
+        <div class="form-group">
+          <label>Fish Species & Size</label>
+          <input type="text" id="catch-species" placeholder="e.g. 22 in Brown Trout">
+        </div>
+
+        <div class="form-group">
+          <label>Zig Jig Pattern & Weight Used</label>
+          <input type="text" id="catch-jig" placeholder="e.g. 3/32 oz Tri Olive">
+        </div>
+
+        <button type="button" class="btn btn-dark" id="btn-save-catch">Enter Giveaway & Save Catch</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Recent Community Catches</div>
+        <div id="catch-feed"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const RETAILERS = [
+      { 
+        name: "Aspire Outdoors", 
+        tag: "Mountain Home, AR", 
+        region: "mtn_home", 
+        address: "2492 Hwy 62 East, Mtn. Home, AR 72653", 
+        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Aspire+Outdoors+2492+Hwy+62+East+Mountain+Home+AR+72653" 
+      },
+      { 
+        name: "Harps Food Stores", 
+        tag: "Mountain Home, AR", 
+        region: "mtn_home", 
+        address: "924 Hwy 62 East, Mtn. Home, AR 72653", 
+        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Harps+Food+Stores+924+Hwy+62+East+Mountain+Home+AR+72653" 
+      },
+      { 
+        name: "Stetson’s Resort", 
+        tag: "Flippin, AR", 
+        region: "mtn_home", 
+        address: "906 Marion County 7002, Flippin, AR 72634", 
+        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Stetsons+Resort+906+Marion+County+7002+Flippin+AR+72634" 
+      },
+      { 
+        name: "Bull Shoals-White River State Park Boat Dock", 
+        tag: "Bull Shoals Dam / Lakeview, AR", 
+        region: "mtn_home", 
+        address: "129 Bull Shoals Park, Lakeview, AR 72642", 
+        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Bull+Shoals+White+River+State+Park+Boat+Dock+129+Bull+Shoals+Park+Lakeview+AR+72642" 
+      },
+      { 
+        name: "White Buffalo Resort", 
+        tag: "Mountain Home, AR", 
+        region: "mtn_home", 
+        address: "418 White Buffalo Trail, Mtn Home, AR 72653", 
+        mapsUrl: "https://www.google.com/maps/search/?api=1&query=White+Buffalo+Resort+418+White+Buffalo+Trail+Mountain+Home+AR+72653" 
+      },
+      { 
+        name: "Natural State Fly Shop", 
+        tag: "Cotter, AR", 
+        region: "mtn_home", 
+        address: "102 Harding Blvd, Cotter, AR 72626", 
+        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Natural+State+Fly+Shop+102+Harding+Blvd+Cotter+AR+72626" 
+      },
+      { 
+        name: "Rainbow Drive Resort", 
+        tag: "Cotter, AR", 
+        region: "mtn_home", 
+        address: "669 Rainbow Landing Dr, Cotter, AR 72626", 
+        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Rainbow+Drive+Resort+669+Rainbow+Landing+Dr+Cotter+AR+72626" 
+      },
+      { 
+        name: "Gerry’s Qwik Stop Bait & Tackle", 
+        tag: "Mountain Home, AR", 
+        region: "mtn_home", 
+        address: "4651 Hwy 62 East, Mtn. Home, AR 72653", 
+        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Gerrys+Qwik+Stop+4651+Hwy+62+East+Mountain+Home+AR+72653" 
+      },
+      { 
+        name: "Woodsman’s Package Store", 
+        tag: "Norfork, AR", 
+        region: "mtn_home", 
+        address: "59 Fisherman’s St., Norfork, AR", 
+        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Woodsmans+Package+Store+59+Fishermans+St+Norfork+AR" 
+      },
+      { 
+        name: "Lemley’s Country Store", 
+        tag: "Calico Rock, AR", 
+        region: "mtn_home", 
+        address: "240 Main St., Calico Rock, AR 72519", 
+        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Lemleys+Country+Store+240+Main+St+Calico+Rock+AR+72519" 
+      },
+      { 
+        name: "Riverview Resort", 
+        tag: "Eureka Springs, AR", 
+        region: "nwa", 
+        address: "17939 US-62, Eureka Springs, AR 72632", 
+        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Riverview+Resort+17939+US-62+Eureka+Springs+AR+72632" 
+      },
+      { 
+        name: "Hook, Line & Sinker", 
+        tag: "Rogers, AR", 
+        region: "nwa", 
+        address: "98 W. Locust St., Rogers, AR 72756", 
+        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Hook+Line+Sinker+98+W+Locust+St+Rogers+AR+72756" 
+      },
+      { 
+        name: "Trout Creek Flies", 
+        tag: "Dutch John, UT", 
+        region: "utah", 
+        address: "1155 West Little Hole Rd., Dutch John, UT 84023", 
+        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Trout+Creek+Flies+1155+West+Little+Hole+Rd+Dutch+John+UT+84023" 
+      },
+      { 
+        name: "Fish Tech Outfitters", 
+        tag: "Holladay, UT", 
+        region: "utah", 
+        address: "6153 S. Highland Dr., Holladay, UT 84121", 
+        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Fish+Tech+Outfitters+6153+S+Highland+Dr+Holladay+UT+84121" 
+      },
+      { 
+        name: "Flaming Gorge Resort", 
+        tag: "Dutch John, UT", 
+        region: "utah", 
+        address: "1100 E Flaming Gorge Resort, Dutch John, UT 84023", 
+        mapsUrl: "https://www.google.com/maps/search/?api=1&query=Flaming+Gorge+Resort+1100+E+Flaming+Gorge+Resort+Dutch+John+UT+84023" 
+      }
+    ];
+
+    const FLOW_CHARTS = {
+      bull_shoals: {
+        title: "Bull Shoals Dam Flow Chart",
+        rows: [
+          { weight: "1/16 oz.", label: "1 Unit", cfs: "Up to 3,300 CFS", sub: "< 45 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
+          { weight: "3/32 oz.", label: "2 Units", cfs: "3,300 – 6,600 CFS", sub: "45 – 85 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
+          { weight: "1/8 oz.", label: "3–4 Units", cfs: "6,600 – 13,200 CFS", sub: "85 – 170 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
+          { weight: "3/16 oz.", label: "5–6 Units", cfs: "13,200 – 19,800 CFS", sub: "170 – 255 MW Heavy Flow", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" },
+          { weight: "1/4 oz.", label: "7–8 Units (Full)", cfs: "19,800 – 26,400+ CFS", sub: "255 – 340 MW Flood / Heavy", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/D971D9A2-6C8C-456E-BE46-05CB6769A991.png?v=1768259377" }
+        ]
+      },
+      table_rock: {
+        title: "Table Rock / Lake Taneycomo Flow Chart",
+        rows: [
+          { weight: "1/16 oz.", label: "Minimum Flow", cfs: "Up to 1,000 CFS", sub: "Off / Trickle • Wading", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
+          { weight: "3/32 oz.", label: "1 Unit", cfs: "1,000 – 3,775 CFS", sub: "Up to 57 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
+          { weight: "1/8 oz.", label: "2 Units", cfs: "3,775 – 7,550 CFS", sub: "57 – 115 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
+          { weight: "3/16 oz.", label: "3–4 Units", cfs: "7,550 – 15,100+ CFS", sub: "115 – 230 MW Full Gen", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" }
+        ]
+      },
+      norfork: {
+        title: "Norfork Dam Flow Chart",
+        rows: [
+          { weight: "1/16 oz.", label: "Minimum Flow", cfs: "Up to 900 CFS", sub: "Off / Wadeable", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
+          { weight: "3/32 oz.", label: "1/2 Unit", cfs: "900 – 1,800 CFS", sub: "Light Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
+          { weight: "1/8 oz.", label: "1 Unit", cfs: "1,800 – 3,600 CFS", sub: "Standard 1-Unit Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
+          { weight: "3/16 oz.", label: "2 Units (Full)", cfs: "Above 3,600+ CFS", sub: "Full 2-Unit Heavy Release", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" }
+        ]
+      },
+      beaver: {
+        title: "Beaver Dam Flow Chart",
+        rows: [
+          { weight: "1/16 oz.", label: "Minimum Flow", cfs: "Up to 1,000 CFS", sub: "Wadeable Shoals (40-500 CFS)", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
+          { weight: "3/32 oz.", label: "1 Unit (Low)", cfs: "1,000 – 2,200 CFS", sub: "Single Unit Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
+          { weight: "1/8 oz.", label: "1 Unit (Full)", cfs: "2,200 – 4,400 CFS", sub: "Full Turbine Capacity", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
+          { weight: "3/16 oz.", label: "2 Units / Spill", cfs: "Above 4,400+ CFS", sub: "Maximum Dam Discharge", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" }
+        ]
+      },
+      greers: {
+        title: "Greers Ferry / Little Red Flow Chart",
+        rows: [
+          { weight: "1/16 oz.", label: "Minimum Flow", cfs: "Up to 1,000 CFS", sub: "Wadeable River Shoals", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
+          { weight: "3/32 oz.", label: "1 Unit (Low)", cfs: "1,000 – 2,000 CFS", sub: "Moderate Current", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
+          { weight: "1/8 oz.", label: "1 Unit (Full)", cfs: "2,000 – 3,950 CFS", sub: "Full Generation Current", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
+          { weight: "3/16 oz.", label: "2 Units (Full)", cfs: "Above 3,950+ CFS", sub: "Heavy Generation Flow", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" }
+        ]
+      }
+    };
+
+    let currentDam = 'bull_shoals';
+    let currentWeather = 'clear';
+
+    function calculatePick() {
+      let weight = "3/32 oz";
+      let pColor = "Tri Olive";
+      let pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538";
+      let pLink = "https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620470698061";
+      let pReason = "2 units generation flow — 3/32 oz keeps you in the strike zone along riverbed gravel.";
+
+      let a1Color = "Olive / Ginger";
+      let a1Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DD5CDFD-A9F4-4926-9C22-67D4E499A3E1.png?v=1768275554";
+      let a1Link = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703467085";
+
+      let a2Color = "White / Chartreuse";
+      let a2Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/DE62566C-BFAE-45C9-80D2-4E7D1A6BB340.png?v=1768275907";
+      let a2Link = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703794765";
+
+      let condBanner = "🌊 <strong>Bull Shoals Dam:</strong> 2 Units (~3,200 CFS) • Drift seam presentation.";
+
+      if (currentDam === 'norfork') {
+        weight = "1/16 oz";
+        condBanner = "🌊 <strong>Norfork Dam:</strong> 0 Units (450 CFS) • Finesse wade conditions.";
+        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4F01D6B3-F7DD-45BB-A337-BF40EE55EA05.png?v=1768275507";
+        pLink = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703401549";
+        pReason = "Low flow wading — light 1/16 oz twitch along weedlines.";
+      } else if (currentDam === 'taneycomo') {
+        weight = "3/32 oz";
+        condBanner = "🌊 <strong>Lake Taneycomo:</strong> 1 Unit (1,400 CFS) • Steady current drift.";
+      } else if (currentDam === 'beaver') {
+        weight = "1/16 oz";
+        condBanner = "🌊 <strong>Beaver Dam:</strong> Minimum Flow • Shallow shoal presentation.";
+        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4F01D6B3-F7DD-45BB-A337-BF40EE55EA05.png?v=1768275507";
+        pLink = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703401549";
+      } else if (currentDam === 'little_red') {
+        weight = "1/16 oz";
+        condBanner = "🌊 <strong>Little Red River:</strong> Minimum Flow • Clear cold water.";
+        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4F01D6B3-F7DD-45BB-A337-BF40EE55EA05.png?v=1768275507";
+        pLink = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703401549";
+      }
+
+      if (currentWeather === 'cloudy') {
+        pColor = "Sculpin / Olive";
+        a1Color = "Black / Chartreuse";
+        a2Color = "Tri Olive";
+        pReason += " Overcast skies trigger aggressive strikes on silhouette colors.";
+      } else if (currentWeather === 'stained') {
+        pColor = "Black";
+        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353";
+        a1Color = "Black / Red";
+        a2Color = "Black / Chartreuse";
+        pReason += " Stained water requires maximum silhouette and contrast.";
+      }
+
+      document.getElementById('live-condition-label').innerHTML = condBanner;
+      document.getElementById('primary-title').innerText = pColor + " (" + weight + ")";
+      document.getElementById('primary-img').src = pImg;
+      document.getElementById('primary-link').href = pLink;
+      document.getElementById('primary-reason').innerHTML = "<strong>Presentation:</strong> " + pReason;
+
+      document.getElementById('alt1-title').innerText = a1Color + " (" + weight + ")";
+      document.getElementById('alt1-img').src = a1Img;
+      document.getElementById('alt1-link').href = a1Link;
+
+      document.getElementById('alt2-title').innerText = a2Color + " (" + weight + ")";
+      document.getElementById('alt2-img').src = a2Img;
+      document.getElementById('alt2-link').href = a2Link;
+    }
+
+    function renderFlowChart(damKey) {
+      const chart = FLOW_CHARTS[damKey];
+      const container = document.getElementById('flow-chart-container');
+      if (!chart || !container) return;
+      
+      container.innerHTML = '<div style="font-weight:800; font-size:1.05rem; margin-bottom:12px; color:var(--text-main);">' + chart.title + '</div>' +
+        chart.rows.map(function(r) {
+          return '<div class="flow-row">' +
+            '<div class="flow-weight">' + r.weight + '</div>' +
+            '<img src="' + r.img + '" class="flow-icon">' +
+            '<div class="flow-desc-box">' +
+              '<div class="flow-label">' + r.label + '</div>' +
+              '<div class="flow-cfs">' + r.cfs + '</div>' +
+              '<div class="flow-sub">' + r.sub + '</div>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+    }
+
+    function renderRetailers(regionKey) {
+      const container = document.getElementById('retailer-list-container');
+      if (!container) return;
+
+      const filtered = (regionKey === 'all') ? RETAILERS : RETAILERS.filter(function(r) { return r.region === regionKey; });
+
+      container.innerHTML = filtered.map(function(r) {
+        return '<div class="retailer-card">' +
+          '<span class="retailer-tag">' + r.tag + '</span>' +
+          '<div class="retailer-name">' + r.name + '</div>' +
+          '<div class="retailer-address">' + r.address + '</div>' +
+          '<a href="' + r.mapsUrl + '" target="_blank" class="btn btn-secondary" style="font-size:0.85rem; padding:10px;">📍 Directions in Google Maps</a>' +
+        '</div>';
+      }).join('');
+    }
+
+    function renderCatches() {
+      const catches = JSON.parse(localStorage.getItem('zig_catches') || '[]');
+      const container = document.getElementById('catch-feed');
+      if (!container) return;
+      if (catches.length === 0) {
+        container.innerHTML = '<p style="font-size:0.88rem; color:#64748b; text-align:center; padding:20px 0;">No catches submitted yet. Be the first to enter this month!</p>';
+        return;
+      }
+      container.innerHTML = catches.map(function(c) {
+        return '<div class="feed-item">' +
+          (c.img ? '<img src="' + c.img + '" class="feed-img">' : '') +
+          '<div class="feed-body">' +
+            '<div style="font-weight:800; color:#0f172a; font-size:1rem;">' + c.species + '</div>' +
+            '<div style="font-size:0.85rem; font-weight:700; color:#f59e0b; margin:2px 0;">Jig: ' + c.jig + '</div>' +
+            '<div style="font-size:0.78rem; color:#0284c7; font-weight:600; margin-bottom:2px;">📍 ' + c.location + '</div>' +
+            '<div style="font-size:0.78rem; color:#64748b;">' + c.date + '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    // DIRECT GLOBAL EVENT DELEGATION (NATIVE TO MOBILE SAFARI)
+    document.addEventListener('click', function(e) {
+      // 1. Navigation Tabs
+      const tabBtn = e.target.closest('.nav-tab[data-tab]');
+      if (tabBtn) {
+        document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
+        document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+        
+        tabBtn.classList.add('active');
+        const tabId = tabBtn.getAttribute('data-tab');
+        const content = document.getElementById('tab-' + tabId);
+        if (content) content.classList.add('active');
+
+        if (tabId === 'chart') renderFlowChart('bull_shoals');
+        if (tabId === 'locator') renderRetailers('all');
+        if (tabId === 'catches') renderCatches();
+        return;
+      }
+
+      // 2. Dam Selection Chips
+      const damBtn = e.target.closest('.dam-chip');
+      if (damBtn) {
+        document.querySelectorAll('.dam-chip').forEach(function(c) { c.classList.remove('active'); });
+        damBtn.classList.add('active');
+        currentDam = damBtn.getAttribute('data-dam');
+        calculatePick();
+        return;
+      }
+
+      // 3. Weather Toggles
+      const weatherBtn = e.target.closest('.weather-toggle');
+      if (weatherBtn) {
+        document.querySelectorAll('.weather-toggle').forEach(function(w) { w.classList.remove('active'); });
+        weatherBtn.classList.add('active');
+        currentWeather = weatherBtn.getAttribute('data-weather');
+        calculatePick();
+        return;
+      }
+
+      // 4. Flow Chart Dam Pills
+      const chartPill = e.target.closest('.dam-tab-pill');
+      if (chartPill) {
+        document.querySelectorAll('.dam-tab-pill').forEach(function(p) { p.classList.remove('active'); });
+        chartPill.classList.add('active');
+        renderFlowChart(chartPill.getAttribute('data-chart'));
+        return;
+      }
+
+      // 5. Retailer Filter Pills
+      const regionPill = e.target.closest('.retailer-filter-pill');
+      if (regionPill) {
+        document.querySelectorAll('.retailer-filter-pill').forEach(function(p) { p.classList.remove('active'); });
+        regionPill.classList.add('active');
+        renderRetailers(regionPill.getAttribute('data-region'));
+        return;
+      }
+
+      // 6. Save Catch Button
+      if (e.target && e.target.id === 'btn-save-catch') {
+        const loc = document.getElementById('catch-location').value;
+        const species = document.getElementById('catch-species').value;
+        const jig = document.getElementById('catch-jig').value;
+        const preview = document.getElementById('photo-preview');
+
+        if (!species || !jig) {
+          alert('Please provide the fish species and Zig Jig pattern used.');
+          return;
+        }
+
+        let catches = JSON.parse(localStorage.getItem('zig_catches') || '[]');
+        catches.unshift({
+          location: loc || 'River',
+          species: species,
+          jig: jig,
+          img: (preview.src && preview.src.startsWith('data:')) ? preview.src : '',
+          date: new Date().toLocaleDateString()
+        });
+        localStorage.setItem('zig_catches', JSON.stringify(catches));
+
+        document.getElementById('catch-location').value = '';
+        document.getElementById('catch-species').value = '';
+        document.getElementById('catch-jig').value = '';
+        preview.style.display = 'none';
+
+        alert('🎉 Entry received! You are entered into this month\'s 1 Dozen Free Jigs Giveaway.');
+        renderCatches();
+        return;
+      }
+    });
+
+    // Handle photo file change
+    document.addEventListener('change', function(e) {
+      if (e.target && e.target.id === 'catch-photo-input') {
+        if (e.target.files && e.target.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function(evt) {
+            const preview = document.getElementById('photo-preview');
+            preview.src = evt.target.result;
+            preview.style.display = 'block';
+          };
+          reader.readAsDataURL(e.target.files[0]);
+        }
+      }
+    });
+
+    // Initialize defaults on load
+    calculatePick();
+    renderFlowChart('bull_shoals');
+    renderRetailers('all');
+  </script>
+</body>
+</html>
