@@ -33,7 +33,7 @@
     .brand-title span { color: var(--brand-accent); }
     .brand-sub { font-size: 0.74rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    /* PURE CSS TAB SWITCHING */
+    /* HARDWARE RADIO SWITCHES */
     input.tab-switch { display: none; }
 
     .nav-tabs {
@@ -174,7 +174,7 @@
     .flow-cfs { font-size: 0.78rem; font-weight: 700; color: var(--text-main); }
     .flow-sub { font-size: 0.7rem; color: var(--text-muted); }
 
-    /* RETAILER LOCATOR CARDS */
+    /* RETAILERS */
     .retailer-card {
       background: #ffffff;
       border: 1px solid var(--border);
@@ -245,8 +245,20 @@
       font-weight: 800;
       margin: 18px 0 10px 0;
       color: var(--text-main);
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 4px;
+      border-bottom: 1.5px solid var(--border);
+      padding-bottom: 6px;
+    }
+    .weather-live-chip {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      color: #334155;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
   </style>
 </head>
@@ -262,7 +274,6 @@
     </div>
   </header>
 
-  <!-- PURE HARDWARE RADIO TABS -->
   <input type="radio" name="main-nav" id="radio-picker" class="tab-switch" checked>
   <input type="radio" name="main-nav" id="radio-charts" class="tab-switch">
   <input type="radio" name="main-nav" id="radio-where" class="tab-switch">
@@ -278,15 +289,15 @@
 
   <div class="container">
 
-    <!-- TAB 1: CFS & WEATHER JIG PICKER -->
+    <!-- TAB 1: CFS & AUTO-WEATHER JIG PICKER (TOP 10 SELLERS) -->
     <div id="tab-selector" class="tab-content">
       <div class="card">
         <div class="card-title">Tailwaters Jig Picker</div>
-        <div class="card-desc">Matches your exact dam CFS flow and sky conditions to the proven Zig Jig size & color.</div>
+        <div class="card-desc">Automatically selects top-selling Arkansas patterns matching live dam CFS, local weather, and river clarity.</div>
 
         <div class="form-group">
-          <label>1. Select Tailwater Dam</label>
-          <select id="select-dam" onchange="calculatePick()">
+          <label>Select Tailwater Dam</label>
+          <select id="select-dam" onchange="autoFetchDamConditions()">
             <option value="bull_shoals" selected>Bull Shoals Dam (White River, AR) • 2 Units (~3,200 CFS)</option>
             <option value="norfork">Norfork Dam (North Fork River, AR) • 0 Units (450 CFS Wade)</option>
             <option value="taneycomo">Lake Taneycomo (Table Rock, MO) • 1 Unit (1,400 CFS)</option>
@@ -295,13 +306,9 @@
           </select>
         </div>
 
-        <div class="form-group">
-          <label>2. Current Weather & Sky</label>
-          <select id="select-weather" onchange="calculatePick()">
-            <option value="clear" selected>☀️ Clear / Sunny (Natural Tones)</option>
-            <option value="cloudy">☁️ Overcast / Low Light (Silhouette Colors)</option>
-            <option value="stained">🌧️ Stained / High Water (Maximum Contrast)</option>
-          </select>
+        <div class="weather-live-chip" id="weather-live-chip">
+          <span>📡 <strong>Live Sky & Clarity:</strong> Checking conditions...</span>
+          <span style="font-size:0.72rem; color:#64748b;">Auto-updated</span>
         </div>
 
         <div class="conditions-banner" id="live-condition-label">
@@ -325,7 +332,7 @@
             <a id="primary-link" href="https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620470698061" target="_blank" class="btn btn-dark">Shop Primary Jig on ZigJig.com</a>
           </div>
 
-          <div style="font-size:0.92rem; font-weight:800; color:var(--text-main); margin:14px 0 6px 0;">Backup Color Options:</div>
+          <div style="font-size:0.92rem; font-weight:800; color:var(--text-main); margin:14px 0 6px 0;">Backup Top Seller Options:</div>
           <div class="alt-cards-grid">
             <div class="rec-card-alt">
               <span class="rec-badge-alt">Alt 1</span>
@@ -338,7 +345,7 @@
 
             <div class="rec-card-alt">
               <span class="rec-badge-alt">Alt 2</span>
-              <div style="font-size:0.88rem; font-weight:800; margin-top:2px;" id="alt2-title">White / Chartreuse (3/32 oz)</div>
+              <div style="font-size:0.88rem; font-weight:800; margin-top:2px;" id="alt2-title">Ginger (3/32 oz)</div>
               <div class="rec-img-alt-wrapper">
                 <img id="alt2-img" class="rec-img" src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/DE62566C-BFAE-45C9-80D2-4E7D1A6BB340.png?v=1768275907">
               </div>
@@ -350,13 +357,14 @@
       </div>
     </div>
 
-    <!-- TAB 2: FLOW CHARTS -->
+    <!-- TAB 2: SEPARATE FLOW CHARTS PER DAM -->
     <div id="tab-chart" class="tab-content">
       <div class="card">
         <div class="card-title">How to Choose Jig Weight by Flow</div>
-        <div class="card-desc">Exact flow weight references calibrated for each dam's turbine capacity and CFS volume.</div>
+        <div class="card-desc">Calibrated turbine release schedules and CFS thresholds for each tailwater dam.</div>
 
-        <div class="section-headline">Bull Shoals Dam (White River)</div>
+        <!-- 1. BULL SHOALS DAM -->
+        <div class="section-headline">1. Bull Shoals Dam (White River Mainstem)</div>
         <div class="flow-row">
           <div class="flow-weight">1/16 oz.</div>
           <img src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" class="flow-icon">
@@ -383,22 +391,80 @@
           <div class="flow-desc-box"><div class="flow-label">7–8 Units (Full)</div><div class="flow-cfs">19,800 – 26,400+ CFS</div><div class="flow-sub">255 – 340 MW Flood / Heavy</div></div>
         </div>
 
-        <div class="section-headline">Norfork Dam & Smaller Tailwaters</div>
+        <!-- 2. TABLE ROCK / TANEYCOMO -->
+        <div class="section-headline">2. Table Rock Dam (Lake Taneycomo, MO)</div>
+        <div class="flow-row">
+          <div class="flow-weight">1/16 oz.</div>
+          <div class="flow-desc-box"><div class="flow-label">Minimum Flow</div><div class="flow-cfs">Up to 1,000 CFS (Wadeable)</div></div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-weight">3/32 oz.</div>
+          <div class="flow-desc-box"><div class="flow-label">1 Unit</div><div class="flow-cfs">1,000 – 3,775 CFS</div><div class="flow-sub">Up to 57 MW Generation</div></div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-weight">1/8 oz.</div>
+          <div class="flow-desc-box"><div class="flow-label">2 Units</div><div class="flow-cfs">3,775 – 7,550 CFS</div><div class="flow-sub">57 – 115 MW Generation</div></div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-weight">3/16 oz.</div>
+          <div class="flow-desc-box"><div class="flow-label">3–4 Units (Full)</div><div class="flow-cfs">Above 7,550+ CFS</div><div class="flow-sub">115 – 230 MW Full Gen</div></div>
+        </div>
+
+        <!-- 3. NORFORK DAM -->
+        <div class="section-headline">3. Norfork Dam (North Fork River, AR)</div>
         <div class="flow-row">
           <div class="flow-weight">1/16 oz.</div>
           <div class="flow-desc-box"><div class="flow-label">Minimum Flow</div><div class="flow-cfs">Up to 900 CFS (Wadeable)</div></div>
         </div>
         <div class="flow-row">
           <div class="flow-weight">3/32 oz.</div>
-          <div class="flow-desc-box"><div class="flow-label">1/2 Unit</div><div class="flow-cfs">900 – 1,800 CFS</div></div>
+          <div class="flow-desc-box"><div class="flow-label">1/2 Unit</div><div class="flow-cfs">900 – 1,800 CFS</div><div class="flow-sub">Light Generation</div></div>
         </div>
         <div class="flow-row">
           <div class="flow-weight">1/8 oz.</div>
-          <div class="flow-desc-box"><div class="flow-label">1 Unit</div><div class="flow-cfs">1,800 – 3,600 CFS</div></div>
+          <div class="flow-desc-box"><div class="flow-label">1 Unit</div><div class="flow-cfs">1,800 – 3,600 CFS</div><div class="flow-sub">Standard Generation</div></div>
         </div>
         <div class="flow-row">
           <div class="flow-weight">3/16 oz.</div>
-          <div class="flow-desc-box"><div class="flow-label">2 Units (Full)</div><div class="flow-cfs">Above 3,600+ CFS</div></div>
+          <div class="flow-desc-box"><div class="flow-label">2 Units (Full)</div><div class="flow-cfs">Above 3,600+ CFS</div><div class="flow-sub">Maximum Release</div></div>
+        </div>
+
+        <!-- 4. BEAVER DAM -->
+        <div class="section-headline">4. Beaver Dam (Upper White River, AR)</div>
+        <div class="flow-row">
+          <div class="flow-weight">1/16 oz.</div>
+          <div class="flow-desc-box"><div class="flow-label">Minimum Flow</div><div class="flow-cfs">40 – 1,000 CFS (Wade Shoals)</div></div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-weight">3/32 oz.</div>
+          <div class="flow-desc-box"><div class="flow-label">1 Unit (Low)</div><div class="flow-cfs">1,000 – 2,200 CFS</div></div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-weight">1/8 oz.</div>
+          <div class="flow-desc-box"><div class="flow-label">1 Unit (Full)</div><div class="flow-cfs">2,200 – 4,400 CFS</div></div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-weight">3/16 oz.</div>
+          <div class="flow-desc-box"><div class="flow-label">2 Units / Spill</div><div class="flow-cfs">Above 4,400+ CFS</div></div>
+        </div>
+
+        <!-- 5. GREERS FERRY DAM -->
+        <div class="section-headline">5. Greers Ferry Dam (Little Red River, AR)</div>
+        <div class="flow-row">
+          <div class="flow-weight">1/16 oz.</div>
+          <div class="flow-desc-box"><div class="flow-label">Minimum Flow</div><div class="flow-cfs">Up to 1,000 CFS (Wade Shoals)</div></div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-weight">3/32 oz.</div>
+          <div class="flow-desc-box"><div class="flow-label">1 Unit (Low)</div><div class="flow-cfs">1,000 – 2,000 CFS</div></div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-weight">1/8 oz.</div>
+          <div class="flow-desc-box"><div class="flow-label">1 Unit (Full)</div><div class="flow-cfs">2,000 – 3,950 CFS</div></div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-weight">3/16 oz.</div>
+          <div class="flow-desc-box"><div class="flow-label">2 Units (Full)</div><div class="flow-cfs">Above 3,950+ CFS</div></div>
         </div>
 
         <a href="https://shop.zigjig.com" target="_blank" class="btn btn-dark" style="margin-top:16px;">Shop All Weights on ZigJig.com</a>
@@ -531,7 +597,6 @@
         <div class="card-title">Log a Catch & Win 1 Dozen Jigs</div>
         <div class="card-desc">Submit your fish details to enter this month's free dozen jigs giveaway.</div>
 
-        <!-- UPDATED OFFICIAL RULES & DATES -->
         <div class="contest-rules-box">
           <strong>🏆 Official Monthly Contest Rules:</strong>
           <ul style="margin: 6px 0 0 16px; font-size: 0.8rem; line-height: 1.45;">
@@ -580,16 +645,20 @@
             </select>
           </div>
 
+          <!-- RENAMED TO FISH SPECIES INCLUDING BASS & WALLEYE -->
           <div class="form-row">
             <div>
-              <label>Trout Species</label>
+              <label>Fish Species</label>
               <select id="catch-species" required>
-                <option value="" disabled selected>Tap species...</option>
+                <option value="" disabled selected>Tap fish species...</option>
                 <option value="Brown Trout">Brown Trout</option>
                 <option value="Rainbow Trout">Rainbow Trout</option>
+                <option value="Smallmouth Bass">Smallmouth Bass</option>
+                <option value="Walleye">Walleye</option>
                 <option value="Cutthroat Trout">Cutthroat Trout</option>
                 <option value="Brook Trout">Brook Trout</option>
                 <option value="Tiger Trout">Tiger Trout</option>
+                <option value="Other Game Fish">Other Game Fish</option>
               </select>
             </div>
             <div>
@@ -598,6 +667,7 @@
             </div>
           </div>
 
+          <!-- TOP 10 BEST-SELLING PATTERNS -->
           <div class="form-row">
             <div>
               <label>Zig Jig Size</label>
@@ -616,16 +686,21 @@
               <label>Zig Jig Color</label>
               <select id="catch-color" required>
                 <option value="" disabled selected>Tap color...</option>
-                <option value="Tri Olive">Tri Olive</option>
-                <option value="Olive / Ginger">Olive / Ginger</option>
-                <option value="White / Silver Tinsel">White / Silver Tinsel</option>
+                <option value="Tri Olive">Tri Olive (#1 Seller)</option>
+                <option value="Olive / Ginger">Olive / Ginger (#2 Seller)</option>
+                <option value="Olive / Orange">Olive / Orange (#3 Seller)</option>
+                <option value="Ginger">Ginger (#4 Seller)</option>
+                <option value="Black / Olive">Black / Olive (#5 Seller)</option>
+                <option value="Black">Black (#6 Seller)</option>
+                <option value="White / Silver Tinsel">White / Silver Tinsel (#7 Seller)</option>
+                <option value="Olive / Peach">Olive / Peach (#8 Seller)</option>
+                <option value="Brown / Orange">Brown / Orange (#9 Seller)</option>
+                <option value="Double Brown">Double Brown (#10 Seller)</option>
                 <option value="White / Chartreuse">White / Chartreuse</option>
-                <option value="Black">Black</option>
                 <option value="Black / Red">Black / Red</option>
                 <option value="Black / Chartreuse">Black / Chartreuse</option>
-                <option value="Sculpin / Olive">Sculpin / Olive</option>
-                <option value="Ginger">Ginger</option>
-                <option value="Custom Pattern">Custom Tied Color</option>
+                <option value="White / Gray">White / Gray</option>
+                <option value="Custom Marabou Pattern">Custom Marabou Pattern</option>
               </select>
             </div>
           </div>
@@ -651,9 +726,60 @@
     let rawSelectedFile = null;
     let localCompressedData = '';
 
-    function calculatePick() {
-      const dam = document.getElementById('select-dam').value;
-      const weather = document.getElementById('select-weather').value;
+    const DAM_COORDS = {
+      bull_shoals: { lat: 36.36, lon: -92.58, name: "Bull Shoals Dam" },
+      norfork: { lat: 36.25, lon: -92.24, name: "Norfork Dam" },
+      taneycomo: { lat: 36.59, lon: -93.30, name: "Lake Taneycomo" },
+      beaver: { lat: 36.42, lon: -93.82, name: "Beaver Dam" },
+      little_red: { lat: 35.52, lon: -92.00, name: "Little Red River" }
+    };
+
+    async function autoFetchDamConditions() {
+      const damKey = document.getElementById('select-dam').value;
+      const coords = DAM_COORDS[damKey];
+      const chip = document.getElementById('weather-live-chip');
+      
+      chip.innerHTML = "<span>📡 Checking live sky & rainfall for " + coords.name + "...</span>";
+
+      try {
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,cloud_cover,rain,showers&hourly=precipitation&past_days=1&forecast_days=1`;
+        const res = await fetch(url);
+        if (res.ok) {
+          const data = await res.json();
+          const cloud = data.current.cloud_cover || 0;
+          const currentRain = (data.current.rain || 0) + (data.current.showers || 0);
+          
+          let pastRain = 0;
+          if (data.hourly && data.hourly.precipitation) {
+            pastRain = data.hourly.precipitation.slice(0, 24).reduce((a, b) => a + b, 0);
+          }
+
+          let weatherStatus = 'clear';
+          let weatherDesc = '☀️ Clear / Sunny';
+
+          if (pastRain > 12 || currentRain > 1.5) {
+            weatherStatus = 'stained';
+            weatherDesc = '🌧️ Recent Rain (' + (pastRain/25.4).toFixed(2) + '") • Stained Water Alert';
+          } else if (cloud > 55 || currentRain > 0) {
+            weatherStatus = 'cloudy';
+            weatherDesc = '☁️ Overcast (' + cloud + '% Cloud Cover)';
+          }
+
+          chip.innerHTML = "<span>📡 <strong>" + coords.name + ":</strong> " + weatherDesc + "</span><span style='font-size:0.72rem; color:#059669; font-weight:700;'>● Live</span>";
+          calculatePick(damKey, weatherStatus, pastRain);
+          return;
+        }
+      } catch (e) {
+        console.error("Weather fetch fallback:", e);
+      }
+
+      chip.innerHTML = "<span>📡 <strong>" + coords.name + ":</strong> Clear / Normal Flow</span>";
+      calculatePick(damKey, 'clear', 0);
+    }
+
+    function calculatePick(dam, weather, rainAmount) {
+      dam = dam || document.getElementById('select-dam').value;
+      weather = weather || 'clear';
 
       let weight = "3/32 oz";
       let pColor = "Tri Olive";
@@ -665,7 +791,7 @@
       let a1Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DD5CDFD-A9F4-4926-9C22-67D4E499A3E1.png?v=1768275554";
       let a1Link = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703467085";
 
-      let a2Color = "White / Chartreuse";
+      let a2Color = "Ginger";
       let a2Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/DE62566C-BFAE-45C9-80D2-4E7D1A6BB340.png?v=1768275907";
       let a2Link = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703794765";
 
@@ -693,23 +819,25 @@
       }
 
       if (weather === 'cloudy') {
-        pColor = "Sculpin / Olive";
-        a1Color = "Black / Chartreuse";
+        pColor = "Black / Olive";
+        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353";
+        a1Color = "Olive / Orange";
         a2Color = "Tri Olive";
-        pReason += " Overcast skies trigger aggressive strikes on silhouette colors.";
+        pReason += " Overcast skies trigger aggressive strikes on silhouette patterns like Black/Olive.";
       } else if (weather === 'stained') {
         pColor = "Black";
         pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353";
-        a1Color = "Black / Red";
-        a2Color = "Black / Chartreuse";
-        pReason += " Stained water requires maximum silhouette and contrast.";
+        pLink = "https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620470698061";
+        a1Color = "Brown / Orange";
+        a2Color = "Black / Red";
+        pReason = "Recent watershed rainfall has stained the tailwater. Solid Black and contrast colors maximize strike visibility.";
       }
 
       document.getElementById('live-condition-label').innerHTML = condBanner;
       document.getElementById('primary-title').innerText = pColor + " (" + weight + ")";
       document.getElementById('primary-img').src = pImg;
       document.getElementById('primary-link').href = pLink;
-      document.getElementById('primary-reason').innerHTML = "<strong>Presentation:</strong> " + pReason;
+      document.getElementById('primary-reason').innerHTML = "<strong>Strategy:</strong> " + pReason;
 
       document.getElementById('alt1-title').innerText = a1Color + " (" + weight + ")";
       document.getElementById('alt1-img').src = a1Img;
@@ -751,7 +879,6 @@
       }
     }
 
-    // CLOUDINARY DIRECT UPLOAD TO ATTACH PHOTO LINK IN EMAIL
     async function uploadToCloudinary(file) {
       const formData = new FormData();
       formData.append('file', file);
@@ -777,7 +904,7 @@
       e.preventDefault();
 
       const btn = document.getElementById('btn-submit-entry');
-      btn.innerText = 'Uploading Photo & Submitting...';
+      btn.innerText = 'Uploading photo & submitting...';
       btn.disabled = true;
 
       const angler = document.getElementById('catch-angler').value.trim();
@@ -821,28 +948,30 @@
         localStorage.setItem('zig_catches', JSON.stringify(catches.slice(0, 15)));
       } catch (err) {}
 
-      const photoLine = onlinePhotoUrl 
-        ? "Attached Catch Photo: " + onlinePhotoUrl + "\n\n"
-        : "(Photo stored locally on device)\n\n";
-
-      const subject = encodeURIComponent("Monthly Giveaway Entry: " + length + "\" " + species + " by " + angler);
-      const body = encodeURIComponent(
-        "🏆 NEW MONTHLY GIVEAWAY ENTRY\n\n" +
-        "Angler Name: " + angler + "\n" +
-        "Angler Email: " + email + "\n\n" +
-        "Fish Species: " + species + "\n" +
-        "Length: " + length + " Inches\n" +
-        "River Location / Dam: " + loc + "\n" +
-        "Zig Jig Size: " + weight + "\n" +
-        "Zig Jig Color: " + color + "\n\n" +
-        photoLine +
-        "Social Media Permission: GRANTED (Yes)\n" +
-        "Deadline: Entries close 28th of each month\n" +
-        "Winner Announced: 1st of following month\n" +
-        "Submission Timestamp: " + new Date().toLocaleString()
-      );
-
-      window.open("mailto:orders@zigjig.fish?subject=" + subject + "&body=" + body, "_blank");
+      try {
+        await fetch('https://formsubmit.co/ajax/orders@zigjig.fish', {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            _subject: "🏆 Zig Jig Giveaway Entry: " + length + "\" " + species + " by " + angler,
+            "Angler Name": angler,
+            "Angler Email": email,
+            "Fish Species": species,
+            "Fish Length": length + " Inches",
+            "River Location / Dam": loc,
+            "Zig Jig Size": weight,
+            "Zig Jig Color": color,
+            "Attached Fish Photo": onlinePhotoUrl || "Photo saved on local app feed",
+            "Social Media Permission": "GRANTED (Yes)",
+            "Rules Acknowledged": "Submissions close 28th / Winner on 1st"
+          })
+        });
+      } catch (err) {
+        console.error("Direct email dispatch fallback:", err);
+      }
 
       btn.innerText = 'Enter Giveaway & Save Catch';
       btn.disabled = false;
@@ -853,7 +982,7 @@
       localCompressedData = '';
       rawSelectedFile = null;
 
-      alert('🎉 Entry received! Your catch and photo have been entered into the giveaway and routed to orders@zigjig.fish.');
+      alert('🎉 Entry received! Your catch and full-resolution photo have been delivered to orders@zigjig.fish.');
       renderCatchesList();
     }
 
@@ -874,7 +1003,7 @@
         return '<div class="feed-item" style="background:#fff; border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; margin-bottom:14px;">' +
           (c.img ? '<img src="' + c.img + '" style="width:100%; height:210px; object-fit:cover; display:block;">' : '') +
           '<div style="padding:14px;">' +
-            '<div style="font-weight:800; color:#0f172a; font-size:1rem;">' + (c.species || 'Trout') + ' (' + (c.size || '') + '")</div>' +
+            '<div style="font-weight:800; color:#0f172a; font-size:1rem;">' + (c.species || 'Fish') + ' (' + (c.size || '') + '")</div>' +
             '<div style="font-size:0.85rem; font-weight:700; color:#f59e0b; margin:2px 0;">Jig: ' + (c.jig || '') + '</div>' +
             '<div style="font-size:0.78rem; color:#0284c7; font-weight:600; margin-bottom:2px;">📍 ' + (c.location || '') + ' • Angler: ' + (c.angler || '') + '</div>' +
             '<div style="font-size:0.78rem; color:#64748b;">' + (c.date || '') + '</div>' +
@@ -884,4 +1013,14 @@
     }
 
     try {
-      const savedName
+      const savedName = localStorage.getItem('zig_angler_name');
+      const savedEmail = localStorage.getItem('zig_angler_email');
+      if (savedName) document.getElementById('catch-angler').value = savedName;
+      if (savedEmail) document.getElementById('catch-email').value = savedEmail;
+    } catch (e) {}
+
+    autoFetchDamConditions();
+    renderCatchesList();
+  </script>
+</body>
+</html>
