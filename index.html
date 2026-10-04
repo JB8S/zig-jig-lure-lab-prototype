@@ -16,7 +16,7 @@
       --brand-green: #059669;
       --brand-blue: #0284c7;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background-color: var(--bg-page); color: var(--text-main); padding-bottom: 90px; }
     
     header {
@@ -33,12 +33,10 @@
     .brand-title span { color: var(--brand-accent); }
     .brand-sub { font-size: 0.74rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    input.tab-switch { display: none; }
-
     .nav-tabs {
       display: flex;
       background: #ffffff;
-      border-bottom: 1.5px solid var(--border);
+      border-bottom: 2px solid var(--border);
       width: 100%;
     }
     .nav-tab {
@@ -48,6 +46,8 @@
       font-size: 0.8rem;
       font-weight: 800;
       color: var(--text-muted);
+      border: none;
+      background: transparent;
       border-bottom: 3px solid transparent;
       cursor: pointer;
       text-decoration: none;
@@ -55,25 +55,13 @@
       align-items: center;
       justify-content: center;
     }
-
-    #radio-picker:checked ~ .nav-tabs label[for="radio-picker"],
-    #radio-charts:checked ~ .nav-tabs label[for="radio-charts"],
-    #radio-where:checked ~ .nav-tabs label[for="radio-where"],
-    #radio-contest:checked ~ .nav-tabs label[for="radio-contest"] {
+    .nav-tab.active {
       color: #0f172a;
       border-bottom-color: #0f172a;
       background: #f1f5f9;
     }
 
     .container { max-width: 520px; margin: 0 auto; padding: 16px; }
-
-    .tab-content { display: none; }
-    #radio-picker:checked ~ .container #tab-selector,
-    #radio-charts:checked ~ .container #tab-chart,
-    #radio-where:checked ~ .container #tab-locator,
-    #radio-contest:checked ~ .container #tab-catches {
-      display: block;
-    }
 
     .card {
       background: var(--card-bg);
@@ -157,7 +145,6 @@
     }
     .rec-img { width: 100%; height: 100%; object-fit: contain; }
 
-    /* FLOW CHARTS INFOGRAPHICS */
     .flow-row {
       display: flex;
       align-items: center;
@@ -173,7 +160,6 @@
     .flow-cfs { font-size: 0.78rem; font-weight: 700; color: var(--text-main); }
     .flow-sub { font-size: 0.7rem; color: var(--text-muted); }
 
-    /* RETAILERS */
     .retailer-card {
       background: #ffffff;
       border: 1px solid var(--border);
@@ -186,7 +172,6 @@
     .retailer-address { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px; }
     .retailer-tag { display: inline-block; background: #e0f2fe; color: #0369a1; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; text-transform: uppercase; }
 
-    /* FORMS & SCROLL WHEELS */
     .form-group { margin-bottom: 14px; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
     label { display: block; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; color: var(--text-muted); margin-bottom: 6px; }
@@ -246,9 +231,6 @@
       color: var(--text-main);
       border-bottom: 2px solid var(--border);
       padding-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
     .weather-live-chip {
       background: #f1f5f9;
@@ -276,23 +258,18 @@
     </div>
   </header>
 
-  <input type="radio" name="main-nav" id="radio-picker" class="tab-switch" checked>
-  <input type="radio" name="main-nav" id="radio-charts" class="tab-switch">
-  <input type="radio" name="main-nav" id="radio-where" class="tab-switch">
-  <input type="radio" name="main-nav" id="radio-contest" class="tab-switch">
-
   <nav class="nav-tabs">
-    <label for="radio-picker" class="nav-tab">🎯 Jig Picker</label>
-    <label for="radio-charts" class="nav-tab">📊 Flow Charts</label>
-    <label for="radio-where" class="nav-tab">📍 Where to Buy</label>
+    <button type="button" class="nav-tab active" id="btn-tab-picker" onclick="showTab('tab-selector', this)">🎯 Jig Picker</button>
+    <button type="button" class="nav-tab" id="btn-tab-charts" onclick="showTab('tab-chart', this)">📊 Flow Charts</button>
+    <button type="button" class="nav-tab" id="btn-tab-where" onclick="showTab('tab-locator', this)">📍 Where to Buy</button>
     <a href="https://shop.zigjig.com/pages/build-your-custom-zig-jig" target="_blank" class="nav-tab" style="color:var(--brand-accent);">🔨 Custom Jig ↗</a>
-    <label for="radio-contest" class="nav-tab">📸 Catch Log</label>
+    <button type="button" class="nav-tab" id="btn-tab-catches" onclick="showTab('tab-catches', this)">📸 Catch Log</button>
   </nav>
 
   <div class="container">
 
     <!-- TAB 1: CFS & AUTO-WEATHER JIG PICKER -->
-    <div id="tab-selector" class="tab-content">
+    <div id="tab-selector" style="display:block;">
       <div class="card">
         <div class="card-title">Tailwaters Jig Picker</div>
         <div class="card-desc">Automatically selects top-selling Arkansas patterns matching live dam CFS, local weather, and river clarity.</div>
@@ -313,41 +290,45 @@
           <span style="font-size:0.75rem; color:#059669; font-weight:700;">● Live</span>
         </div>
 
-        <div class="conditions-banner" id="live-condition-label"></div>
+        <div class="conditions-banner" id="live-condition-label">
+          🌊 <strong>Bull Shoals Dam:</strong> 2 Units (~3,200 CFS) • Seam presentation.
+        </div>
 
         <div id="flow-results">
           <div class="rec-card-main">
             <span class="rec-badge-main">⭐ Today's Primary Pick</span>
-            <div class="card-title" id="primary-title" style="font-size:1.15rem; margin-top:4px;"></div>
+            <div class="card-title" id="primary-title" style="font-size:1.15rem; margin-top:4px;">Tri Olive (3/32 oz)</div>
             <div style="font-size:0.88rem; font-weight:700; color:var(--brand-green);" id="primary-price">$26.00 / Dozen</div>
             
             <div class="rec-img-wrapper">
-              <img id="primary-img" class="rec-img" src="" alt="Primary Zig Jig">
+              <img id="primary-img" class="rec-img" src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" alt="Primary Zig Jig">
             </div>
 
-            <div style="font-size:0.84rem; line-height:1.4; color:#334155; margin-bottom:10px;" id="primary-reason"></div>
+            <div style="font-size:0.84rem; line-height:1.4; color:#334155; margin-bottom:10px;" id="primary-reason">
+              <strong>Strategy:</strong> 2 units generation flow — 3/32 oz keeps you in the strike zone along riverbed gravel.
+            </div>
 
-            <a id="primary-link" href="https://shop.zigjig.com" target="_blank" class="btn btn-dark">Shop This Jig on ZigJig.com</a>
+            <a id="primary-link" href="https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620470698061" target="_blank" class="btn btn-dark">Shop Primary Jig on ZigJig.com</a>
           </div>
 
           <div style="font-size:0.92rem; font-weight:800; color:var(--text-main); margin:14px 0 6px 0;">Backup Top Seller Options:</div>
           <div class="alt-cards-grid">
             <div class="rec-card-alt">
               <span class="rec-badge-alt">Alt 1</span>
-              <div style="font-size:0.88rem; font-weight:800; margin-top:2px;" id="alt1-title"></div>
+              <div style="font-size:0.88rem; font-weight:800; margin-top:2px;" id="alt1-title">Olive / Ginger (3/32 oz)</div>
               <div class="rec-img-alt-wrapper">
-                <img id="alt1-img" class="rec-img" src="">
+                <img id="alt1-img" class="rec-img" src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DD5CDFD-A9F4-4926-9C22-67D4E499A3E1.png?v=1768275554">
               </div>
-              <a id="alt1-link" href="https://shop.zigjig.com" target="_blank" class="btn btn-dark" style="padding:8px; font-size:0.78rem; margin-top:auto;">Shop Alt 1</a>
+              <a id="alt1-link" href="https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703467085" target="_blank" class="btn btn-dark" style="padding:8px; font-size:0.78rem; margin-top:auto;">Shop Alt 1</a>
             </div>
 
             <div class="rec-card-alt">
               <span class="rec-badge-alt">Alt 2</span>
-              <div style="font-size:0.88rem; font-weight:800; margin-top:2px;" id="alt2-title"></div>
+              <div style="font-size:0.88rem; font-weight:800; margin-top:2px;" id="alt2-title">Ginger (3/32 oz)</div>
               <div class="rec-img-alt-wrapper">
-                <img id="alt2-img" class="rec-img" src="">
+                <img id="alt2-img" class="rec-img" src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/B2AE8C16-42B8-4610-B168-C9259301B891.png?v=1768271362">
               </div>
-              <a id="alt2-link" href="https://shop.zigjig.com" target="_blank" class="btn btn-dark" style="padding:8px; font-size:0.78rem; margin-top:auto;">Shop Alt 2</a>
+              <a id="alt2-link" href="https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40620430327885" target="_blank" class="btn btn-dark" style="padding:8px; font-size:0.78rem; margin-top:auto;">Shop Alt 2</a>
             </div>
           </div>
         </div>
@@ -356,7 +337,7 @@
     </div>
 
     <!-- TAB 2: SEPARATE FLOW CHARTS FOR EVERY DAM -->
-    <div id="tab-chart" class="tab-content">
+    <div id="tab-chart" style="display:none;">
       <div class="card">
         <div class="card-title">How to Choose Jig Weight by Flow</div>
         <div class="card-desc">Calibrated generation schedules, turbine capacity, and CFS flow thresholds for each tailwater dam.</div>
@@ -412,4 +393,82 @@
 
         <!-- 5. GREERS FERRY DAM -->
         <div class="section-headline">🌊 Greers Ferry Dam (Little Red River, AR)</div>
-        <div class="flow-row"><div class="flow-weight">1/16 oz.</div><div class="flow-desc-box"><div class="flow-label">Minimum Flow</div><div
+        <div class="flow-row"><div class="flow-weight">1/16 oz.</div><div class="flow-desc-box"><div class="flow-label">Minimum Flow</div><div class="flow-cfs">Up to 1,000 CFS</div><div class="flow-sub">Wade Shoals</div></div></div>
+        <div class="flow-row"><div class="flow-weight">3/32 oz.</div><div class="flow-desc-box"><div class="flow-label">1 Unit (Low)</div><div class="flow-cfs">1,000 – 2,000 CFS</div></div></div>
+        <div class="flow-row"><div class="flow-weight">1/8 oz.</div><div class="flow-desc-box"><div class="flow-label">1 Unit (Full)</div><div class="flow-cfs">2,000 – 3,950 CFS</div></div></div>
+        <div class="flow-row"><div class="flow-weight">3/16 oz.</div><div class="flow-desc-box"><div class="flow-label">2 Units (Full)</div><div class="flow-cfs">Above 3,950+ CFS</div></div></div>
+
+        <!-- 6. FLAMING GORGE DAM -->
+        <div class="section-headline">🌊 Flaming Gorge Dam (Green River, UT)</div>
+        <div class="flow-row"><div class="flow-weight">1/16 oz.</div><div class="flow-desc-box"><div class="flow-label">Low Flow</div><div class="flow-cfs">Up to 1,200 CFS</div><div class="flow-sub">Section A Sight Fishing</div></div></div>
+        <div class="flow-row"><div class="flow-weight">3/32 oz.</div><div class="flow-desc-box"><div class="flow-label">Moderate Flow</div><div class="flow-cfs">1,200 – 2,400 CFS</div><div class="flow-sub">Standard Drift</div></div></div>
+        <div class="flow-row"><div class="flow-weight">1/8 oz.</div><div class="flow-desc-box"><div class="flow-label">Full Generation</div><div class="flow-cfs">2,400 – 4,600 CFS</div><div class="flow-sub">Deep Canyon Seams</div></div></div>
+        <div class="flow-row"><div class="flow-weight">3/16 oz.</div><div class="flow-desc-box"><div class="flow-label">Spill / High Release</div><div class="flow-cfs">Above 4,600+ CFS</div><div class="flow-sub">Heavy Water</div></div></div>
+
+        <a href="https://shop.zigjig.com" target="_blank" class="btn btn-dark" style="margin-top:16px;">Shop All Weights on ZigJig.com</a>
+      </div>
+    </div>
+
+    <!-- TAB 3: WHERE TO BUY DIRECTORY -->
+    <div id="tab-locator" style="display:none;">
+      <div class="card">
+        <div class="card-title">Official Zig Jig Retail Partners</div>
+        <div class="card-desc">Need jigs on the water today? Get directions to our 15 verified local stores.</div>
+
+        <div class="section-headline">Mountain Home Area (10)</div>
+
+        <div class="retailer-card">
+          <span class="retailer-tag">Bull Shoals Dam / Lakeview, AR</span>
+          <div class="retailer-name">Bull Shoals-White River State Park Boat Dock</div>
+          <div class="retailer-address">129 Bull Shoals Park, Lakeview, AR 72642</div>
+          <a href="https://www.google.com/maps/search/?api=1&query=Bull+Shoals+White+River+State+Park+Boat+Dock+129+Bull+Shoals+Park+Lakeview+AR+72642" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
+        </div>
+
+        <div class="retailer-card">
+          <span class="retailer-tag">Mountain Home, AR</span>
+          <div class="retailer-name">Aspire Outdoors</div>
+          <div class="retailer-address">2492 Hwy 62 East, Mtn. Home, AR 72653</div>
+          <a href="https://www.google.com/maps/search/?api=1&query=Aspire+Outdoors+2492+Hwy+62+East+Mountain+Home+AR+72653" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
+        </div>
+
+        <div class="retailer-card">
+          <span class="retailer-tag">Mountain Home, AR</span>
+          <div class="retailer-name">Harps Food Stores</div>
+          <div class="retailer-address">924 Hwy 62 East, Mtn. Home, AR 72653</div>
+          <a href="https://www.google.com/maps/search/?api=1&query=Harps+Food+Stores+924+Hwy+62+East+Mountain+Home+AR+72653" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
+        </div>
+
+        <div class="retailer-card">
+          <span class="retailer-tag">Flippin, AR</span>
+          <div class="retailer-name">Stetson’s Resort</div>
+          <div class="retailer-address">906 Marion County 7002, Flippin, AR 72634</div>
+          <a href="https://www.google.com/maps/search/?api=1&query=Stetsons+Resort+906+Marion+County+7002+Flippin+AR+72634" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
+        </div>
+
+        <div class="retailer-card">
+          <span class="retailer-tag">Mountain Home, AR</span>
+          <div class="retailer-name">White Buffalo Resort</div>
+          <div class="retailer-address">418 White Buffalo Trail, Mtn Home, AR 72653</div>
+          <a href="https://www.google.com/maps/search/?api=1&query=White+Buffalo+Resort+418+White+Buffalo+Trail+Mountain+Home+AR+72653" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
+        </div>
+
+        <div class="retailer-card">
+          <span class="retailer-tag">Cotter, AR</span>
+          <div class="retailer-name">Natural State Fly Shop</div>
+          <div class="retailer-address">102 Harding Blvd, Cotter, AR 72626</div>
+          <a href="https://www.google.com/maps/search/?api=1&query=Natural+State+Fly+Shop+102+Harding+Blvd+Cotter+AR+72626" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
+        </div>
+
+        <div class="retailer-card">
+          <span class="retailer-tag">Cotter, AR</span>
+          <div class="retailer-name">Rainbow Drive Resort</div>
+          <div class="retailer-address">669 Rainbow Landing Dr, Cotter, AR 72626</div>
+          <a href="https://www.google.com/maps/search/?api=1&query=Rainbow+Drive+Resort+669+Rainbow+Landing+Dr+Cotter+AR+72626" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
+        </div>
+
+        <div class="retailer-card">
+          <span class="retailer-tag">Mountain Home, AR</span>
+          <div class="retailer-name">Gerry’s Qwik Stop Bait & Tackle</div>
+          <div class="retailer-address">4651 Hwy 62 East, Mtn. Home, AR 72653</div>
+          <a href="https://www.google.com/maps/search/?api=1&query=Gerrys+Qwik+Stop+4651+Hwy+62+East+Mountain+Home+AR+72653" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
+        </
