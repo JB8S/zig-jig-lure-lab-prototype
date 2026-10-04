@@ -33,7 +33,6 @@
     .brand-title span { color: var(--brand-accent); }
     .brand-sub { font-size: 0.74rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    /* PURE CSS TAB SWITCHING */
     input.tab-switch { display: none; }
 
     .nav-tabs {
@@ -174,7 +173,7 @@
     .flow-cfs { font-size: 0.78rem; font-weight: 700; color: var(--text-main); }
     .flow-sub { font-size: 0.7rem; color: var(--text-muted); }
 
-    /* RETAILER LOCATOR CARDS */
+    /* RETAILERS */
     .retailer-card {
       background: #ffffff;
       border: 1px solid var(--border);
@@ -241,12 +240,27 @@
       color: #92400e;
     }
     .section-headline {
-      font-size: 1rem;
-      font-weight: 800;
-      margin: 18px 0 10px 0;
+      font-size: 1.05rem;
+      font-weight: 900;
+      margin: 24px 0 12px 0;
       color: var(--text-main);
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 4px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .weather-live-chip {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      color: #334155;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
   </style>
 </head>
@@ -262,7 +276,6 @@
     </div>
   </header>
 
-  <!-- PURE HARDWARE RADIO TABS -->
   <input type="radio" name="main-nav" id="radio-picker" class="tab-switch" checked>
   <input type="radio" name="main-nav" id="radio-charts" class="tab-switch">
   <input type="radio" name="main-nav" id="radio-where" class="tab-switch">
@@ -278,15 +291,15 @@
 
   <div class="container">
 
-    <!-- TAB 1: CFS & WEATHER JIG PICKER -->
+    <!-- TAB 1: CFS & AUTO-WEATHER JIG PICKER -->
     <div id="tab-selector" class="tab-content">
       <div class="card">
         <div class="card-title">Tailwaters Jig Picker</div>
-        <div class="card-desc">Matches your exact dam CFS flow and sky conditions to the proven Zig Jig size & color.</div>
+        <div class="card-desc">Automatically selects top-selling Arkansas patterns matching live dam CFS, local weather, and river clarity.</div>
 
         <div class="form-group">
-          <label>1. Select Tailwater Dam</label>
-          <select id="select-dam" onchange="calculatePick()">
+          <label>Select Tailwater Dam</label>
+          <select id="select-dam" onchange="autoFetchDamConditions()">
             <option value="bull_shoals" selected>Bull Shoals Dam (White River, AR) • 2 Units (~3,200 CFS)</option>
             <option value="norfork">Norfork Dam (North Fork River, AR) • 0 Units (450 CFS Wade)</option>
             <option value="taneycomo">Lake Taneycomo (Table Rock, MO) • 1 Unit (1,400 CFS)</option>
@@ -295,54 +308,46 @@
           </select>
         </div>
 
-        <div class="form-group">
-          <label>2. Current Weather & Sky</label>
-          <select id="select-weather" onchange="calculatePick()">
-            <option value="clear" selected>☀️ Clear / Sunny (Natural Tones)</option>
-            <option value="cloudy">☁️ Overcast / Low Light (Silhouette Colors)</option>
-            <option value="stained">🌧️ Stained / High Water (Maximum Contrast)</option>
-          </select>
+        <div class="weather-live-chip" id="weather-live-chip">
+          <span>📡 <strong>Live Sky & Rainfall:</strong> Checking conditions...</span>
+          <span style="font-size:0.75rem; color:#059669; font-weight:700;">● Live</span>
         </div>
 
-        <div class="conditions-banner" id="live-condition-label">
-          🌊 <strong>Bull Shoals Dam:</strong> 2 Units (~3,200 CFS) • Drift seam presentation.
-        </div>
+        <div class="conditions-banner" id="live-condition-label"></div>
 
         <div id="flow-results">
           <div class="rec-card-main">
             <span class="rec-badge-main">⭐ Today's Primary Pick</span>
-            <div class="card-title" id="primary-title" style="font-size:1.15rem; margin-top:4px;">Tri Olive (3/32 oz)</div>
+            <div class="card-title" id="primary-title" style="font-size:1.15rem; margin-top:4px;"></div>
             <div style="font-size:0.88rem; font-weight:700; color:var(--brand-green);" id="primary-price">$26.00 / Dozen</div>
             
             <div class="rec-img-wrapper">
-              <img id="primary-img" class="rec-img" src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" alt="Primary Zig Jig">
+              <img id="primary-img" class="rec-img" src="" alt="Primary Zig Jig">
             </div>
 
-            <div style="font-size:0.84rem; line-height:1.4; color:#334155; margin-bottom:10px;" id="primary-reason">
-              <strong>Presentation:</strong> 2 units generation flow — 3/32 oz keeps you in the strike zone along riverbed gravel.
-            </div>
+            <div style="font-size:0.84rem; line-height:1.4; color:#334155; margin-bottom:10px;" id="primary-reason"></div>
 
-            <a id="primary-link" href="https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620470698061" target="_blank" class="btn btn-dark">Shop Primary Jig on ZigJig.com</a>
+            <a id="primary-link" href="https://shop.zigjig.com" target="_blank" class="btn btn-dark">Shop This Jig on ZigJig.com</a>
           </div>
 
-          <div style="font-size:0.92rem; font-weight:800; color:var(--text-main); margin:14px 0 6px 0;">Backup Color Options:</div>
+          <div style="font-size:0.92rem; font-weight:800; color:var(--text-main); margin:14px 0 6px 0;">Backup Top Seller Options:</div>
           <div class="alt-cards-grid">
             <div class="rec-card-alt">
               <span class="rec-badge-alt">Alt 1</span>
-              <div style="font-size:0.88rem; font-weight:800; margin-top:2px;" id="alt1-title">Olive / Ginger (3/32 oz)</div>
+              <div style="font-size:0.88rem; font-weight:800; margin-top:2px;" id="alt1-title"></div>
               <div class="rec-img-alt-wrapper">
-                <img id="alt1-img" class="rec-img" src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DD5CDFD-A9F4-4926-9C22-67D4E499A3E1.png?v=1768275554">
+                <img id="alt1-img" class="rec-img" src="">
               </div>
-              <a id="alt1-link" href="https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703467085" target="_blank" class="btn btn-dark" style="padding:8px; font-size:0.78rem; margin-top:auto;">Shop Alt 1</a>
+              <a id="alt1-link" href="https://shop.zigjig.com" target="_blank" class="btn btn-dark" style="padding:8px; font-size:0.78rem; margin-top:auto;">Shop Alt 1</a>
             </div>
 
             <div class="rec-card-alt">
               <span class="rec-badge-alt">Alt 2</span>
-              <div style="font-size:0.88rem; font-weight:800; margin-top:2px;" id="alt2-title">White / Chartreuse (3/32 oz)</div>
+              <div style="font-size:0.88rem; font-weight:800; margin-top:2px;" id="alt2-title"></div>
               <div class="rec-img-alt-wrapper">
-                <img id="alt2-img" class="rec-img" src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/DE62566C-BFAE-45C9-80D2-4E7D1A6BB340.png?v=1768275907">
+                <img id="alt2-img" class="rec-img" src="">
               </div>
-              <a id="alt2-link" href="https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703794765" target="_blank" class="btn btn-dark" style="padding:8px; font-size:0.78rem; margin-top:auto;">Shop Alt 2</a>
+              <a id="alt2-link" href="https://shop.zigjig.com" target="_blank" class="btn btn-dark" style="padding:8px; font-size:0.78rem; margin-top:auto;">Shop Alt 2</a>
             </div>
           </div>
         </div>
@@ -350,13 +355,14 @@
       </div>
     </div>
 
-    <!-- TAB 2: FLOW CHARTS -->
+    <!-- TAB 2: SEPARATE FLOW CHARTS FOR EVERY DAM -->
     <div id="tab-chart" class="tab-content">
       <div class="card">
         <div class="card-title">How to Choose Jig Weight by Flow</div>
-        <div class="card-desc">Exact flow weight references calibrated for each dam's turbine capacity and CFS volume.</div>
+        <div class="card-desc">Calibrated generation schedules, turbine capacity, and CFS flow thresholds for each tailwater dam.</div>
 
-        <div class="section-headline">Bull Shoals Dam (White River)</div>
+        <!-- 1. BULL SHOALS DAM -->
+        <div class="section-headline">🌊 Bull Shoals Dam (White River, AR)</div>
         <div class="flow-row">
           <div class="flow-weight">1/16 oz.</div>
           <img src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" class="flow-icon">
@@ -374,7 +380,7 @@
         </div>
         <div class="flow-row">
           <div class="flow-weight">3/16 oz.</div>
-          <img src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" class="flow-icon">
+          <img src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/DF3BDBF0-BC77-48BD-BCDB-5CB723A11E3D.png?v=1768272741" class="flow-icon">
           <div class="flow-desc-box"><div class="flow-label">5–6 Units</div><div class="flow-cfs">13,200 – 19,800 CFS</div><div class="flow-sub">170 – 255 MW Heavy Flow</div></div>
         </div>
         <div class="flow-row">
@@ -383,514 +389,27 @@
           <div class="flow-desc-box"><div class="flow-label">7–8 Units (Full)</div><div class="flow-cfs">19,800 – 26,400+ CFS</div><div class="flow-sub">255 – 340 MW Flood / Heavy</div></div>
         </div>
 
-        <div class="section-headline">Norfork Dam & Smaller Tailwaters</div>
-        <div class="flow-row">
-          <div class="flow-weight">1/16 oz.</div>
-          <div class="flow-desc-box"><div class="flow-label">Minimum Flow</div><div class="flow-cfs">Up to 900 CFS (Wadeable)</div></div>
-        </div>
-        <div class="flow-row">
-          <div class="flow-weight">3/32 oz.</div>
-          <div class="flow-desc-box"><div class="flow-label">1/2 Unit</div><div class="flow-cfs">900 – 1,800 CFS</div></div>
-        </div>
-        <div class="flow-row">
-          <div class="flow-weight">1/8 oz.</div>
-          <div class="flow-desc-box"><div class="flow-label">1 Unit</div><div class="flow-cfs">1,800 – 3,600 CFS</div></div>
-        </div>
-        <div class="flow-row">
-          <div class="flow-weight">3/16 oz.</div>
-          <div class="flow-desc-box"><div class="flow-label">2 Units (Full)</div><div class="flow-cfs">Above 3,600+ CFS</div></div>
-        </div>
-
-        <a href="https://shop.zigjig.com" target="_blank" class="btn btn-dark" style="margin-top:16px;">Shop All Weights on ZigJig.com</a>
-      </div>
-    </div>
-
-    <!-- TAB 3: WHERE TO BUY DIRECTORY -->
-    <div id="tab-locator" class="tab-content">
-      <div class="card">
-        <div class="card-title">Official Zig Jig Retail Partners</div>
-        <div class="card-desc">Need jigs on the water today? Get directions to our 15 verified local stores.</div>
-
-        <div class="section-headline">Mountain Home Area (10)</div>
-
-        <div class="retailer-card">
-          <span class="retailer-tag">Bull Shoals Dam / Lakeview, AR</span>
-          <div class="retailer-name">Bull Shoals-White River State Park Boat Dock</div>
-          <div class="retailer-address">129 Bull Shoals Park, Lakeview, AR 72642</div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Bull+Shoals+White+River+State+Park+Boat+Dock+129+Bull+Shoals+Park+Lakeview+AR+72642" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
-        </div>
-
-        <div class="retailer-card">
-          <span class="retailer-tag">Mountain Home, AR</span>
-          <div class="retailer-name">Aspire Outdoors</div>
-          <div class="retailer-address">2492 Hwy 62 East, Mtn. Home, AR 72653</div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Aspire+Outdoors+2492+Hwy+62+East+Mountain+Home+AR+72653" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
-        </div>
-
-        <div class="retailer-card">
-          <span class="retailer-tag">Mountain Home, AR</span>
-          <div class="retailer-name">Harps Food Stores</div>
-          <div class="retailer-address">924 Hwy 62 East, Mtn. Home, AR 72653</div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Harps+Food+Stores+924+Hwy+62+East+Mountain+Home+AR+72653" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
-        </div>
-
-        <div class="retailer-card">
-          <span class="retailer-tag">Flippin, AR</span>
-          <div class="retailer-name">Stetson’s Resort</div>
-          <div class="retailer-address">906 Marion County 7002, Flippin, AR 72634</div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Stetsons+Resort+906+Marion+County+7002+Flippin+AR+72634" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
-        </div>
-
-        <div class="retailer-card">
-          <span class="retailer-tag">Mountain Home, AR</span>
-          <div class="retailer-name">White Buffalo Resort</div>
-          <div class="retailer-address">418 White Buffalo Trail, Mtn Home, AR 72653</div>
-          <a href="https://www.google.com/maps/search/?api=1&query=White+Buffalo+Resort+418+White+Buffalo+Trail+Mountain+Home+AR+72653" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
-        </div>
-
-        <div class="retailer-card">
-          <span class="retailer-tag">Cotter, AR</span>
-          <div class="retailer-name">Natural State Fly Shop</div>
-          <div class="retailer-address">102 Harding Blvd, Cotter, AR 72626</div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Natural+State+Fly+Shop+102+Harding+Blvd+Cotter+AR+72626" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
-        </div>
-
-        <div class="retailer-card">
-          <span class="retailer-tag">Cotter, AR</span>
-          <div class="retailer-name">Rainbow Drive Resort</div>
-          <div class="retailer-address">669 Rainbow Landing Dr, Cotter, AR 72626</div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Rainbow+Drive+Resort+669+Rainbow+Landing+Dr+Cotter+AR+72626" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
-        </div>
-
-        <div class="retailer-card">
-          <span class="retailer-tag">Mountain Home, AR</span>
-          <div class="retailer-name">Gerry’s Qwik Stop Bait & Tackle</div>
-          <div class="retailer-address">4651 Hwy 62 East, Mtn. Home, AR 72653</div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Gerrys+Qwik+Stop+4651+Hwy+62+East+Mountain+Home+AR+72653" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
-        </div>
-
-        <div class="retailer-card">
-          <span class="retailer-tag">Norfork, AR</span>
-          <div class="retailer-name">Woodsman’s Package Store</div>
-          <div class="retailer-address">59 Fisherman’s St., Norfork, AR</div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Woodsmans+Package+Store+59+Fishermans+St+Norfork+AR" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
-        </div>
-
-        <div class="retailer-card">
-          <span class="retailer-tag">Calico Rock, AR</span>
-          <div class="retailer-name">Lemley’s Country Store</div>
-          <div class="retailer-address">240 Main St., Calico Rock, AR 72519</div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Lemleys+Country+Store+240+Main+St+Calico+Rock+AR+72519" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
-        </div>
-
-        <div class="section-headline">Northwest Arkansas (2)</div>
-
-        <div class="retailer-card">
-          <span class="retailer-tag">Eureka Springs, AR</span>
-          <div class="retailer-name">Riverview Resort</div>
-          <div class="retailer-address">17939 US-62, Eureka Springs, AR 72632</div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Riverview+Resort+17939+US-62+Eureka+Springs+AR+72632" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
-        </div>
-
-        <div class="retailer-card">
-          <span class="retailer-tag">Rogers, AR</span>
-          <div class="retailer-name">Hook, Line & Sinker</div>
-          <div class="retailer-address">98 W. Locust St., Rogers, AR 72756</div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Hook+Line+Sinker+98+W+Locust+St+Rogers+AR+72756" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
-        </div>
-
-        <div class="section-headline">Utah & Flaming Gorge (3)</div>
-
-        <div class="retailer-card">
-          <span class="retailer-tag">Dutch John, UT</span>
-          <div class="retailer-name">Trout Creek Flies</div>
-          <div class="retailer-address">1155 West Little Hole Rd., Dutch John, UT 84023</div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Trout+Creek+Flies+1155+West+Little+Hole+Rd+Dutch+John+UT+84023" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
-        </div>
-
-        <div class="retailer-card">
-          <span class="retailer-tag">Holladay, UT</span>
-          <div class="retailer-name">Fish Tech Outfitters</div>
-          <div class="retailer-address">6153 S. Highland Dr., Holladay, UT 84121</div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Fish+Tech+Outfitters+6153+S+Highland+Dr+Holladay+UT+84121" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
-        </div>
-
-        <div class="retailer-card">
-          <span class="retailer-tag">Dutch John, UT</span>
-          <div class="retailer-name">Flaming Gorge Resort</div>
-          <div class="retailer-address">1100 E Flaming Gorge Resort, Dutch John, UT 84023</div>
-          <a href="https://www.google.com/maps/search/?api=1&query=Flaming+Gorge+Resort+1100+E+Flaming+Gorge+Resort+Dutch+John+UT+84023" target="_blank" class="btn btn-secondary">📍 Directions in Google Maps</a>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- TAB 4: CATCH LOG & GIVEAWAY CONTEST -->
-    <div id="tab-catches" class="tab-content">
-      <div class="card">
-        <div class="card-title">Log a Catch & Win 1 Dozen Jigs</div>
-        <div class="card-desc">Submit your fish details to enter this month's free dozen jigs giveaway.</div>
-
-        <!-- UPDATED OFFICIAL RULES & DATES -->
-        <div class="contest-rules-box">
-          <strong>🏆 Official Monthly Contest Rules:</strong>
-          <ul style="margin: 6px 0 0 16px; font-size: 0.8rem; line-height: 1.45;">
-            <li>Catch must be taken on an authentic <strong>White River Zig Jig</strong>.</li>
-            <li>Submit a clear photo with your river location & jig pattern.</li>
-            <li><strong>Entry Deadline:</strong> Submissions must be received by the <strong>28th of each month</strong>.</li>
-            <li><strong>Winner Announcement:</strong> 1 winner is chosen on the <strong>1st of the following month</strong> for <strong>1 Dozen Free Jigs</strong>!</li>
-            <li>All photos and entries are emailed directly to <strong>orders@zigjig.fish</strong>.</li>
-          </ul>
-        </div>
-
-        <form id="contest-form" onsubmit="submitCatch(event)">
-          <div class="form-row">
-            <div>
-              <label>Your Name</label>
-              <input type="text" id="catch-angler" placeholder="e.g. Johnny Bates" required>
-            </div>
-            <div>
-              <label>Your Email</label>
-              <input type="email" id="catch-email" placeholder="e.g. johnny@example.com" required>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Catch Photo</label>
-            <input type="file" id="catch-photo-input" accept="image/*" onchange="previewCatchPhoto(this)" required>
-            <img id="photo-preview" style="display:none; width:100%; height:210px; object-fit:cover; margin-top:10px; border-radius:10px;">
-          </div>
-
-          <div class="form-group">
-            <label>River Location & Dam Flow</label>
-            <select id="catch-location" required>
-              <option value="" disabled selected>Tap to select river / dam...</option>
-              <optgroup label="White River Basin">
-                <option value="Bull Shoals Dam (White River, AR)">Bull Shoals Dam (White River, AR)</option>
-                <option value="Norfork Dam (North Fork River, AR)">Norfork Dam (North Fork River, AR)</option>
-                <option value="Lake Taneycomo (Table Rock, MO)">Lake Taneycomo (Table Rock, MO)</option>
-                <option value="Beaver Dam Tailwater (White River, AR)">Beaver Dam Tailwater (White River, AR)</option>
-                <option value="Little Red River (Greers Ferry Dam, AR)">Little Red River (Greers Ferry Dam, AR)</option>
-              </optgroup>
-              <optgroup label="Utah & Western Tailwaters">
-                <option value="Green River (Flaming Gorge Dam, UT)">Green River (Flaming Gorge Dam, UT)</option>
-                <option value="Provo River (Utah)">Provo River (Utah)</option>
-              </optgroup>
-              <option value="Other River / Creek">Other River / Creek</option>
-            </select>
-          </div>
-
-          <div class="form-row">
-            <div>
-              <label>Trout Species</label>
-              <select id="catch-species" required>
-                <option value="" disabled selected>Tap species...</option>
-                <option value="Brown Trout">Brown Trout</option>
-                <option value="Rainbow Trout">Rainbow Trout</option>
-                <option value="Cutthroat Trout">Cutthroat Trout</option>
-                <option value="Brook Trout">Brook Trout</option>
-                <option value="Tiger Trout">Tiger Trout</option>
-              </select>
-            </div>
-            <div>
-              <label>Length (Inches)</label>
-              <input type="number" id="catch-length" placeholder="e.g. 28" min="6" max="45" step="0.5" required>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div>
-              <label>Zig Jig Size</label>
-              <select id="catch-weight" required>
-                <option value="" disabled selected>Tap size...</option>
-                <option value="1/32 oz HD">1/32 oz HD</option>
-                <option value="1/16 oz">1/16 oz Standard</option>
-                <option value="3/32 oz">3/32 oz Standard</option>
-                <option value="1/8 oz">1/8 oz Standard</option>
-                <option value="3/16 oz">3/16 oz Standard</option>
-                <option value="1/4 oz">1/4 oz Standard</option>
-                <option value="3/8 oz Super HD">3/8 oz Super HD (2X Hook)</option>
-              </select>
-            </div>
-            <div>
-              <label>Zig Jig Color</label>
-              <select id="catch-color" required>
-                <option value="" disabled selected>Tap color...</option>
-                <option value="Tri Olive">Tri Olive</option>
-                <option value="Olive / Ginger">Olive / Ginger</option>
-                <option value="White / Silver Tinsel">White / Silver Tinsel</option>
-                <option value="White / Chartreuse">White / Chartreuse</option>
-                <option value="Black">Black</option>
-                <option value="Black / Red">Black / Red</option>
-                <option value="Black / Chartreuse">Black / Chartreuse</option>
-                <option value="Sculpin / Olive">Sculpin / Olive</option>
-                <option value="Ginger">Ginger</option>
-                <option value="Custom Pattern">Custom Tied Color</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="consent-box">
-            <input type="checkbox" id="catch-consent" required>
-            <label for="catch-consent"><strong>I agree:</strong> I grant White River Zig Jig permission to feature my catch photo on social media, marketing, and community channels.</label>
-          </div>
-
-          <button type="submit" class="btn btn-dark" id="btn-submit-entry">Enter Giveaway & Save Catch</button>
-        </form>
-      </div>
-
-      <div class="card">
-        <div class="card-title">Recent Community Catches</div>
-        <div id="catch-feed"></div>
-      </div>
-    </div>
-
-  </div>
-
-  <script>
-    let rawSelectedFile = null;
-    let localCompressedData = '';
-
-    function calculatePick() {
-      const dam = document.getElementById('select-dam').value;
-      const weather = document.getElementById('select-weather').value;
-
-      let weight = "3/32 oz";
-      let pColor = "Tri Olive";
-      let pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538";
-      let pLink = "https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620470698061";
-      let pReason = "2 units generation flow — 3/32 oz keeps you in the strike zone along riverbed gravel.";
-
-      let a1Color = "Olive / Ginger";
-      let a1Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DD5CDFD-A9F4-4926-9C22-67D4E499A3E1.png?v=1768275554";
-      let a1Link = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703467085";
-
-      let a2Color = "White / Chartreuse";
-      let a2Img = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/DE62566C-BFAE-45C9-80D2-4E7D1A6BB340.png?v=1768275907";
-      let a2Link = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703794765";
-
-      let condBanner = "🌊 <strong>Bull Shoals Dam:</strong> 2 Units (~3,200 CFS) • Drift seam presentation.";
-
-      if (dam === 'norfork') {
-        weight = "1/16 oz";
-        condBanner = "🌊 <strong>Norfork Dam:</strong> 0 Units (450 CFS) • Finesse wade conditions.";
-        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4F01D6B3-F7DD-45BB-A337-BF40EE55EA05.png?v=1768275507";
-        pLink = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703401549";
-        pReason = "Low flow wading — light 1/16 oz twitch along weedlines.";
-      } else if (dam === 'taneycomo') {
-        weight = "3/32 oz";
-        condBanner = "🌊 <strong>Lake Taneycomo:</strong> 1 Unit (1,400 CFS) • Steady current drift.";
-      } else if (dam === 'beaver') {
-        weight = "1/16 oz";
-        condBanner = "🌊 <strong>Beaver Dam:</strong> Minimum Flow • Shallow shoal presentation.";
-        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4F01D6B3-F7DD-45BB-A337-BF40EE55EA05.png?v=1768275507";
-        pLink = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703401549";
-      } else if (dam === 'little_red') {
-        weight = "1/16 oz";
-        condBanner = "🌊 <strong>Little Red River:</strong> Minimum Flow • Clear cold water.";
-        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/4F01D6B3-F7DD-45BB-A337-BF40EE55EA05.png?v=1768275507";
-        pLink = "https://shop.zigjig.com/products/zig-jig-1-16-oz?variant=40709703401549";
-      }
-
-      if (weather === 'cloudy') {
-        pColor = "Sculpin / Olive";
-        a1Color = "Black / Chartreuse";
-        a2Color = "Tri Olive";
-        pReason += " Overcast skies trigger aggressive strikes on silhouette colors.";
-      } else if (weather === 'stained') {
-        pColor = "Black";
-        pImg = "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353";
-        a1Color = "Black / Red";
-        a2Color = "Black / Chartreuse";
-        pReason += " Stained water requires maximum silhouette and contrast.";
-      }
-
-      document.getElementById('live-condition-label').innerHTML = condBanner;
-      document.getElementById('primary-title').innerText = pColor + " (" + weight + ")";
-      document.getElementById('primary-img').src = pImg;
-      document.getElementById('primary-link').href = pLink;
-      document.getElementById('primary-reason').innerHTML = "<strong>Presentation:</strong> " + pReason;
-
-      document.getElementById('alt1-title').innerText = a1Color + " (" + weight + ")";
-      document.getElementById('alt1-img').src = a1Img;
-      document.getElementById('alt1-link').href = a1Link;
-
-      document.getElementById('alt2-title').innerText = a2Color + " (" + weight + ")";
-      document.getElementById('alt2-img').src = a2Img;
-      document.getElementById('alt2-link').href = a2Link;
-    }
-
-    function previewCatchPhoto(input) {
-      if (input.files && input.files[0]) {
-        rawSelectedFile = input.files[0];
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const img = new Image();
-          img.onload = function() {
-            const canvas = document.createElement('canvas');
-            const maxDim = 800;
-            let width = img.width;
-            let height = img.height;
-            if (width > height) {
-              if (width > maxDim) { height *= maxDim / width; width = maxDim; }
-            } else {
-              if (height > maxDim) { width *= maxDim / height; height = maxDim; }
-            }
-            canvas.width = width;
-            canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-            localCompressedData = canvas.toDataURL('image/jpeg', 0.7);
-            const preview = document.getElementById('photo-preview');
-            preview.src = localCompressedData;
-            preview.style.display = 'block';
-          };
-          img.src = e.target.result;
-        };
-        reader.readAsDataURL(rawSelectedFile);
-      }
-    }
-
-    // CLOUDINARY DIRECT UPLOAD TO ATTACH PHOTO LINK IN EMAIL
-    async function uploadToCloudinary(file) {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', 'kyog4occ');
-      formData.append('folder', 'jig-orders');
-
-      try {
-        const res = await fetch('https://api.cloudinary.com/v1_1/scbq72ea/image/upload', {
-          method: 'POST',
-          body: formData
-        });
-        if (res.ok) {
-          const data = await res.json();
-          return data.secure_url;
-        }
-      } catch (err) {
-        console.error('Cloudinary upload error:', err);
-      }
-      return '';
-    }
-
-    async function submitCatch(e) {
-      e.preventDefault();
-
-      const btn = document.getElementById('btn-submit-entry');
-      btn.innerText = 'Uploading Photo & Submitting...';
-      btn.disabled = true;
-
-      const angler = document.getElementById('catch-angler').value.trim();
-      const email = document.getElementById('catch-email').value.trim();
-      const loc = document.getElementById('catch-location').value;
-      const species = document.getElementById('catch-species').value;
-      const length = document.getElementById('catch-length').value.trim();
-      const weight = document.getElementById('catch-weight').value;
-      const color = document.getElementById('catch-color').value;
-
-      let onlinePhotoUrl = '';
-      if (rawSelectedFile) {
-        onlinePhotoUrl = await uploadToCloudinary(rawSelectedFile);
-      }
-
-      try {
-        localStorage.setItem('zig_angler_name', angler);
-        localStorage.setItem('zig_angler_email', email);
-      } catch (err) {}
-
-      const jigCombined = weight + " " + color;
-
-      let catches = [];
-      try {
-        catches = JSON.parse(localStorage.getItem('zig_catches') || '[]');
-      } catch (err) { catches = []; }
-
-      catches.unshift({
-        angler: angler,
-        email: email,
-        location: loc,
-        species: species,
-        size: length,
-        jig: jigCombined,
-        img: localCompressedData || onlinePhotoUrl,
-        photoUrl: onlinePhotoUrl,
-        date: new Date().toLocaleDateString()
-      });
-
-      try {
-        localStorage.setItem('zig_catches', JSON.stringify(catches.slice(0, 15)));
-      } catch (err) {}
-
-      const photoLine = onlinePhotoUrl 
-        ? "Attached Catch Photo: " + onlinePhotoUrl + "\n\n"
-        : "(Photo stored locally on device)\n\n";
-
-      const subject = encodeURIComponent("Monthly Giveaway Entry: " + length + "\" " + species + " by " + angler);
-      const body = encodeURIComponent(
-        "🏆 NEW MONTHLY GIVEAWAY ENTRY\n\n" +
-        "Angler Name: " + angler + "\n" +
-        "Angler Email: " + email + "\n\n" +
-        "Fish Species: " + species + "\n" +
-        "Length: " + length + " Inches\n" +
-        "River Location / Dam: " + loc + "\n" +
-        "Zig Jig Size: " + weight + "\n" +
-        "Zig Jig Color: " + color + "\n\n" +
-        photoLine +
-        "Social Media Permission: GRANTED (Yes)\n" +
-        "Deadline: Entries close 28th of each month\n" +
-        "Winner Announced: 1st of following month\n" +
-        "Submission Timestamp: " + new Date().toLocaleString()
-      );
-
-      window.open("mailto:orders@zigjig.fish?subject=" + subject + "&body=" + body, "_blank");
-
-      btn.innerText = 'Enter Giveaway & Save Catch';
-      btn.disabled = false;
-
-      document.getElementById('catch-photo-input').value = '';
-      document.getElementById('catch-length').value = '';
-      document.getElementById('photo-preview').style.display = 'none';
-      localCompressedData = '';
-      rawSelectedFile = null;
-
-      alert('🎉 Entry received! Your catch and photo have been entered into the giveaway and routed to orders@zigjig.fish.');
-      renderCatchesList();
-    }
-
-    function renderCatchesList() {
-      const container = document.getElementById('catch-feed');
-      if (!container) return;
-      let catches = [];
-      try {
-        catches = JSON.parse(localStorage.getItem('zig_catches') || '[]');
-      } catch (e) { catches = []; }
-
-      if (catches.length === 0) {
-        container.innerHTML = '<p style="font-size:0.88rem; color:#64748b; text-align:center; padding:20px 0;">No catches submitted yet. Be the first to enter this month!</p>';
-        return;
-      }
-
-      container.innerHTML = catches.map(function(c) {
-        return '<div class="feed-item" style="background:#fff; border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; margin-bottom:14px;">' +
-          (c.img ? '<img src="' + c.img + '" style="width:100%; height:210px; object-fit:cover; display:block;">' : '') +
-          '<div style="padding:14px;">' +
-            '<div style="font-weight:800; color:#0f172a; font-size:1rem;">' + (c.species || 'Trout') + ' (' + (c.size || '') + '")</div>' +
-            '<div style="font-size:0.85rem; font-weight:700; color:#f59e0b; margin:2px 0;">Jig: ' + (c.jig || '') + '</div>' +
-            '<div style="font-size:0.78rem; color:#0284c7; font-weight:600; margin-bottom:2px;">📍 ' + (c.location || '') + ' • Angler: ' + (c.angler || '') + '</div>' +
-            '<div style="font-size:0.78rem; color:#64748b;">' + (c.date || '') + '</div>' +
-          '</div>' +
-        '</div>';
-      }).join('');
-    }
-
-    try {
-      const savedName = localStorage.getItem('zig_angler_name');
-      const savedEmail = localStorage.getItem('zig_angler_email');
-      if (savedName) document.getElementById('catch-angler').value = savedName;
-      if (savedEmail) document.getElementById('catch-email').value = savedEmail;
-    } catch (e) {}
-
-    renderCatchesList();
-  </script>
-</body>
-</html>
+        <!-- 2. TABLE ROCK / TANEYCOMO -->
+        <div class="section-headline">🌊 Table Rock Dam (Lake Taneycomo, MO)</div>
+        <div class="flow-row"><div class="flow-weight">1/16 oz.</div><div class="flow-desc-box"><div class="flow-label">Minimum Flow</div><div class="flow-cfs">Up to 1,000 CFS</div><div class="flow-sub">Wadeable / Off</div></div></div>
+        <div class="flow-row"><div class="flow-weight">3/32 oz.</div><div class="flow-desc-box"><div class="flow-label">1 Unit</div><div class="flow-cfs">1,000 – 3,775 CFS</div><div class="flow-sub">Up to 57 MW Generation</div></div></div>
+        <div class="flow-row"><div class="flow-weight">1/8 oz.</div><div class="flow-desc-box"><div class="flow-label">2 Units</div><div class="flow-cfs">3,775 – 7,550 CFS</div><div class="flow-sub">57 – 115 MW Generation</div></div></div>
+        <div class="flow-row"><div class="flow-weight">3/16 oz.</div><div class="flow-desc-box"><div class="flow-label">3–4 Units (Full)</div><div class="flow-cfs">Above 7,550+ CFS</div><div class="flow-sub">115 – 230 MW Full Gen</div></div></div>
+
+        <!-- 3. NORFORK DAM -->
+        <div class="section-headline">🌊 Norfork Dam (North Fork River, AR)</div>
+        <div class="flow-row"><div class="flow-weight">1/16 oz.</div><div class="flow-desc-box"><div class="flow-label">Minimum Flow</div><div class="flow-cfs">Up to 900 CFS</div><div class="flow-sub">Wadeable / Off</div></div></div>
+        <div class="flow-row"><div class="flow-weight">3/32 oz.</div><div class="flow-desc-box"><div class="flow-label">1/2 Unit</div><div class="flow-cfs">900 – 1,800 CFS</div><div class="flow-sub">Light Generation</div></div></div>
+        <div class="flow-row"><div class="flow-weight">1/8 oz.</div><div class="flow-desc-box"><div class="flow-label">1 Unit</div><div class="flow-cfs">1,800 – 3,600 CFS</div><div class="flow-sub">Standard Generation</div></div></div>
+        <div class="flow-row"><div class="flow-weight">3/16 oz.</div><div class="flow-desc-box"><div class="flow-label">2 Units (Full)</div><div class="flow-cfs">Above 3,600+ CFS</div><div class="flow-sub">Maximum Release</div></div></div>
+
+        <!-- 4. BEAVER DAM -->
+        <div class="section-headline">🌊 Beaver Dam (Upper White River, AR)</div>
+        <div class="flow-row"><div class="flow-weight">1/16 oz.</div><div class="flow-desc-box"><div class="flow-label">Minimum Flow</div><div class="flow-cfs">40 – 1,000 CFS</div><div class="flow-sub">Wade Shoals</div></div></div>
+        <div class="flow-row"><div class="flow-weight">3/32 oz.</div><div class="flow-desc-box"><div class="flow-label">1 Unit (Low)</div><div class="flow-cfs">1,000 – 2,200 CFS</div></div></div>
+        <div class="flow-row"><div class="flow-weight">1/8 oz.</div><div class="flow-desc-box"><div class="flow-label">1 Unit (Full)</div><div class="flow-cfs">2,200 – 4,400 CFS</div></div></div>
+        <div class="flow-row"><div class="flow-weight">3/16 oz.</div><div class="flow-desc-box"><div class="flow-label">2 Units / Spill</div><div class="flow-cfs">Above 4,400+ CFS</div></div></div>
+
+        <!-- 5. GREERS FERRY DAM -->
+        <div class="section-headline">🌊 Greers Ferry Dam (Little Red River, AR)</div>
+        <div class="flow-row"><div class="flow-weight">1/16 oz.</div><div class="flow-desc-box"><div class="flow-label">Minimum Flow</div><div
