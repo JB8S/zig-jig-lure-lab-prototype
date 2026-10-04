@@ -16,9 +16,10 @@
       --brand-green: #059669;
       --brand-blue: #0284c7;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: rgba(0,0,0,0.1); }
     body { background-color: var(--bg-page); color: var(--text-main); padding-bottom: 90px; }
     
+    /* CLEAN STANDARD HEADER - NO OVERLAPPING STICKY LAYERS */
     header {
       background: var(--header-bg);
       border-bottom: 2px solid #1e293b;
@@ -26,25 +27,21 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      position: relative;
     }
     .brand-wrap { display: flex; align-items: center; gap: 14px; }
-    .brand-logo { width: 52px; height: 52px; object-fit: contain; }
+    .brand-logo { width: 50px; height: 50px; object-fit: contain; }
     .brand-title { font-size: 1.15rem; font-weight: 900; color: #ffffff; letter-spacing: -0.3px; line-height: 1.15; }
     .brand-title span { color: var(--brand-accent); }
     .brand-sub { font-size: 0.74rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
+    /* HARDWARE NATIVE BUTTON TABS */
     .nav-tabs {
       display: flex;
       background: #ffffff;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 80px;
-      z-index: 90;
+      border-bottom: 1.5px solid var(--border);
       width: 100%;
+      position: relative;
     }
     .nav-tab {
       flex: 1;
@@ -54,18 +51,19 @@
       font-weight: 800;
       color: var(--text-muted);
       border: none;
-      background: transparent;
+      background: #ffffff;
       border-bottom: 3px solid transparent;
       cursor: pointer;
       text-decoration: none;
       display: flex;
       align-items: center;
       justify-content: center;
+      -webkit-appearance: none;
     }
     .nav-tab.active {
       color: #0f172a;
       border-bottom-color: #0f172a;
-      background: #f8fafc;
+      background: #f1f5f9;
     }
 
     .container { max-width: 520px; margin: 0 auto; padding: 16px; }
@@ -83,6 +81,7 @@
     .card-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; color: var(--text-main); }
     .card-desc { font-size: 0.86rem; color: var(--text-muted); line-height: 1.45; margin-bottom: 16px; }
 
+    /* DAM SELECTOR BUTTONS */
     .dam-chip-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 14px; }
     .dam-chip {
       background: #f8fafc;
@@ -95,6 +94,7 @@
       align-items: center;
       width: 100%;
       text-align: left;
+      -webkit-appearance: none;
     }
     .dam-chip.active {
       border-color: #0f172a;
@@ -119,6 +119,7 @@
       border: 1.5px solid var(--border);
       background: #f8fafc;
       cursor: pointer;
+      -webkit-appearance: none;
     }
     .weather-toggle.active {
       border-color: #0f172a;
@@ -149,6 +150,7 @@
       cursor: pointer;
       border: none;
       text-decoration: none;
+      -webkit-appearance: none;
     }
     .btn-dark { background: #0f172a; color: #ffffff; margin-top: 8px; }
     .btn-secondary { background: #f1f5f9; color: var(--text-main); margin-top: 8px; border: 1px solid var(--border); }
@@ -218,6 +220,7 @@
       margin-right: 6px;
       margin-bottom: 8px;
       border: 1px solid var(--border);
+      -webkit-appearance: none;
     }
     .dam-tab-pill.active {
       background: #0f172a;
@@ -250,6 +253,7 @@
       cursor: pointer;
       white-space: nowrap;
       border: 1px solid var(--border);
+      -webkit-appearance: none;
     }
     .retailer-filter-pill.active {
       background: #0f172a;
@@ -305,8 +309,8 @@
       line-height: 1.4;
     }
     .consent-box input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       margin-top: 2px;
       cursor: pointer;
       flex-shrink: 0;
@@ -338,6 +342,7 @@
     </div>
   </header>
 
+  <!-- UN-LAYERED DIRECT TOUCH BUTTON TABS -->
   <nav class="nav-tabs">
     <button type="button" class="nav-tab active" data-tab="selector">🎯 Jig Picker</button>
     <button type="button" class="nav-tab" data-tab="chart">📊 Flow Charts</button>
@@ -478,7 +483,7 @@
       </div>
     </div>
 
-    <!-- TAB 4: CATCH LOG & GIVEAWAY CONTEST (SCROLL-PICKER ENHANCED) -->
+    <!-- TAB 4: CATCH LOG & GIVEAWAY CONTEST -->
     <div id="tab-catches" class="tab-content">
       <div class="card">
         <div class="card-title">Log a Catch & Win 1 Dozen Jigs</div>
@@ -597,4 +602,52 @@
             <label for="catch-consent"><strong>I agree:</strong> I grant White River Zig Jig permission to feature my catch photo on social media, marketing, and the community catch feed.</label>
           </div>
 
-          <button type="submit" class="btn btn-dark" id="btn-save-catch">Enter Giveaway & Save
+          <button type="submit" class="btn btn-dark" id="btn-save-catch">Enter Giveaway & Save Catch</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Recent Community Catches</div>
+        <div id="catch-feed"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const RETAILERS = [
+      { name: "Aspire Outdoors", tag: "Mountain Home, AR", region: "mtn_home", address: "2492 Hwy 62 East, Mtn. Home, AR 72653", mapsUrl: "https://www.google.com/maps/search/?api=1&query=Aspire+Outdoors+2492+Hwy+62+East+Mountain+Home+AR+72653" },
+      { name: "Harps Food Stores", tag: "Mountain Home, AR", region: "mtn_home", address: "924 Hwy 62 East, Mtn. Home, AR 72653", mapsUrl: "https://www.google.com/maps/search/?api=1&query=Harps+Food+Stores+924+Hwy+62+East+Mountain+Home+AR+72653" },
+      { name: "Stetson’s Resort", tag: "Flippin, AR", region: "mtn_home", address: "906 Marion County 7002, Flippin, AR 72634", mapsUrl: "https://www.google.com/maps/search/?api=1&query=Stetsons+Resort+906+Marion+County+7002+Flippin+AR+72634" },
+      { name: "Bull Shoals-White River State Park Boat Dock", tag: "Bull Shoals Dam / Lakeview, AR", region: "mtn_home", address: "129 Bull Shoals Park, Lakeview, AR 72642", mapsUrl: "https://www.google.com/maps/search/?api=1&query=Bull+Shoals+White+River+State+Park+Boat+Dock+129+Bull+Shoals+Park+Lakeview+AR+72642" },
+      { name: "White Buffalo Resort", tag: "Mountain Home, AR", region: "mtn_home", address: "418 White Buffalo Trail, Mtn Home, AR 72653", mapsUrl: "https://www.google.com/maps/search/?api=1&query=White+Buffalo+Resort+418+White+Buffalo+Trail+Mountain+Home+AR+72653" },
+      { name: "Natural State Fly Shop", tag: "Cotter, AR", region: "mtn_home", address: "102 Harding Blvd, Cotter, AR 72626", mapsUrl: "https://www.google.com/maps/search/?api=1&query=Natural+State+Fly+Shop+102+Harding+Blvd+Cotter+AR+72626" },
+      { name: "Rainbow Drive Resort", tag: "Cotter, AR", region: "mtn_home", address: "669 Rainbow Landing Dr, Cotter, AR 72626", mapsUrl: "https://www.google.com/maps/search/?api=1&query=Rainbow+Drive+Resort+669+Rainbow+Landing+Dr+Cotter+AR+72626" },
+      { name: "Gerry’s Qwik Stop Bait & Tackle", tag: "Mountain Home, AR", region: "mtn_home", address: "4651 Hwy 62 East, Mtn. Home, AR 72653", mapsUrl: "https://www.google.com/maps/search/?api=1&query=Gerrys+Qwik+Stop+4651+Hwy+62+East+Mountain+Home+AR+72653" },
+      { name: "Woodsman’s Package Store", tag: "Norfork, AR", region: "mtn_home", address: "59 Fisherman’s St., Norfork, AR", mapsUrl: "https://www.google.com/maps/search/?api=1&query=Woodsmans+Package+Store+59+Fishermans+St+Norfork+AR" },
+      { name: "Lemley’s Country Store", tag: "Calico Rock, AR", region: "mtn_home", address: "240 Main St., Calico Rock, AR 72519", mapsUrl: "https://www.google.com/maps/search/?api=1&query=Lemleys+Country+Store+240+Main+St+Calico+Rock+AR+72519" },
+      { name: "Riverview Resort", tag: "Eureka Springs, AR", region: "nwa", address: "17939 US-62, Eureka Springs, AR 72632", mapsUrl: "https://www.google.com/maps/search/?api=1&query=Riverview+Resort+17939+US-62+Eureka+Springs+AR+72632" },
+      { name: "Hook, Line & Sinker", tag: "Rogers, AR", region: "nwa", address: "98 W. Locust St., Rogers, AR 72756", mapsUrl: "https://www.google.com/maps/search/?api=1&query=Hook+Line+Sinker+98+W+Locust+St+Rogers+AR+72756" },
+      { name: "Trout Creek Flies", tag: "Dutch John, UT", region: "utah", address: "1155 West Little Hole Rd., Dutch John, UT 84023", mapsUrl: "https://www.google.com/maps/search/?api=1&query=Trout+Creek+Flies+1155+West+Little+Hole+Rd+Dutch+John+UT+84023" },
+      { name: "Fish Tech Outfitters", tag: "Holladay, UT", region: "utah", address: "6153 S. Highland Dr., Holladay, UT 84121", mapsUrl: "https://www.google.com/maps/search/?api=1&query=Fish+Tech+Outfitters+6153+S+Highland+Dr+Holladay+UT+84121" },
+      { name: "Flaming Gorge Resort", tag: "Dutch John, UT", region: "utah", address: "1100 E Flaming Gorge Resort, Dutch John, UT 84023", mapsUrl: "https://www.google.com/maps/search/?api=1&query=Flaming+Gorge+Resort+1100+E+Flaming+Gorge+Resort+Dutch+John+UT+84023" }
+    ];
+
+    const FLOW_CHARTS = {
+      bull_shoals: {
+        title: "Bull Shoals Dam Flow Chart",
+        rows: [
+          { weight: "1/16 oz.", label: "1 Unit", cfs: "Up to 3,300 CFS", sub: "< 45 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
+          { weight: "3/32 oz.", label: "2 Units", cfs: "3,300 – 6,600 CFS", sub: "45 – 85 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
+          { weight: "1/8 oz.", label: "3–4 Units", cfs: "6,600 – 13,200 CFS", sub: "85 – 170 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
+          { weight: "3/16 oz.", label: "5–6 Units", cfs: "13,200 – 19,800 CFS", sub: "170 – 255 MW Heavy Flow", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/A8CBA99D-231A-44A6-9D2E-493D5C64B00C.png?v=1768272142" },
+          { weight: "1/4 oz.", label: "7–8 Units (Full)", cfs: "19,800 – 26,400+ CFS", sub: "255 – 340 MW Flood / Heavy", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/D971D9A2-6C8C-456E-BE46-05CB6769A991.png?v=1768259377" }
+        ]
+      },
+      table_rock: {
+        title: "Table Rock / Lake Taneycomo Flow Chart",
+        rows: [
+          { weight: "1/16 oz.", label: "Minimum Flow", cfs: "Up to 1,000 CFS", sub: "Off / Trickle • Wading", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/3DEFD257-4B1F-472E-868D-78DA042488EE.png?v=1768275353" },
+          { weight: "3/32 oz.", label: "1 Unit", cfs: "1,000 – 3,775 CFS", sub: "Up to 57 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" },
+          { weight: "1/8 oz.", label: "2 Units", cfs: "3,775 – 7,550 CFS", sub: "57 – 115 MW Generation", img: "https://cdn.shopify.com/s/files/1/0584/5300/0269/files/CD798AB2-671E-4999-9621-1A4FDFD4A4B3.png?v=1768270741" },
+          { weight: "3/16 oz.", label: "3–4
