@@ -432,21 +432,18 @@
       </div>
     </div>
 
-    <!-- TAB 3: COMPLETE ZIG JIG RETAILER LOCATOR (ALL LOCATIONS) -->
+    <!-- TAB 3: COMPLETE ZIG JIG RETAILER LOCATOR (EXACT PARTNERS ONLY) -->
     <div id="tab-locator" class="tab-content">
       <div class="card">
-        <div class="card-title">Official Zig Jig Retailers</div>
-        <div class="card-desc">Need jigs on the water today? Filter by river tailwater or region to find authorized dealers.</div>
+        <div class="card-title">Official Zig Jig Retail Partners</div>
+        <div class="card-desc">Need jigs on the water today? Find our verified local retail partners.</div>
 
         <!-- RETAILER REGION FILTER BAR -->
         <div class="retailer-filter-bar">
-          <span class="retailer-filter-pill active" onclick="filterRetailers('all', this)">All Stores</span>
-          <span class="retailer-filter-pill" onclick="filterRetailers('white', this)">Bull Shoals / White River</span>
-          <span class="retailer-filter-pill" onclick="filterRetailers('norfork', this)">Norfork Tailwater</span>
-          <span class="retailer-filter-pill" onclick="filterRetailers('beaver', this)">Beaver / NWA</span>
-          <span class="retailer-filter-pill" onclick="filterRetailers('taneycomo', this)">Taneycomo / Branson</span>
-          <span class="retailer-filter-pill" onclick="filterRetailers('greers', this)">Little Red / Greers Ferry</span>
-          <span class="retailer-filter-pill" onclick="filterRetailers('green', this)">Flaming Gorge / Green River</span>
+          <span class="retailer-filter-pill active" onclick="filterRetailers('all', this)">All Partners (15)</span>
+          <span class="retailer-filter-pill" onclick="filterRetailers('mtn_home', this)">Mountain Home Area (10)</span>
+          <span class="retailer-filter-pill" onclick="filterRetailers('nwa', this)">Northwest Arkansas (2)</span>
+          <span class="retailer-filter-pill" onclick="filterRetailers('utah', this)">Utah (3)</span>
         </div>
 
         <!-- RETAILER LIST -->
@@ -521,70 +518,117 @@
   </div>
 
   <script>
-    // 1. ALL VERIFIED RETAIL LOCATIONS (From Tailwaters sponsorship database)
+    // 1. EXACT OFFICIAL RETAIL PARTNER LIST (15 VERIFIED PARTNERS ONLY)
     const RETAILERS = [
+      // MOUNTAIN HOME AREA (10)
       {
-        name: "Bull Shoals-White River State Park Boat Dock",
-        tag: "Bull Shoals Dam",
-        region: "white",
-        address: "Marina store on Bullshoals Park Rd, Lakeview, AR 72642",
-        mapQuery: "Bull+Shoals-White+River+State+Park+Boat+Dock+Lakeview+AR"
+        name: "Aspire Outdoors",
+        tag: "Mountain Home, AR",
+        region: "mtn_home",
+        address: "2492 Hwy 62 East, Mtn. Home, AR 72653",
+        mapQuery: "Aspire+Outdoors+2492+Hwy+62+East+Mountain+Home+AR+72653"
       },
       {
-        name: "Rainbow Drive Resort & Tackle Shop",
-        tag: "White River Mainstem",
-        region: "white",
+        name: "Harps Food Stores",
+        tag: "Mountain Home, AR",
+        region: "mtn_home",
+        address: "924 Hwy 62 East, Mtn. Home, AR 72653",
+        mapQuery: "Harps+Food+Stores+924+Hwy+62+East+Mountain+Home+AR+72653"
+      },
+      {
+        name: "Stetson’s Resort",
+        tag: "Flippin, AR",
+        region: "mtn_home",
+        address: "906 Marion County 7002, Flippin, AR 72634",
+        mapQuery: "Stetsons+Resort+906+Marion+County+7002+Flippin+AR+72634"
+      },
+      {
+        name: "Bull Shoals - White River State Park Boat Dock",
+        tag: "Bull Shoals Dam / Lakeview, AR",
+        region: "mtn_home",
+        address: "153 Dam Overlook LN, Lakeview, AR 72642 (Marina Store on Bullshoals Park Rd)",
+        mapQuery: "Bull+Shoals-White+River+State+Park+153+Dam+Overlook+LN+Lakeview+AR+72642"
+      },
+      {
+        name: "White Buffalo Resort",
+        tag: "Mountain Home, AR",
+        region: "mtn_home",
+        address: "418 White Buffalo Trail, Mtn Home, AR 72653",
+        mapQuery: "White+Buffalo+Resort+418+White+Buffalo+Trail+Mountain+Home+AR+72653"
+      },
+      {
+        name: "Natural State Fly Shop",
+        tag: "Cotter, AR",
+        region: "mtn_home",
+        address: "102 Harding Blvd, Cotter, AR 72626",
+        mapQuery: "Natural+State+Fly+Shop+102+Harding+Blvd+Cotter+AR+72626"
+      },
+      {
+        name: "Rainbow Drive Resort",
+        tag: "Cotter, AR",
+        region: "mtn_home",
         address: "669 Rainbow Landing Dr, Cotter, AR 72626",
-        mapQuery: "Rainbow+Drive+Resort+Cotter+AR"
+        mapQuery: "Rainbow+Drive+Resort+669+Rainbow+Landing+Dr+Cotter+AR+72626"
       },
       {
-        name: "Gaston's White River Resort",
-        tag: "Bull Shoals Tailwater",
-        region: "white",
-        address: "1777 River Rd, Lakeview, AR 72642",
-        mapQuery: "Gastons+White+River+Resort+Lakeview+AR"
+        name: "Gerry’s Qwik Stop Bait & Tackle",
+        tag: "Mountain Home, AR",
+        region: "mtn_home",
+        address: "4651 Hwy 62 East, Mtn. Home, AR 72653",
+        mapQuery: "Gerrys+Qwik+Stop+4651+Hwy+62+East+Mountain+Home+AR+72653"
       },
       {
-        name: "Woodsman's Outfitter & Tackle",
-        tag: "Norfork / Bull Shoals",
-        region: "norfork",
-        address: "Hwy 5 South, Norfork, AR 72659",
-        mapQuery: "Woodsmans+Norfork+AR"
+        name: "Woodsman’s Package Store",
+        tag: "Norfork, AR",
+        region: "mtn_home",
+        address: "59 Fisherman’s St., Norfork, AR",
+        mapQuery: "Woodsmans+Package+Store+59+Fishermans+St+Norfork+AR"
+      },
+      {
+        name: "Lemley’s Country Store",
+        tag: "Calico Rock, AR",
+        region: "mtn_home",
+        address: "240 Main St., Calico Rock, AR 72519",
+        mapQuery: "Lemleys+Country+Store+240+Main+St+Calico+Rock+AR+72519"
+      },
+
+      // NORTHWEST ARKANSAS (2)
+      {
+        name: "Riverview Resort",
+        tag: "Eureka Springs, AR",
+        region: "nwa",
+        address: "17939 US-62, Eureka Springs, AR 72632",
+        mapQuery: "Riverview+Resort+17939+US-62+Eureka+Springs+AR+72632"
       },
       {
         name: "Hook, Line & Sinker",
-        tag: "Beaver Tailwater / Rogers",
-        region: "beaver",
-        address: "98 W Locust St, Rogers, AR 72756",
-        mapQuery: "Hook+Line+Sinker+Rogers+AR"
+        tag: "Rogers, AR",
+        region: "nwa",
+        address: "98 W. Locust St., Rogers, AR 72756",
+        mapQuery: "Hook+Line+Sinker+98+W+Locust+St+Rogers+AR+72756"
+      },
+
+      // UTAH (3)
+      {
+        name: "Trout Creek Flies",
+        tag: "Dutch John, UT",
+        region: "utah",
+        address: "1155 West Little Hole Rd., Dutch John, UT 84023",
+        mapQuery: "Trout+Creek+Flies+1155+West+Little+Hole+Rd+Dutch+John+UT+84023"
       },
       {
-        name: "Busch Mountain Fishing & Tackle",
-        tag: "Beaver Dam Area",
-        region: "beaver",
-        address: "Hwy 187, Eureka Springs, AR 72631 (Near Beaver Dam)",
-        mapQuery: "Busch+Mountain+Fishing+Eureka+Springs+AR"
+        name: "Fish Tech Outfitters",
+        tag: "Holladay, UT",
+        region: "utah",
+        address: "6153 S. Highland Dr., Holladay, UT 84121",
+        mapQuery: "Fish+Tech+Outfitters+6153+S+Highland+Dr+Holladay+UT+84121"
       },
       {
-        name: "Scotty's Trout Dock & Marina",
-        tag: "Lake Taneycomo",
-        region: "taneycomo",
-        address: "400 Boxcar Willie Dr, Branson, MO 65616",
-        mapQuery: "Scottys+Trout+Dock+Branson+MO"
-      },
-      {
-        name: "The Little Red Fly & Tackle",
-        tag: "Little Red River",
-        region: "greers",
-        address: "Heber Springs, AR 72543 (Greers Ferry Tailwater)",
-        mapQuery: "Greers+Ferry+Dam+Heber+Springs+AR"
-      },
-      {
-        name: "Flaming Gorge Resort (Fly & Tackle Shop)",
-        tag: "Green River / Flaming Gorge",
-        region: "green",
+        name: "Flaming Gorge Resort",
+        tag: "Dutch John, UT",
+        region: "utah",
         address: "1100 E Flaming Gorge Resort, Dutch John, UT 84023",
-        mapQuery: "Flaming+Gorge+Resort+Dutch+John+UT"
+        mapQuery: "Flaming+Gorge+Resort+1100+E+Flaming+Gorge+Resort+Dutch+John+UT+84023"
       }
     ];
 
@@ -736,7 +780,7 @@
       const container = document.getElementById('flow-chart-container');
       
       container.innerHTML = `
-        <div style="font-weight:800; font-size:1.05rem; margin-bottom:12px; color:var(--text-main);">${chart.title}</div>
+        <div style=\"font-weight:800; font-size:1.05rem; margin-bottom:12px; color:var(--text-main);\">${chart.title}</div>
         ${chart.rows.map(r => `
           <div class="flow-row">
             <div class="flow-weight">${r.weight}</div>
@@ -751,7 +795,7 @@
       `;
     }
 
-    // 4. RETAILER LOCATOR FILTER
+    // 4. RETAILER LOCATOR FILTER (EXACT 15 PARTNERS ONLY)
     function filterRetailers(regionKey, elem) {
       document.querySelectorAll('.retailer-filter-pill').forEach(p => p.classList.remove('active'));
       elem.classList.add('active');
