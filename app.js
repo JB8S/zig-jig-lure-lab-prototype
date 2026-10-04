@@ -1,0 +1,1 @@
+Client-side recommendation engine, local browser storage for saved patterns and catches, image preview handling, and contest consent validation.
