@@ -16,51 +16,18 @@
 
   <style>
     :root {
-      --bg-page: #0b1411;
-      --card-bg: #12221c;
-      --card-bg-alt: #182e26;
-      --border: #1e382f;
-      --border-subtle: #24463a;
-      --text-main: #f0f7f4;
-      --text-muted: #94a89f;
-      --header-bg: #070e0c;
-      --nav-bg: #0d1915;
-      --brand-forest: #22c55e;
-      --brand-copper: #e2a868;
-      --brand-copper-light: #fef5ed;
-      --brand-green: #34d399;
-      --brand-blue: #38bdf8;
-      --btn-primary-bg: #c26928;
-      --btn-primary-text: #ffffff;
-      --input-bg: #0d1915;
-      --banner-bg: #142921;
-      --rules-bg: #1a2318;
-      --rules-border: #3b4d2c;
-      --rules-text: #fef08a;
-    }
-
-    :root[data-theme="light"] {
       --bg-page: #f7f4ed;
       --card-bg: #ffffff;
       --card-bg-alt: #faf7f0;
       --border: #e2d9cc;
-      --border-subtle: #ebdcd0;
       --text-main: #14211d;
       --text-muted: #6b7280;
       --header-bg: #091310;
-      --nav-bg: #ffffff;
       --brand-forest: #14342b;
       --brand-copper: #c26928;
       --brand-copper-light: #fef5ed;
       --brand-green: #059669;
       --brand-blue: #0284c7;
-      --btn-primary-bg: #14342b;
-      --btn-primary-text: #ffffff;
-      --input-bg: #faf8f5;
-      --banner-bg: #f0f7f4;
-      --rules-bg: #fdfaf3;
-      --rules-border: #ecd8b8;
-      --rules-text: #78350f;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: rgba(0,0,0,0.05); }
     body { background-color: var(--bg-page); color: var(--text-main); padding-bottom: 90px; }
@@ -83,7 +50,7 @@
     /* BRANDED NAVIGATION BAR */
     .nav-tabs {
       display: flex;
-      background: var(--nav-bg);
+      background: #ffffff;
       border-bottom: 2px solid var(--border);
       width: 100%;
     }
@@ -132,8 +99,8 @@
     }
 
     .conditions-banner {
-      background: var(--banner-bg);
-      border: 1.5px solid var(--border);
+      background: #f0f7f4;
+      border: 1.5px solid #cce3d8;
       border-radius: 10px;
       padding: 12px 14px;
       margin-bottom: 16px;
@@ -155,19 +122,19 @@
       text-decoration: none;
       transition: opacity 0.15s ease;
     }
-    .btn-dark { background: var(--btn-primary-bg); color: var(--btn-primary-text); margin-top: 8px; }
+    .btn-dark { background: var(--brand-forest); color: #ffffff; margin-top: 8px; }
     .btn-secondary { background: #f4efe9; color: var(--text-main); margin-top: 8px; border: 1.5px solid var(--border); font-weight: 700; }
 
     .rec-card-main {
-      background: var(--card-bg);
-      border: 2px solid var(--border-subtle);
+      background: #ffffff;
+      border: 2px solid var(--brand-forest);
       border-radius: 14px;
       padding: 16px;
       margin-bottom: 16px;
     }
     .alt-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
     .rec-card-alt {
-      background: var(--card-bg-alt);
+      background: #faf8f5;
       border: 1.5px solid var(--border);
       border-radius: 12px;
       padding: 12px;
@@ -219,7 +186,7 @@
     .flow-sub { font-size: 0.7rem; color: var(--text-muted); }
 
     .retailer-card {
-      background: var(--card-bg);
+      background: #ffffff;
       border: 1.5px solid var(--border);
       border-radius: 12px;
       padding: 16px;
@@ -235,7 +202,7 @@
     label { display: block; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; color: var(--text-muted); margin-bottom: 6px; }
     input[type="text"], input[type="email"], input[type="number"], select {
       width: 100%;
-      background: var(--input-bg);
+      background: #faf8f5;
       border: 1.5px solid var(--border);
       border-radius: 10px;
       color: var(--text-main);
@@ -273,14 +240,14 @@
       flex-shrink: 0;
     }
     .contest-rules-box {
-      background: var(--rules-bg);
-      border: 1.5px solid var(--rules-border);
+      background: #fdfaf3;
+      border: 1.5px solid #ecd8b8;
       border-radius: 12px;
       padding: 14px;
       margin-bottom: 16px;
       font-size: 0.82rem;
       line-height: 1.45;
-      color: var(--rules-text);
+      color: #78350f;
     }
     .section-headline {
       font-size: 1.05rem;
@@ -291,7 +258,7 @@
       padding-bottom: 6px;
     }
     .weather-live-chip {
-      background: var(--card-bg-alt);
+      background: #f4efe9;
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 10px 14px;
@@ -310,38 +277,23 @@
       line-height: 1.5;
     }
 
-    .header-actions { display: flex; align-items: center; }
-    .theme-btn {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid var(--border);
+    .fav-star-btn {
+      background: #faf7f0;
+      border: 1.5px solid var(--border);
       color: var(--brand-copper);
       font-size: 0.78rem;
-      font-weight: 800;
-      padding: 6px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      transition: background 0.15s ease;
-    }
-    .theme-btn:hover { background: rgba(255, 255, 255, 0.16); }
-    .fav-star-btn {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--brand-copper);
-      font-size: 0.75rem;
       font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 6px;
+      padding: 4px 10px;
+      border-radius: 8px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
+      transition: all 0.15s ease;
     }
     .fav-star-btn.is-fav {
       background: var(--brand-copper);
-      color: #0b1411;
+      color: #ffffff;
       font-weight: 800;
       border-color: var(--brand-copper);
     }
@@ -356,9 +308,6 @@
         <div class="brand-title">WHITE RIVER <span>ZIG JIG</span></div>
         <div class="brand-sub">Tailwaters Flow & Jig Picker</div>
       </div>
-    </div>
-    <div class="header-actions">
-      <button id="themeToggle" class="theme-btn" type="button" aria-label="Toggle theme">☀️ Light</button>
     </div>
   </header>
 
@@ -412,8 +361,8 @@
               <img id="primary-img" class="rec-img" src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/6211C1C7-908E-4F31-91F0-34EC7769F8CA.png?v=1768271538" alt="Primary Zig Jig">
             </div>
 
-            <div style="font-size:0.84rem; line-height:1.4; color:var(--text-muted); margin-bottom:10px;" id="primary-reason">
-              <strong>Strategy:</strong> 2 units generation flow — 3/32 oz keeps you in the strike zone along riverbed gravel.
+            <div style="font-size:0.84rem; line-height:1.4; color:#334155; margin-bottom:10px;" id="primary-reason">
+              <strong>Strategy:</strong> 2 units generation on Bull Shoals — 3/32 oz Tri Olive mimics natural sculpin along gravel shoals.
             </div>
             <a id="primary-link" href="https://shop.zigjig.com/products/zig-jig-3-32-oz?variant=40620470698061" target="_blank" class="btn btn-dark">Shop Primary Jig on ZigJig.com</a>
           </div>
@@ -1201,36 +1150,17 @@
       if (savedEmail) document.getElementById('catch-angler').value = savedEmail;
     } catch (e) {}
 
-    // THEME & FAVORITE DAM CONTROLLERS
-    const THEME_KEY = 'zig_theme_mode';
+    // FAVORITE DAM CONTROLLER
     const FAV_DAM_KEY = 'zig_favorite_dam';
-    const themeBtn = document.getElementById('themeToggle');
     const favBtn = document.getElementById('favoriteButton');
     const damSelect = document.getElementById('select-dam');
-
-    function applyTheme(theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-      if (themeBtn) {
-        themeBtn.innerHTML = theme === 'light' ? '🌙 Dark' : '☀️ Light';
-      }
-      try { localStorage.setItem(THEME_KEY, theme); } catch(e) {}
-    }
-
-    if (themeBtn) {
-      const savedTheme = localStorage.getItem(THEME_KEY) || 'dark';
-      applyTheme(savedTheme);
-      themeBtn.addEventListener('click', () => {
-        const current = document.documentElement.getAttribute('data-theme') || 'dark';
-        applyTheme(current === 'light' ? 'dark' : 'light');
-      });
-    }
 
     function syncFavState() {
       if (!damSelect || !favBtn) return;
       const savedFav = localStorage.getItem(FAV_DAM_KEY);
       const isFav = damSelect.value === savedFav;
       if (isFav) {
-        favBtn.innerHTML = '★ Favorite';
+        favBtn.innerHTML = '★ Favorite Dam';
         favBtn.classList.add('is-fav');
       } else {
         favBtn.innerHTML = '☆ Set as Favorite';
@@ -1264,4 +1194,4 @@
     renderCatchesList();
   </script>
 </body>
-</html> 
+</html>
