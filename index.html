@@ -6,8 +6,10 @@
   <title>White River Zig Jig — Tailwaters Flow & Store Locator</title>
   
   <!-- CROSSED-RODS HERITAGE LOGO PWA ICON -->
-  <link rel="apple-touch-icon" href="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/transparent-logo-zigjig.webp?v=1713400142">
-  <link rel="icon" type="image/webp" href="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/transparent-logo-zigjig.webp?v=1713400142">
+  <link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=4">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png?v=4">
+<meta name="theme-color" content="#091310">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Zig Jig Flow">
@@ -273,19 +275,79 @@
       color: #8c8275;
       line-height: 1.5;
     }
-  </style>
+  
+  .brand-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.icon-button {
+  min-width: 58px;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--brand-copper-light);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.icon-button:hover,
+.icon-button:focus-visible {
+  background: rgba(255, 239, 222, 0.12);
+  outline: 2px solid var(--brand-copper-light);
+  outline-offset: 2px;
+}
+
+:root[data-theme="light"] {
+  --bg-page: #f7f1e8;
+  --card-bg: #fffdf9;
+  --border: #dac9b8;
+  --text-main: #18231d;
+  --text-muted: #66584e;
+  --header-bg: #ffffff;
+  --brand-forest: #14342b;
+  --brand-copper: #9a592d;
+  --brand-copper-light: #8a4c27;
+  --brand-green: #376951;
+  --brand-blue: #246c86;
+}
+
+:root[data-theme="light"] .icon-button:hover,
+:root[data-theme="light"] .icon-button:focus-visible {
+  background: rgba(154, 89, 45, 0.1);
+}
+
+ 
+}</style>
 </head>
 <body>
 
-  <header>
-    <div class="brand-wrap">
-      <img src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/transparent-logo-zigjig.webp?v=1713400142" class="brand-logo" alt="The Original White River Zig Jig Logo">
-      <div>
-        <div class="brand-title">WHITE RIVER <span>ZIG JIG</span></div>
-        <div class="brand-sub">Tailwaters Flow & Jig Picker</div>
-      </div>
+<header>
+  <div class="brand-wrap">
+    <img src="https://cdn.shopify.com/s/files/1/0584/5300/0269/files/transparent-logo-zigjig.webp?v=1713400142" class="brand-logo" alt="The Original White River Zig Jig Logo">
+    <div>
+      <div class="brand-title">WHITE RIVER <span>ZIG JIG</span></div>
+      <div class="brand-sub">Tailwaters Flow & Jig Picker</div>
     </div>
-  </header>
+    <div class="header-actions">
+      <button id="themeToggle" class="icon-button" type="button" aria-label="Switch to light mode" title="Switch theme">Light</button>
+      <button id="favoriteButton" class="icon-button" type="button" aria-label="Save selected tailwater as favorite" title="Save selected tailwater as favorite">Save</button>
+    </div>
+  </div>
+</header>
 
   <nav class="nav-tabs">
     <button type="button" class="nav-tab active" onclick="showTab('tab-selector', this)">🎯 Jig Picker</button>
@@ -1128,6 +1190,60 @@
     calculatePick('bull_shoals', 'clear', 0);
     autoFetchDamConditions();
     renderCatchesList();
+  const themeToggle = document.getElementById("themeToggle");
+const favoriteButton = document.getElementById("favoriteButton");
+const selector = document.getElementById("select-dam");
+
+const THEME_KEY = "zigJigTheme";
+const FAVORITE_DAM_KEY = "zigJigFavoriteDam";
+
+function setTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  const isLight = theme === "light";
+  if (themeToggle) {
+    themeToggle.textContent = isLight ? "Dark" : "Light";
+    themeToggle.setAttribute("aria-label", isLight ? "Switch to dark mode" : "Switch to light mode");
+  }
+  localStorage.setItem(THEME_KEY, theme);
+}
+
+function updateFavoriteButton() {
+  if (!selector || !favoriteButton) return;
+  const savedFavorite = localStorage.getItem(FAVORITE_DAM_KEY);
+  const isFavorite = selector.value === savedFavorite;
+  favoriteButton.textContent = isFavorite ? "Saved" : "Save";
+  favoriteButton.setAttribute("aria-label", isFavorite ? "Remove selected tailwater from favorites" : "Save selected tailwater as favorite");
+}
+
+if (themeToggle) {
+  setTheme(localStorage.getItem(THEME_KEY) || "dark");
+  themeToggle.addEventListener("click", () => {
+    const nextTheme = document.documentElement.dataset.theme === "light" ? "dark" : "light";
+    setTheme(nextTheme);
+  });
+}
+
+if (selector && favoriteButton) {
+  const savedFavorite = localStorage.getItem(FAVORITE_DAM_KEY);
+  if (savedFavorite) {
+    selector.value = savedFavorite;
+    if (typeof autoFetchDamConditions === "function") {
+      autoFetchDamConditions();
+    }
+  }
+  updateFavoriteButton();
+
+  favoriteButton.addEventListener("click", () => {
+    if (localStorage.getItem(FAVORITE_DAM_KEY) === selector.value) {
+      localStorage.removeItem(FAVORITE_DAM_KEY);
+    } else {
+      localStorage.setItem(FAVORITE_DAM_KEY, selector.value);
+    }
+    updateFavoriteButton();
+  });
+
+  selector.addEventListener("change", updateFavoriteButton);
+}
   </script>
 </body>
 </html>
