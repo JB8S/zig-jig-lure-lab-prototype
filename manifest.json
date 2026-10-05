@@ -1,0 +1,17 @@
+{
+  "name": "Zig Jig Flow",
+  "short_name": "Zig Jig Flow",
+  "description": "White River Zig Jig tailwater flow and jig picker.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#091310",
+  "theme_color": "#091310",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
